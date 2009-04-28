@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: markus
+Build-Jdk: 1.5.0_08
+Main-Class: org.vpac.grix.view.swing.Grix
+Class-Path: bcprov.jar
