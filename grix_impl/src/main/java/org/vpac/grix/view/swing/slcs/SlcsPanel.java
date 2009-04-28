@@ -37,6 +37,10 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
+/**
+ * @author markus
+ * @deprecated don't use that anymore
+ */
 public class SlcsPanel extends JPanel implements GridProxyListener {
 
 	private JButton button;

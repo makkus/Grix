@@ -59,6 +59,7 @@ import org.vpac.common.view.swing.messagePanel.MessagePanel;
 import org.vpac.common.view.swing.messagePanel.SimpleMessagePanel;
 import org.vpac.grix.Init;
 import org.vpac.grix.control.utils.DateHelper;
+import org.vpac.grix.control.utils.GrixProperty;
 import org.vpac.grix.control.utils.UserProperty;
 import org.vpac.grix.model.certificate.Certificate;
 import org.vpac.grix.view.swing.certificate.CertificateEvent;
@@ -244,7 +245,14 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 	private GenericProxyCreationPanel getAuthenticationPanel() {
 		
 		if ( authenticationPanel == null ) {
-			authenticationPanel = new GenericProxyCreationPanel();
+			
+			boolean useShib = true;
+			String disableShib = GrixProperty.getString("disable.shibboleth");
+			if ( "yes".equals(disableShib) ) {
+				useShib = false;
+			}
+			
+			authenticationPanel = new GenericProxyCreationPanel(useShib, true, true, true);
 		}
 		return authenticationPanel;
 		
