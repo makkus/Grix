@@ -13,4 +13,28 @@
   	<module>voms</module>
   	<module>grix_impl</module>
   </modules>
+  
+  	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+
+					<descriptors>
+						<descriptor>grix.assembly.xml</descriptor>
+					</descriptors>
+
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<aggregate>true</aggregate>
+					<linksource>true</linksource>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
 </project>
