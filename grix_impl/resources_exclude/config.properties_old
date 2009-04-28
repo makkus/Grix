@@ -1,0 +1,148 @@
+# config properties
+
+
+# This option allows you to disable the whole certification request part of
+# Grix. You don't need it if you don't have an OpenCA server
+disable.certification.request=no
+
+# Here are options to change the certification request
+# page of Grix
+# ----------------------------------------------------
+
+# the default settings for the certification request:
+
+# the /C= part
+default.country=NZ
+
+# the /O= part
+default.organisation=BeSTGrid
+
+# the /OU= part, if you specify "no" then a 
+# blank field is the default (don't use that with allow.change.organisation.unit).
+default.organisation.unit=VPAC
+# a comma seperated list of organisation units a user can choose from (which are displayed in a combo box
+default.organisation.units=ac3,ANU,CSIRO,iVEC,JCU,QCIF,QUT,SAPAC,TPAC,USYD,VPAC
+
+# OK. This one is a bit more tricky. 
+#
+# Grix checks these settings if a user inputs his email address. If it recognises a domain name,
+# it automatically selects the approriate OU in the combo box below.
+# The next one pretty much the same list than default.organisation.units
+# except it holds all the organisation units you know. At the APACGrid, we only want to display
+# the main partners in the combobox, but if a member of an external ou wants to get a certificate,
+# this ou should still be automatically selected if Grix recognises an email address domain.
+# So, if you are confused now, just copy the content of the above default.organisation.units property
+# and you should be save.
+default.organisation.units.autofill=ac3,ANU,CSIRO,iVEC,JCU,QCIF,QUT,SAPAC,TPAC,USYD,VPAC,The University of Melbourne,Monash University
+# This is the configuration for the above feature. For every item in the default.organisation.units.autofill list,
+# provide a "ou_<name of the item>=" property with the email domain name (can also be a comma seperated list of domain names).
+ou_Monash_University=monash.edu.au
+ou_The_University_of_Melbourne=unimelb.edu.au
+ou_ANU=anu.edu.au
+ou_CSIRO=csiro.au
+ou_JCU=jcu.edu.au
+ou_QCIF=
+ou_QUT=qut.edu.au
+ou_SAPAC=adelaide.edu.au
+ou_TPAC=utas.edu.au
+ou_USYD=usyd.edu.au
+ou_VPAC=vpac.org
+ou_ac3=ac3.com.au
+ou_iVEC=ivec.org
+
+
+# these ones configure whether to allow the user to change
+# certain parts of the certificate dn:
+
+# the /C= part
+allow.change.country=no
+
+# the /O= part
+allow.change.organisation=no
+
+# the /OU= part
+allow.change.organisation.unit=yes
+
+# how long does the private key passphrase has to be according to 
+# the policy of your site
+minimal.passphrase.lenght=12
+
+# this is a support address if something is going (really) bad
+# this is not for when e.g. the myproxy server is down, this is 
+# when the grix installation is f... up
+# use your own email address or leave mine in
+help.email.address=markus@vpac.org
+
+# the keysize of the private key
+default.keysize=1024
+# the signature algorithm, just leave it like it is
+signature.algorithm=MD5WithRSA
+
+# Local proxy settings
+# --------------------
+
+# the default setting for the lifetime of a local proxy
+default.local.proxy.lifetime=1
+# a comma seperated list of lifetimes (which will be displayed to the user in a combo box)
+default.local.proxy.lifetimes=1,2,7,14,21
+
+
+# MyProxy settings
+# ----------------
+
+# the address of your site's MyProxy server
+myproxy.server=myproxy.apac.edu.au
+# the port of your site's MyProxy server
+myproxy.port=7512
+
+# if the user uploads a proxy, how long is the password supposed to be at least
+myproxy.minimal.password.length=6
+# the keysize of the proxy
+myproxy.keysize=512
+
+# the default setting for the lifetime of an uploaded proxy
+default.myproxy.proxy.lifetime=7
+# a comma seperated list of lifetimes (on the server)
+default.myproxy.proxy.lifetimes=1,2,7,14,21
+# the default setting for the lifetime of a delegated proxy
+default.myproxy.delegated.proxy.lifetime=1
+# a comma seperated list of lifetimes for the delegated proxy
+default.myproxy.delegated.proxy.lifetimes=1,2,7,14,21
+
+# this settings will apply if the user uploads a non-anonymous proxy
+# to the myproxy server
+myproxy.default.renewer=/C\=AU/O\=APACGrid/*
+myproxy.default.retriever=/C\=AU/O\=APACGrid/*
+
+# OpenCA setting
+# --------------
+
+# the base url for your site's OpenCA server. It should be enough if you only change
+# the host name (OpenCA configurations are pretty similar usually).
+# If you encounter problems with this, mail me (markus@vpac.org). I could only test it
+# at our site.
+openca.base.url=https\://ca.apac.edu.au/cgi-bin/pub/pki
+
+# The file where grix writes the OpenCA server answer when requesting a certificate
+# Just leave it as it is, it's not important
+openca.server.answer.log=cert_req_server_answer.html
+
+# Here comes ugly stuff. You don't want to know about it :-)
+# If the OpenCA stuff is not working you have to contact me anyway.
+openca.server.keyword.start=key\=
+openca.server.keyword.end=">
+
+# Other stuff
+# -----------
+
+# the filename of the user's grix property file
+user.properties.filename=grix.properties
+
+# Your timezone. See http://en.wikipedia.org/wiki/List_of_tz_zones_by_name for a list
+# (not sure whether every timezone works, though).
+timezone=Australia/Melbourne
+
+# What extension should backup files (e.g. for expired certificates) have
+backup.file.extension=bak
+
+

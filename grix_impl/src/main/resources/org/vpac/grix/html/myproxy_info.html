@@ -1,0 +1,31 @@
+<html>
+	<body style="font-size:4mm" marginwidth="15" marginheight="15" topmargin="15" leftmargin="15"  >
+	   <h1>MyProxy credentials</h1>
+	   <p>
+			One of the big no-no's in the X509 domain is sending the private (encrypted or unencrypted) 
+			over the network. When using the grid, there are situations that require you to delegate 
+			your credentials to a remote machine so that this machine is able to execute a task 
+			in your name. For example, if you use one of our portals you would log in the portal, 
+			prepare your job by uploading required files and adjusting parameters and so on. 
+			When it comes to submitting this job the portal would need your credentials to be
+			able to identify as you to the APACGrid gateway it chooses to submit your job to. 
+			Because you are not allowed to transfer your private key to the portal we implemented 
+			the use of proxies within the APACGrid. 
+   		</p>
+   		<p>
+   		In short it works like this: 
+   		<ol>
+   		<li>On the machine you are working on (e.g. at home) you contact the so called MyProxy server, 
+   		authenticate and instruct the server to create a set of short-living 
+   		(as long as you think your job will run) credentials which is called a "proxy". 
+   		You also provide a username and password to access this proxy. 
+   		This works without transfering your private key.</li>
+   		<li>When logging in to the portal you provide the above username and password.</li>
+   		<li>The portal uses this information to get the proxy from the MyProxy server and, when it wants 
+   		to submit a job on your behalf, submits the proxy along with the job to the APACGrid gateway.</li>
+   		<li>The gateway accepts the proxy, knows which identity the job is mapped to and runs the job.</li>
+   		</ol>
+   		Of course, it is a bit more complicated in detail but that's all you need to know to understand the workflow you will face if you submit your first job through a portal. 
+   		</p>
+	</body>
+</html>

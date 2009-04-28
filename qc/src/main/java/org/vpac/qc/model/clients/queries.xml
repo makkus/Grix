@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE QueryArguments SYSTEM "http://www.vpac.org/~markus/grix_beta/queryArguments.dtd"> -->
+<!DOCTYPE QueryArguments/>
+<QueryArguments>
+
+	<QueryArgument name="Parameter a" prettyName="First parameter (parameter a)" description="The base parameter">
+		<type name="userinput">
+		</type>
+	</QueryArgument>
+
+	
+</QueryArguments>

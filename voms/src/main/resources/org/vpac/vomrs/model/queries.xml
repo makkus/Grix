@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE QueryArguments SYSTEM "/home/markus/workspace/voc/queryArguments.dtd"> -->
+<!DOCTYPE QueryArguments/>
+<QueryArguments>
+
+	<QueryArgument name="INSTITUTION" prettyName="Institution" description="The institution you are associated with.">
+		<type name="preselection">
+			<method name="CallGenericClient" object="getInstitutions">
+			</method>
+		</type>
+	</QueryArgument>
+
+	<QueryArgument name="REPDN" prettyName="Representative" description="The DN of your representative.">
+		<type name="preselection" >
+			<method name="CallGenericClient" object="getRepresentatives" filter="even"/>
+		</type>
+	</QueryArgument>
+	
+	<QueryArgument name="REPCA">
+		<type name="input_dependant">
+			<method name="argument" object="REPDN" object_property="1">
+			</method>
+		</type>
+	</QueryArgument>	
+	
+
+	<QueryArgument name="RIGHTS">
+		<type name="default">
+			<method name="Default">
+				<method_arg object="java.lang.String">full</method_arg>
+			</method>
+		</type>
+	</QueryArgument>
+	
+	<QueryArgument name="First name" description="Your first name.">
+		<type name="userinput">
+			<method name="PropertyFile">
+				<property application="grix" key="FIRST_NAME"></property>
+			</method>
+		</type>
+	</QueryArgument>
+	
+	<QueryArgument name="Last name" description="Your surname.">
+		<type name="userinput">
+			<method name="PropertyFile">
+				<property application="grix" key="LAST_NAME"></property>
+			</method>
+		</type>
+	</QueryArgument>	
+	
+	<QueryArgument name="Phone" description="Your phone number.">
+		<type name="userinput">
+			<method name="PropertyFile">
+				<property application="grix" key="PHONE"></property>
+			</method>
+		</type>
+	</QueryArgument>	
+	
+	<QueryArgument name="EMAIL" prettyName="Email" description="Your email address.">
+		<type name="userinput">
+			<method name="PropertyFile">
+				<property application="grix" key="EMAIL"></property>
+			</method>
+		</type>
+	</QueryArgument>		
+
+</QueryArguments>

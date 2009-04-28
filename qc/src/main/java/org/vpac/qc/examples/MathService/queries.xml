@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE QueryArguments >
+<QueryArguments>
+
+	<QueryArgument name="Parameter a" prettyName="The first value" description="The first value of this calculation.">
+	     <type name="default">
+                <method name="Default">
+                           <method_arg object="java.lang.String">33</method_arg>
+                 </method>
+         </type>
+	
+	</QueryArgument>
+
+	<QueryArgument name="Parameter b" prettyName="The second number" description="The second value of this calculation.">
+		<type name="userinput">
+		</type>
+		<query name="add" prettyName="The value to add to the first value." >
+			<type name="userinput">
+			</type>
+		</query>
+		<query name="substract" prettyName="The value to substract from the first value." >
+			<type name="userinput">
+			</type>
+		</query>
+	</QueryArgument>
+
+
+</QueryArguments>
