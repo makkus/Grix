@@ -144,14 +144,7 @@ public class SlcsPanel extends JPanel implements GridProxyListener {
 
 	}
 
-	public static void main(String[] args) throws Exception {
 
-		SLCSClient client = new SLCSClient();
-		List<IDP> ipds = client.getAvailableIDPs();
-		GSSCredential cred = client.slcsLogin(ipds.get(2), "test_user",
-				"test_password");
-
-	}
 
 	/**
 	 * @return
@@ -241,9 +234,8 @@ public class SlcsPanel extends JPanel implements GridProxyListener {
 								try {
 									cred = client.slcsLogin(
 											(IDP) (idpModel.getSelectedItem()),
-											getTextField().getText(), new String(
-													getPasswordField()
-															.getPassword()));
+											getTextField().getText(), getPasswordField()
+															.getPassword());
 								} catch (Throwable e) {
 									JOptionPane.showMessageDialog(SlcsPanel.this,
 										    e.getLocalizedMessage(),
