@@ -1,0 +1,75 @@
+<assembly>
+	<id>app</id>
+	<formats>
+		<!--		<format>dir</format>-->
+		<!--		<format>zip</format>-->
+		<!--		<format>tar.gz</format>-->
+		<format>jar</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<dependencySets>
+		<dependencySet>
+			<unpack>true</unpack>
+			<useTransitiveDependencies>true</useTransitiveDependencies>
+			<useTransitiveFiltering>true</useTransitiveFiltering>
+			<useProjectArtifact>true</useProjectArtifact>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>au.org.arcs.grix:grix_impl</include>
+			</includes>
+			<excludes>
+				<exclude>junit:junit</exclude>
+				<exclude>bouncycastle:bcprov-jdk15</exclude>
+<!--				<exclude>au.org.arcs.auth:arcs-gsi</exclude>-->
+			</excludes>
+			<unpackOptions>
+				<excludes>
+					<exclude>**/INDEX.LIST</exclude>
+					<exclude>**/MANIFEST.MF</exclude>
+					<exclude>**/LICENSE.txt</exclude>
+					<exclude>**/NOTICE.txt</exclude>
+					<exclude>**/log4j.properties</exclude>
+				</excludes>
+			</unpackOptions>
+		</dependencySet>
+	</dependencySets>
+
+
+	<files>
+		<file>
+			<source>deployment-config/ControlMessagesBundle.properties
+			</source>
+			<outputDirectory></outputDirectory>
+		</file>
+		<file>
+			<source>deployment-config/SwingViewMessagesBundle.properties
+			</source>
+			<outputDirectory></outputDirectory>
+		</file>
+		<file>
+			<source>deployment-config/log4j.properties
+			</source>
+			<outputDirectory></outputDirectory>
+		</file>
+		<file>
+			<source>deployment-config/config.properties
+			</source>
+			<outputDirectory></outputDirectory>
+		</file>
+		<file>
+			<source>deployment-config/certificateRequested.html
+			</source>
+			<outputDirectory>org/vpac/grix/html
+			</outputDirectory>
+			<destName>requested.html</destName>
+		</file>
+		<file>
+			<source>deployment-config/infoCandidate.html
+			</source>
+			<outputDirectory>org/vpac/grix/html
+			</outputDirectory>
+		</file>
+	</files>
+
+
+</assembly>
