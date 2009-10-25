@@ -57,7 +57,6 @@ import org.vpac.common.model.gridproxy.LocalProxy;
 import org.vpac.common.view.swing.gridproxy.GridProxyStatusPanel;
 import org.vpac.common.view.swing.messagePanel.MessagePanel;
 import org.vpac.common.view.swing.messagePanel.SimpleMessagePanel;
-import org.vpac.grix.Init;
 import org.vpac.grix.control.utils.DateHelper;
 import org.vpac.grix.control.utils.GrixProperty;
 import org.vpac.grix.control.utils.UserProperty;
@@ -69,15 +68,20 @@ import org.vpac.grix.view.swing.common.GridProxyDialog;
 import org.vpac.grix.view.swing.tools.OptionsDialog;
 import org.vpac.grix.view.swing.vomrs.VOPanelShlix;
 import org.vpac.security.light.CredentialHelpers;
+import org.vpac.security.light.control.CertificateFiles;
+import org.vpac.security.light.control.VomsesFiles;
 import org.vpac.security.light.view.swing.ProxyInitListener;
 import org.vpac.security.light.view.swing.proxyInit.GenericProxyCreationPanel;
 import org.vpac.voms.control.LocalVomses;
 import org.vpac.voms.model.proxy.NoVomsProxyException;
 import org.vpac.voms.model.proxy.VomsProxy;
 
+import au.org.arcs.jcommons.dependencies.DependencyManager;
+import au.org.arcs.jcommons.utils.JythonHelpers;
+
 public class Grix implements CertificateStatusListener, ProxyInitListener {
 	
-	public static final String GRIX_VERSION = "v1.1";
+	public static final String GRIX_VERSION = "v1.2-SNAPSHOT";
 
 	static final Logger myLogger = Logger.getLogger(Grix.class.getName());
 
@@ -108,8 +112,6 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 
 	private JMenuItem saveMenuItem = null;
 
-	private JMenuItem gridProxyMenuItem = null;
-
 	private JMenuItem optionsMenuItem = null;
 
 	private JDialog aboutDialog = null; // @jve:decl-index=0:visual-constraint="954,106"
@@ -124,23 +126,13 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 
 	private JPanel vomrsPanel = null;
 
-//	private ProxyPanel proxyPanel = null;
-
-//	private VomsProxyPanelHolder vomsProxyPanel = null;
-	
-//	private AuthToolPanel authToolPanel = null;	
-	
 	private GenericProxyCreationPanel authenticationPanel = null;
 	
-//	private JPanel slcsPanel = null;
-
 	private GridProxyDialog gridProxyDialog = null;
 
 	private JDialog optionsDialog = null;
 
 	private JPanel gridProxyStatusPanel = null;
-
-//	private JLabel jLabel = null;
 
 	private Color base_color = null;
 
@@ -160,16 +152,7 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 			jTabbedPane.addTab("Authentication", getAuthenticationPanel());
 			getAuthenticationPanel().addProxyListener(this);
 			
-//			jTabbedPane.addTab("LocalProxy", getLocalGridProxyPanel()); // means
-																		// voms-enabled
-																		// local
-																		// grid
-																		// proxy
-																		// panel
-//			jTabbedPane.addTab("MyProxy", getProxyPanel());
-//			jTabbedPane.addTab("Shibboleth", getSlcsPanel());
 			jTabbedPane.addTab("VOs", null, getVomrsPanel(), null);
-//			jTabbedPane.addTab("Authtool", getAuthToolPanel());
 
 			if ((GlobusLocations.defaultLocations().getUserCert().exists() && GlobusLocations
 					.defaultLocations().getUserKey().exists())
@@ -333,11 +316,31 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
+		final SplashScreen screen = new SplashScreen();
+		screen.setVisible(true);
+		
+		JythonHelpers.setJythonCachedir();
+		
+		DependencyManager.initArcsCommonJavaLibDir();
+		DependencyManager.checkForBouncyCastleDependency();
+		
+		try {
+			CertificateFiles.copyCACerts();
+		} catch (Exception e) {
+			myLogger.error(e);
+		}
+		
+		try {
+			VomsesFiles.copyVomses();
+		} catch (Exception e) {
+			myLogger.error(e);
+		}
+		
+
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				Init.copyCACerts();
-				Init.copyVomses();
+				
 				try {
 					UIManager.setLookAndFeel(UIManager
 							.getSystemLookAndFeelClassName());
@@ -378,8 +381,11 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 
 				Grix application = new Grix();
 				application.initIcons();
+
 				application.getJFrame().setVisible(true);
 
+				screen.dispose();
+				
 				if (LocalProxy.getDefaultProxy().getStatus() == GridProxy.INITIALIZED) {
 					LocalVomses.getLocalVomses().getVomses();
 				}

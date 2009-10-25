@@ -1,15 +1,16 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <parent>
-    <artifactId>grix</artifactId>
-    <groupId>au.org.arcs.grix</groupId>
-    <version>1.1</version>
-  </parent>
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>au.org.arcs.grix</groupId>
-  <artifactId>grix_impl</artifactId>
-  <version>1.1</version>
-  
-  	<repositories>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>grix</artifactId>
+		<groupId>au.org.arcs.grix</groupId>
+		<version>1.2-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>au.org.arcs.grix</groupId>
+	<artifactId>grix_impl</artifactId>
+	<version>1.2-SNAPSHOT</version>
+
+	<repositories>
 		<repository>
 			<id>VPAC maven repository</id>
 			<url>http://hudson.vpac.org/maven_repository</url>
@@ -20,71 +21,74 @@
 		<dependency>
 			<groupId>au.org.arcs.grix</groupId>
 			<artifactId>common</artifactId>
-			<version>1.1</version>
+			<version>1.2-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>au.org.arcs.grix</groupId>
 			<artifactId>qc</artifactId>
-			<version>1.1</version>
+			<version>1.2-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>au.org.arcs.grix</groupId>
 			<artifactId>voms</artifactId>
-			<version>1.1</version>
+			<version>1.2-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
-		
-<!--		<dependency>-->
-<!--			<groupId>au.edu.qut.its.hpc</groupId>-->
-<!--			<artifactId>JavaAuthTool</artifactId>-->
-<!--			<version>1.0-SNAPSHOT</version>-->
-<!--			<scope>compile</scope>-->
-<!--		</dependency>-->
-		
-		<dependency>
-			<groupId>au.org.arcs.shibboleth</groupId>
-			<artifactId>slcs-client</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
-		
+
+		<!--		<dependency>-->
+		<!--			<groupId>au.edu.qut.its.hpc</groupId>-->
+		<!--			<artifactId>JavaAuthTool</artifactId>-->
+		<!--			<version>1.0-SNAPSHOT</version>-->
+		<!--			<scope>compile</scope>-->
+		<!--		</dependency>-->
+
+
 		<dependency>
 			<groupId>au.org.arcs.auth</groupId>
 			<artifactId>simpleProxyLib</artifactId>
-			<version>0.3</version>
-        </dependency>
-        
-
-		<dependency>
-			<groupId>external.grix</groupId>
-			<artifactId>cryptix32</artifactId>
-			<version>0.1</version>
-			<scope>compile</scope>
+			<version>0.4-SNAPSHOT</version>
 		</dependency>
 
-		<dependency>
-			<groupId>external.grix</groupId>
-			<artifactId>cryptix-asn1</artifactId>
-			<version>0.1</version>
-			<scope>compile</scope>
-		</dependency>
 
-		<dependency>
-			<groupId>external.grix</groupId>
-			<artifactId>cryptix</artifactId>
-			<version>0.1</version>
-			<scope>compile</scope>
-		</dependency>
+
+
 
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.1</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>external.jglobus</groupId>
+			<artifactId>cryptix32</artifactId>
+			<version>1.7.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>external.jglobus</groupId>
+			<artifactId>cryptix-asn1</artifactId>
+			<version>1.7.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>external.jglobus</groupId>
+			<artifactId>cryptix</artifactId>
+			<version>1.7.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>au.org.arcs.auth</groupId>
+			<artifactId>arcs-gsi</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 
@@ -98,6 +102,34 @@
 
 		<plugins>
 			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<id>grix</id>
+						<configuration>
+							<descriptors>
+								<descriptor>grix.assembly.xml</descriptor>
+							</descriptors>
+							<finalName>grix</finalName>
+							<archive>
+								<index>true</index>
+								<manifest>
+									<mainClass>org.vpac.grix.view.swing.Grix</mainClass>
+								</manifest>
+								<manifestEntries>
+									<Class-Path>bcprov.jar bcprov-jdk15-143.jar</Class-Path>
+								</manifestEntries>
+							</archive>
+						</configuration>
+						<goals>
+							<goal>attached</goal>
+						</goals>
+					</execution>
+				</executions>
+
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
@@ -107,5 +139,5 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 </project>

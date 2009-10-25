@@ -4,7 +4,7 @@
   <groupId>au.org.arcs.grix</groupId>
   <artifactId>grix</artifactId>
   <packaging>pom</packaging>
-  <version>1.1</version>
+  <version>1.2-SNAPSHOT</version>
   <name>grix Multi Project</name>
   <url>http://maven.apache.org</url>
   <modules>
@@ -16,16 +16,6 @@
   
   	<build>
 		<plugins>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-
-					<descriptors>
-						<descriptor>grix.assembly.xml</descriptor>
-					</descriptors>
-
-				</configuration>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
