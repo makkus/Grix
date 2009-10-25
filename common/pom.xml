@@ -1,13 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
-    <artifactId>grix</artifactId>
+    <artifactId>grix-project</artifactId>
     <groupId>au.org.arcs.grix</groupId>
     <version>1.2-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>au.org.arcs.grix</groupId>
   <artifactId>common</artifactId>
-  <version>1.2-SNAPSHOT</version>
   <repositories>
   	<repository>
   		<id>vpac</id>

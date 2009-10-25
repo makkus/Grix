@@ -1,20 +1,34 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>au.org.arcs.grix</groupId>
-  <artifactId>grix</artifactId>
-  <packaging>pom</packaging>
-  <version>1.2-SNAPSHOT</version>
-  <name>grix Multi Project</name>
-  <url>http://maven.apache.org</url>
-  <modules>
-  	<module>common</module>
-  	<module>qc</module>
-  	<module>voms</module>
-  	<module>grix_impl</module>
-  </modules>
-  
-  	<build>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>au.org.arcs.grix</groupId>
+	<artifactId>grix-project</artifactId>
+	<packaging>pom</packaging>
+	<version>1.2-SNAPSHOT</version>
+	<name>Grix Project</name>
+	<url>http://grix.arcs.org.au</url>
+
+	<repositories>
+		<repository>
+			<id>ARCS</id>
+			<url>http://code.arcs.org.au/nexus/content/groups/public</url>
+		</repository>
+		<repository>
+			<id>ARCS Snapshots</id>
+			<url>http://code.arcs.org.au/nexus/content/groups/public-snapshots
+			</url>
+		</repository>
+	</repositories>
+
+
+	<modules>
+		<module>common</module>
+		<module>qc</module>
+		<module>voms</module>
+		<module>grix_impl</module>
+	</modules>
+
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -26,5 +40,5 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 </project>

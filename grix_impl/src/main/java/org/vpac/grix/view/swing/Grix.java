@@ -324,6 +324,7 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 		
 		DependencyManager.initArcsCommonJavaLibDir();
 		DependencyManager.checkForBouncyCastleDependency();
+		DependencyManager.checkForArcsGsiDependency("1.1-SNAPSHOT", true);
 		
 		try {
 			CertificateFiles.copyCACerts();

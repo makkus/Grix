@@ -1,5 +1,5 @@
 <assembly>
-	<id>app</id>
+<!--	<id></id>-->
 	<formats>
 		<!--		<format>dir</format>-->
 		<!--		<format>zip</format>-->
@@ -20,7 +20,7 @@
 			<excludes>
 				<exclude>junit:junit</exclude>
 				<exclude>bouncycastle:bcprov-jdk15</exclude>
-<!--				<exclude>au.org.arcs.auth:arcs-gsi</exclude>-->
+				<exclude>au.org.arcs.auth:arcs-gsi</exclude>
 			</excludes>
 			<unpackOptions>
 				<excludes>
