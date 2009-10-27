@@ -77,7 +77,7 @@
 		</dependency>
 		<dependency>
 			<groupId>au.org.arcs.auth</groupId>
-			<artifactId>arcs-gsi</artifactId>
+			<artifactId>arcs-gsi-SNAPSHOT</artifactId>
 			<version>1.1</version>
 			<scope>provided</scope>
 		</dependency>
