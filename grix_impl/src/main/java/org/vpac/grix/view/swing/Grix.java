@@ -32,6 +32,8 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
@@ -76,7 +78,10 @@ import org.vpac.voms.control.LocalVomses;
 import org.vpac.voms.model.proxy.NoVomsProxyException;
 import org.vpac.voms.model.proxy.VomsProxy;
 
+import au.org.arcs.jcommons.constants.ArcsEnvironment;
+import au.org.arcs.jcommons.dependencies.Dependency;
 import au.org.arcs.jcommons.dependencies.DependencyManager;
+import au.org.arcs.jcommons.utils.ArcsSecurityProvider;
 import au.org.arcs.jcommons.utils.JythonHelpers;
 
 public class Grix implements CertificateStatusListener, ProxyInitListener {
@@ -317,14 +322,26 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 	 */
 	public static void main(String[] args) {
 		
-		final SplashScreen screen = new SplashScreen();
-		screen.setVisible(true);
+		java.security.Security.addProvider(new ArcsSecurityProvider());
+
+		java.security.Security.setProperty("ssl.TrustManagerFactory.algorithm",
+				"TrustAllCertificates");
+
+		
+		DependencyManager.showDownloadDialog = true;
+
 		
 		JythonHelpers.setJythonCachedir();
+		Map<Dependency, String> dependencies = new HashMap<Dependency, String>();
 		
-		DependencyManager.initArcsCommonJavaLibDir();
-		DependencyManager.checkForBouncyCastleDependency();
-		DependencyManager.checkForArcsGsiDependency("1.1-SNAPSHOT", true);
+		dependencies.put(Dependency.BOUNCYCASTLE, "jdk15-143");
+		dependencies.put(Dependency.ARCSGSI_SNAPSHOT, "1.1-SNAPSHOT");
+		
+		DependencyManager.addDependencies(dependencies, ArcsEnvironment.getArcsCommonJavaLibDirectory());
+		
+		
+		final SplashScreen screen = new SplashScreen();
+		screen.setVisible(true);
 		
 		try {
 			CertificateFiles.copyCACerts();
