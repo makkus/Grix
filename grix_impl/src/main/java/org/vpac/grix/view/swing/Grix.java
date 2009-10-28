@@ -78,6 +78,7 @@ import org.vpac.grix.view.swing.common.GridProxyDialog;
 import org.vpac.grix.view.swing.tools.OptionsDialog;
 import org.vpac.grix.view.swing.vomrs.VOPanelShlix;
 import org.vpac.security.light.CredentialHelpers;
+import org.vpac.security.light.Init;
 import org.vpac.security.light.control.CertificateFiles;
 import org.vpac.security.light.control.VomsesFiles;
 import org.vpac.security.light.view.swing.ProxyInitListener;
@@ -272,6 +273,8 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 		DependencyManager.showDownloadDialog = true;
 		
 		fuckTheClasspath();
+		
+		Init.initBouncyCastle();
 
 		JythonHelpers.setJythonCachedir();
 //		Map<Dependency, String> dependencies = new HashMap<Dependency, String>();
