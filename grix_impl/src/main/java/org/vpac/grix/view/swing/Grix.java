@@ -312,31 +312,31 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 					// //e1.printStackTrace();
 					// }
 				}
-				try {
-					// try whether the current proxy is a VomsProxy
-					if (LocalProxy.getProxyFile().exists()) {
-
-						try {
-							VomsProxy vomsProxy = new VomsProxy(LocalProxy
-									.getProxyFile());
-							LocalProxy.setDefaultProxy(vomsProxy);
-						} catch (NoVomsProxyException e) {
-							// TODO Auto-generated catch block
-							// e.printStackTrace();
-							myLogger.debug(e);
-							// thats ok, but make sure that there is a
-							// LocalProxy.getDefaultProxy() object
-							LocalProxy.setDefaultProxy(new GlobusProxy(
-									LocalProxy.getProxyFile()));
-						}
-					} else {
-						LocalProxy.setDefaultProxy(new GlobusProxy(LocalProxy
-								.getProxyFile()));
-					}
-				} catch (IOException ioe) {
-					myLogger.error(ioe);
-					// ioe.printStackTrace();
-				}
+//				try {
+//					// try whether the current proxy is a VomsProxy
+//					if (LocalProxy.getProxyFile().exists()) {
+//
+//						try {
+//							VomsProxy vomsProxy = new VomsProxy(LocalProxy
+//									.getProxyFile());
+//							LocalProxy.setDefaultProxy(vomsProxy);
+//						} catch (NoVomsProxyException e) {
+//							// TODO Auto-generated catch block
+//							// e.printStackTrace();
+//							myLogger.debug(e);
+//							// thats ok, but make sure that there is a
+//							// LocalProxy.getDefaultProxy() object
+//							LocalProxy.setDefaultProxy(new GlobusProxy(
+//									LocalProxy.getProxyFile()));
+//						}
+//					} else {
+//						LocalProxy.setDefaultProxy(new GlobusProxy(LocalProxy
+//								.getProxyFile()));
+//					}
+//				} catch (IOException ioe) {
+//					myLogger.error(ioe);
+//					// ioe.printStackTrace();
+//				}
 
 				try {
 
