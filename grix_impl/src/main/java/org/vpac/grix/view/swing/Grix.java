@@ -29,13 +29,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.text.DateFormat;
+import java.text.MessageFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.zip.ZipFile;
 
@@ -87,8 +87,6 @@ import org.vpac.voms.control.LocalVomses;
 import org.vpac.voms.model.proxy.NoVomsProxyException;
 import org.vpac.voms.model.proxy.VomsProxy;
 
-import au.org.arcs.jcommons.constants.ArcsEnvironment;
-import au.org.arcs.jcommons.dependencies.Dependency;
 import au.org.arcs.jcommons.dependencies.DependencyManager;
 import au.org.arcs.jcommons.utils.ArcsSecurityProvider;
 import au.org.arcs.jcommons.utils.JythonHelpers;
@@ -201,11 +199,11 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 	 * URL to the jar file and munge that to get the path.
 	 */
 	private static String findJarContaining(String item) {
-		//String header = "jar:file:";
-		String header = "jar:http:";
+		String header = "jar:file:";
+//		String header = "jar:http:";
 		String trailer = "!/" + item;
 
-		URL url = Grix.class.getResource("/" + item);
+		URL url = getResource("/" + item);
 		// We should get something like
 		// "jar:file:/C:/Documents and Settings/kejohnson/.javaws/cache/http/Dlocalhost/P80/DMdemo/DMlib/RMmyjython.jar!/__run__.py"
 		if (url == null) {
@@ -239,6 +237,41 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 		return path;
 		
 	}
+	
+	public static URL getResource(String name) {
+        // Get the URL for the resource using the standard behavior
+        URL result = Grix.class.getResource(name);
+
+        // Check to see that the URL is not null and that it's a JAR URL.
+        if (result != null && "jar".equalsIgnoreCase(result.getProtocol())) {
+            // Get the URL to the "clazz" itself.  In a JNLP environment, the "getProtectionDomain" call should succeed only with properly signed JARs.
+            URL classSourceLocationURL = Grix.class.getProtectionDomain().getCodeSource().getLocation();
+            // Create a String which embeds the classSourceLocationURL in a JAR URL referencing the desired resource.
+            String urlString = MessageFormat.format("jar:{0}!/{1}/{2}", classSourceLocationURL.toExternalForm(), packageNameOfClass(Grix.class).replaceAll("\\.", "/"), name);
+
+            // Check to see that new URL differs.  There's no reason to instantiate a new URL if the external forms are identical (as happens on pre-1.5.0_16 builds of the JDK).
+            if (urlString.equals(result.toExternalForm()) == false) {
+                // The URLs are different, try instantiating the new URL.
+                try {
+                    result = new URL(urlString);
+                } catch (MalformedURLException malformedURLException) {
+                    throw new RuntimeException(malformedURLException);
+                }
+            }
+        }
+        return result;
+    }
+
+    public static String packageNameOfClass(Class clazz) {
+        String result = "";
+        String className = clazz.getName();
+        int lastPeriod = className.lastIndexOf(".");
+
+        if (lastPeriod > -1) {
+            result = className.substring(0, lastPeriod);
+        }
+        return result;
+    }
 
 	// /** Load a module from a resource and run it as __main__. */
 	// public static void runResource(String name) {
