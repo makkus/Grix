@@ -154,7 +154,7 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 
 	private static void fuckTheClasspath() {
 
-		final String[] MODULES = { "slcs.py", // The Jython startup module is in
+		final String[] MODULES = { "arcs/gsi/slcs.py", // The Jython startup module is in
 												// myjython.jar
 				"string.py", // Nothing special about string.py, any module in
 								// jython-lib.jar would do
