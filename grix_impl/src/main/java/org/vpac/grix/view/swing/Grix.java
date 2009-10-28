@@ -201,7 +201,8 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 	 * URL to the jar file and munge that to get the path.
 	 */
 	private static String findJarContaining(String item) {
-		String header = "jar:file:";
+		//String header = "jar:file:";
+		String header = "jar:http:";
 		String trailer = "!/" + item;
 
 		URL url = Grix.class.getResource("/" + item);
