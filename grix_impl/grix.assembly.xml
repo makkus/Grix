@@ -29,6 +29,8 @@
 					<exclude>**/LICENSE.txt</exclude>
 					<exclude>**/NOTICE.txt</exclude>
 					<exclude>**/log4j.properties</exclude>
+					<exclude>**/LICENSE</exclude>
+					<exclude>**/NOTICE</exclude>
 				</excludes>
 			</unpackOptions>
 		</dependencySet>

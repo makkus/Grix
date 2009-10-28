@@ -30,33 +30,9 @@
 			<scope>compile</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>external.voms</groupId>
-			<artifactId>axis</artifactId>
-			<version>1.1</version>
-			<scope>compile</scope>
-		</dependency>
 
-		<dependency>
-			<groupId>external.voms</groupId>
-			<artifactId>axis-ant</artifactId>
-			<version>1.1</version>
-			<scope>compile</scope>
-		</dependency>
 
-		<dependency>
-			<groupId>external.voms</groupId>
-			<artifactId>axis-jaxrpc</artifactId>
-			<version>1.1</version>
-			<scope>compile</scope>
-		</dependency>
 
-		<dependency>
-			<groupId>external.voms</groupId>
-			<artifactId>axis-saaj</artifactId>
-			<version>1.1</version>
-			<scope>compile</scope>
-		</dependency>
 
 
 		<dependency>
@@ -80,55 +56,13 @@
 			<scope>compile</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>jdom</groupId>
-			<artifactId>jdom</artifactId>
-			<version>1.0</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>external.voms</groupId>
-			<artifactId>fnal-vox-vomrs-client</artifactId>
-			<version>1.3.0</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>external.voms</groupId>
-			<artifactId>glite-security-util-java</artifactId>
-			<version>0.1</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>external.voms</groupId>
-			<artifactId>glite-security-trustmanager</artifactId>
-			<version>0.1</version>
-			<scope>compile</scope>
-		</dependency>
 
 
-		<dependency>
-			<groupId>wsdl4j</groupId>
-			<artifactId>wsdl4j</artifactId>
-			<version>1.4</version>
-			<scope>compile</scope>
-		</dependency>
 
-		<dependency>
-			<groupId>external.voms</groupId>
-			<artifactId>xercesImpl</artifactId>
-			<version>1.1</version>
-			<scope>compile</scope>
-		</dependency>
 
-		<dependency>
-			<groupId>xerces</groupId>
-			<artifactId>xmlParserAPIs</artifactId>
-			<version>2.6.2</version>
-			<scope>compile</scope>
-		</dependency>
+
+
+
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -141,12 +75,12 @@
 			<artifactId>bcprov-jdk15</artifactId>
 			<version>143</version>
 			<type>jar</type>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>external.jglobus</groupId>
-			<artifactId>puretls</artifactId>
-			<version>1.7.0</version>
+			<groupId>au.org.arcs.auth</groupId>
+			<artifactId>simpleProxyLib</artifactId>
+			<version>0.4-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
