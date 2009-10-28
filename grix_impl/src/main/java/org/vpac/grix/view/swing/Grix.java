@@ -211,32 +211,34 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 			System.out.println("Main: getResource failed for " + item);
 			return null;
 		}
+		
+		return url;
 
 //		String path = url.toString();
-		String path = url;
-		System.out.println(path);
-
-		if (!path.startsWith(header) || !path.endsWith(trailer)) {
-			System.out.println("Main: Can't interpret URL for " + item + ": "
-					+ path);
-			return null;
-		}
-
-		// Strip header and trailer
-		path = path
-				.substring(header.length(), path.length() - trailer.length());
-		while (path.startsWith("/"))
-			path = path.substring(1);
-
-		path = URLDecoder.decode(path);
-
-		// Patch to make it work on Linux too
-		// courtesy dan 'dante' tenenbaum <dandante@dandante.com>
-		if (path.charAt(1) != ':') {
-			path = "/" + path;
-		}
-		System.out.println("Path for " + item + ": " + path);
-		return path;
+//		String path = url;
+//		System.out.println(path);
+//
+//		if (!path.startsWith(header) || !path.endsWith(trailer)) {
+//			System.out.println("Main: Can't interpret URL for " + item + ": "
+//					+ path);
+//			return null;
+//		}
+//
+//		// Strip header and trailer
+//		path = path
+//				.substring(header.length(), path.length() - trailer.length());
+//		while (path.startsWith("/"))
+//			path = path.substring(1);
+//
+//		path = URLDecoder.decode(path);
+//
+//		// Patch to make it work on Linux too
+//		// courtesy dan 'dante' tenenbaum <dandante@dandante.com>
+//		if (path.charAt(1) != ':') {
+//			path = "/" + path;
+//		}
+//		System.out.println("Path for " + item + ": " + path);
+//		return path;
 		
 	}
 	
