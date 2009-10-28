@@ -39,11 +39,11 @@
 
 
 	<files>
-		<file>
-			<source>deployment-config/__init__.py
-			</source>
-			<outputDirectory>arcs</outputDirectory>
-		</file>
+<!--		<file>-->
+<!--			<source>deployment-config/__init__.py-->
+<!--			</source>-->
+<!--			<outputDirectory>arcs</outputDirectory>-->
+<!--		</file>-->
 		<file>
 			<source>deployment-config/ControlMessagesBundle.properties
 			</source>
