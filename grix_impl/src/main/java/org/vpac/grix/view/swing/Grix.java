@@ -241,14 +241,15 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 	public static URL getResource(String name) {
         // Get the URL for the resource using the standard behavior
         URL result = Grix.class.getResource(name);
-
+        System.out.println("URL: "+result.toString());
         // Check to see that the URL is not null and that it's a JAR URL.
         if (result != null && "jar".equalsIgnoreCase(result.getProtocol())) {
             // Get the URL to the "clazz" itself.  In a JNLP environment, the "getProtectionDomain" call should succeed only with properly signed JARs.
             URL classSourceLocationURL = Grix.class.getProtectionDomain().getCodeSource().getLocation();
+            System.out.println("ClassSourceLocationUrl: "+classSourceLocationURL);
             // Create a String which embeds the classSourceLocationURL in a JAR URL referencing the desired resource.
             String urlString = MessageFormat.format("jar:{0}!/{1}/{2}", classSourceLocationURL.toExternalForm(), packageNameOfClass(Grix.class).replaceAll("\\.", "/"), name);
-
+            System.out.println("URLString: "+classSourceLocationURL);
             // Check to see that new URL differs.  There's no reason to instantiate a new URL if the external forms are identical (as happens on pre-1.5.0_16 builds of the JDK).
             if (urlString.equals(result.toExternalForm()) == false) {
                 // The URLs are different, try instantiating the new URL.
