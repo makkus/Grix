@@ -169,7 +169,7 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 		JythonHelpers.setJythonCachedir();
 		Map<Dependency, String> dependencies = new HashMap<Dependency, String>();
 
-		// dependencies.put(Dependency.BOUNCYCASTLE, "jdk15-143");
+		dependencies.put(Dependency.BOUNCYCASTLE, "jdk15-143");
 		dependencies.put(Dependency.ARCSGSI_SNAPSHOT, "1.1-SNAPSHOT");
 
 		DependencyManager.addDependencies(dependencies, ArcsEnvironment
@@ -370,9 +370,11 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 			if ("yes".equals(disableShib)) {
 				useShib = false;
 			}
+			
+			String shibUrl = System.getProperty("shibUrl");
 
 			authenticationPanel = new GenericProxyCreationPanel(useShib, true,
-					true, true);
+					true, true, shibUrl);
 		}
 		return authenticationPanel;
 
