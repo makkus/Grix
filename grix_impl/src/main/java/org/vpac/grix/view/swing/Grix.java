@@ -365,7 +365,7 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 
 		DependencyManager.showDownloadDialog = true;
 		
-		fuckTheClasspath();
+//		fuckTheClasspath();
 		
 		Init.initBouncyCastle();
 
