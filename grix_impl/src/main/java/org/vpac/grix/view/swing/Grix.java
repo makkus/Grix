@@ -32,10 +32,11 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.JarURLConnection;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.jar.JarFile;
 import java.util.zip.ZipFile;
@@ -88,6 +89,8 @@ import org.vpac.voms.control.LocalVomses;
 import org.vpac.voms.model.proxy.NoVomsProxyException;
 import org.vpac.voms.model.proxy.VomsProxy;
 
+import au.org.arcs.jcommons.constants.ArcsEnvironment;
+import au.org.arcs.jcommons.dependencies.Dependency;
 import au.org.arcs.jcommons.dependencies.DependencyManager;
 import au.org.arcs.jcommons.utils.ArcsSecurityProvider;
 import au.org.arcs.jcommons.utils.JythonHelpers;
@@ -370,13 +373,13 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 		Init.initBouncyCastle();
 
 		JythonHelpers.setJythonCachedir();
-//		Map<Dependency, String> dependencies = new HashMap<Dependency, String>();
-//
-//		// dependencies.put(Dependency.BOUNCYCASTLE, "jdk15-143");
-//		dependencies.put(Dependency.ARCSGSI_SNAPSHOT, "1.1-SNAPSHOT");
-//
-//		DependencyManager.addDependencies(dependencies, ArcsEnvironment
-//				.getArcsCommonJavaLibDirectory());
+		Map<Dependency, String> dependencies = new HashMap<Dependency, String>();
+
+		// dependencies.put(Dependency.BOUNCYCASTLE, "jdk15-143");
+		dependencies.put(Dependency.ARCSGSI_SNAPSHOT, "1.1-SNAPSHOT");
+
+		DependencyManager.addDependencies(dependencies, ArcsEnvironment
+				.getArcsCommonJavaLibDirectory());
 
 		final SplashScreen screen = new SplashScreen();
 		screen.setVisible(true);
