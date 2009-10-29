@@ -29,17 +29,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.net.JarURLConnection;
-import java.net.URL;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.jar.JarFile;
-import java.util.zip.ZipFile;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -57,11 +52,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import org.apache.log4j.Logger;
+import org.globus.common.CoGProperties;
 import org.globus.gsi.GlobusCredential;
-import org.python.core.Py;
-import org.python.core.PySystemState;
-import org.python.core.SyspathArchive;
-import org.python.core.SyspathArchiveHack;
 import org.vpac.common.model.GlobusLocations;
 import org.vpac.common.model.gridproxy.GlobusProxy;
 import org.vpac.common.model.gridproxy.GridProxy;
@@ -159,14 +151,8 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 	 */
 	public static void main(String[] args) {
 
-		java.security.Security.addProvider(new ArcsSecurityProvider());
-
-		java.security.Security.setProperty("ssl.TrustManagerFactory.algorithm",
-				"TrustAllCertificates");
-
 		DependencyManager.showDownloadDialog = true;
 		
-		JythonHelpers.setJythonCachedir();
 		Map<Dependency, String> dependencies = new HashMap<Dependency, String>();
 
 		dependencies.put(Dependency.BOUNCYCASTLE, "jdk15-143");
@@ -174,6 +160,14 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 
 		DependencyManager.addDependencies(dependencies, ArcsEnvironment
 				.getArcsCommonJavaLibDirectory());
+
+		JythonHelpers.setJythonCachedir();
+		CoGProperties.getDefault().setProperty(CoGProperties.ENFORCE_SIGNING_POLICY, "false");
+
+		java.security.Security.addProvider(new ArcsSecurityProvider());
+
+		java.security.Security.setProperty("ssl.TrustManagerFactory.algorithm",
+				"TrustAllCertificates");
 
 		Init.initBouncyCastle();
 		
