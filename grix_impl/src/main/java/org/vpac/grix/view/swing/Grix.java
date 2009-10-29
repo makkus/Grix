@@ -211,6 +211,7 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 			System.out.println("Main: getResource failed for " + item);
 			return null;
 		}
+		System.out.println("URL: "+url);
 		
 		return url;
 
