@@ -154,208 +154,6 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 
 	private Color lighter_color = null;
 
-	private static void fuckTheClasspath() {
-
-		final String[] MODULES = { "arcs/gsi/slcs.py", // The Jython startup module is in
-												// myjython.jar
-				"string.py", // Nothing special about string.py, any module in
-								// jython-lib.jar would do
-		};
-
-		PySystemState.initialize();
-
-		// Look up each module in MODULES and add its containing jar file to
-		// sys.path
-		for (int i = 0; i < MODULES.length; i++) {
-			String moduleName = MODULES[i];
-			String jarPath = findJarContaining(moduleName);
-			if (jarPath == null) {
-				System.out.println("Unable to find jar file containing "
-						+ moduleName + " - exiting");
-				return;
-			}
-
-			// The jar file names don't necessarily end with '.jar'; sometimes
-			// there is a
-			// number appended after that. So adding the jar file path to
-			// sys.path won't
-			// work. Adding a SyspathArchive forces the runtime to recognize the
-			// file as a jar
-			// But the SyspathArchive itself wants a .jar so we use
-			// SyspathArchiveHack.
-			try {
-				SyspathArchive archive = new SyspathArchiveHack(new ZipFile(
-						jarPath), jarPath);
-				Py.getSystemState().path.append(archive);
-			} catch (IOException e) {
-				System.out.println("Unable to create SyspathArchive for "
-						+ moduleName + " - exiting");
-				e.printStackTrace();
-				return;
-			}
-		}
-
-	}
-
-	/**
-	 * Find the jar file containing a .py file and return its path. This has to
-	 * work when running from Java Web Start. So use the class loader to find a
-	 * URL to the jar file and munge that to get the path.
-	 */
-	private static String findJarContaining(String item) {
-		String header = "jar:file:";
-//		String header = "jar:http:";
-		String trailer = "!/" + item;
-
-		String url = getJarFilePath((Grix.class.getResource("/" + item)));
-		// We should get something like
-		// "jar:file:/C:/Documents and Settings/kejohnson/.javaws/cache/http/Dlocalhost/P80/DMdemo/DMlib/RMmyjython.jar!/__run__.py"
-		if (url == null) {
-			System.out.println("Main: getResource failed for " + item);
-			return null;
-		}
-		System.out.println("URL: "+url);
-		
-		return url;
-
-//		String path = url.toString();
-//		String path = url;
-//		System.out.println(path);
-//
-//		if (!path.startsWith(header) || !path.endsWith(trailer)) {
-//			System.out.println("Main: Can't interpret URL for " + item + ": "
-//					+ path);
-//			return null;
-//		}
-//
-//		// Strip header and trailer
-//		path = path
-//				.substring(header.length(), path.length() - trailer.length());
-//		while (path.startsWith("/"))
-//			path = path.substring(1);
-//
-//		path = URLDecoder.decode(path);
-//
-//		// Patch to make it work on Linux too
-//		// courtesy dan 'dante' tenenbaum <dandante@dandante.com>
-//		if (path.charAt(1) != ':') {
-//			path = "/" + path;
-//		}
-//		System.out.println("Path for " + item + ": " + path);
-//		return path;
-		
-	}
-	
-    public static String getJarFilePath(URL jarUrl) {
-        JarFile jarFile = getJarFile(jarUrl);
-        return findJarPath(jarFile);
-    }
-
-    public static JarFile getJarFile(URL jarUrl) {
-        try {
-            JarURLConnection jarUrlConnection = (JarURLConnection)jarUrl.openConnection();
-
-            //try the getJarFile method first.
-            //Under webstart in 1.5.0_16 this is overriden to return null
-            JarFile jarFile = jarUrlConnection.getJarFile();
-
-            if ( jarFile == null) {
-                jarFile = getJarFileByReflection(jarUrlConnection);
-            }
-            return jarFile;
-        } catch (Throwable t) {
-            throw new RuntimeException("Failed to get JarFile from jarUrlConnection", t);
-        }
-    }
-
-    private static JarFile getJarFileByReflection(JarURLConnection jarUrlConnection) throws Exception {
-        //this class only exists in webstart.jar for 1.5.0_16 and later
-        Class jnlpConnectionClass = Class.forName("com.sun.jnlp.JNLPCachedJarURLConnection");
-        Field jarFileField;
-        try {
-            jarFileField = jnlpConnectionClass.getDeclaredField("jarFile");
-        } catch ( Throwable t) {
-            jarFileField = jnlpConnectionClass.getDeclaredField("_jarFile");
-        }
-        jarUrlConnection.connect(); //this causes the connection to set the jarFile field
-        jarFileField.setAccessible(true);
-        return (JarFile)jarFileField.get(jarUrlConnection);
-    }
-
-    private static String findJarPath(JarFile cachedJarFile) {
-        try {
-            String name = cachedJarFile.getName();
-
-            //getName is overridden to return "" under 1.6.0_7 so use reflection
-            if ( name == null || name.trim().equals("")) {
-                Class c = ZipFile.class;
-                Field field = c.getDeclaredField("name");
-                field.setAccessible(true);
-                name = (String)field.get(cachedJarFile);
-            }
-            return name;
-        } catch (Throwable t) {
-            throw new RuntimeException("Failed to get find name from jarFile", t);
-        }
-    }
-	
-//	public static URL getResource(String name) {
-//        // Get the URL for the resource using the standard behavior
-//        URL result = Grix.class.getResource(name);
-//        System.out.println("URL: "+result.toString());
-//        // Check to see that the URL is not null and that it's a JAR URL.
-//        if (result != null && "jar".equalsIgnoreCase(result.getProtocol())) {
-//            // Get the URL to the "clazz" itself.  In a JNLP environment, the "getProtectionDomain" call should succeed only with properly signed JARs.
-//            URL classSourceLocationURL = Grix.class.getProtectionDomain().getCodeSource().getLocation();
-//            System.out.println("ClassSourceLocationUrl: "+classSourceLocationURL.toString());
-//            // Create a String which embeds the classSourceLocationURL in a JAR URL referencing the desired resource.
-//            String urlString = MessageFormat.format("jar:{0}!/{1}/{2}", classSourceLocationURL.toExternalForm(), packageNameOfClass(Grix.class).replaceAll("\\.", "/"), name);
-//            System.out.println("URLString: "+classSourceLocationURL);
-//            // Check to see that new URL differs.  There's no reason to instantiate a new URL if the external forms are identical (as happens on pre-1.5.0_16 builds of the JDK).
-//            if (urlString.equals(result.toExternalForm()) == false) {
-//                // The URLs are different, try instantiating the new URL.
-//                try {
-//                    result = new URL(urlString);
-//                } catch (MalformedURLException malformedURLException) {
-//                    throw new RuntimeException(malformedURLException);
-//                }
-//            }
-//        }
-//        return result;
-//    }
-//
-//    public static String packageNameOfClass(Class clazz) {
-//        String result = "";
-//        String className = clazz.getName();
-//        int lastPeriod = className.lastIndexOf(".");
-//
-//        if (lastPeriod > -1) {
-//            result = className.substring(0, lastPeriod);
-//        }
-//        return result;
-//    }
-
-	// /** Load a module from a resource and run it as __main__. */
-	// public static void runResource(String name) {
-	// try {
-	// PyStringMap locals = new PyStringMap();
-	// locals.__setitem__("__name__", new PyString("__main__"));
-	//
-	// InputStream file = Grix.class.getResourceAsStream("/" + name);
-	// PyCode code;
-	// try {
-	// code = Py.compile(file, name, "exec");
-	// } finally {
-	// file.close();
-	// }
-	//
-	// Py.runCode(code, locals, locals);
-	// }
-	// catch (java.io.IOException e) {
-	// e.printStackTrace();
-	// }
-	// }
-
 	/**
 	 * @param args
 	 */
@@ -368,10 +166,6 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 
 		DependencyManager.showDownloadDialog = true;
 		
-//		fuckTheClasspath();
-		
-		Init.initBouncyCastle();
-
 		JythonHelpers.setJythonCachedir();
 		Map<Dependency, String> dependencies = new HashMap<Dependency, String>();
 
@@ -381,6 +175,8 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 		DependencyManager.addDependencies(dependencies, ArcsEnvironment
 				.getArcsCommonJavaLibDirectory());
 
+		Init.initBouncyCastle();
+		
 		final SplashScreen screen = new SplashScreen();
 		screen.setVisible(true);
 
