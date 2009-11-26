@@ -156,7 +156,7 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 		Map<Dependency, String> dependencies = new HashMap<Dependency, String>();
 
 		dependencies.put(Dependency.BOUNCYCASTLE, "jdk15-143");
-		dependencies.put(Dependency.ARCSGSI, "1.1");
+//		dependencies.put(Dependency.ARCSGSI, "1.1");
 
 		DependencyManager.addDependencies(dependencies, ArcsEnvironment
 				.getArcsCommonJavaLibDirectory());

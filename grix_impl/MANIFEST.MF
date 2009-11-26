@@ -4,4 +4,4 @@ Created-By: Apache Maven
 Built-By: markus
 Build-Jdk: 1.5.0_08
 Main-Class: org.vpac.grix.view.swing.Grix
-Class-Path: bcprov.jar
+Class-Path: bcprov.jar bcprov-jdk15-144.jar bcprov-jdk15-145.jar 

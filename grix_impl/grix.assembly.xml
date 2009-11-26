@@ -31,7 +31,7 @@
 					<exclude>**/log4j.properties</exclude>
 					<exclude>**/LICENSE</exclude>
 					<exclude>**/NOTICE</exclude>
-					<exclude>arcs/__init__.py</exclude>
+<!--					<exclude>arcs/__init__.py</exclude>-->
 				</excludes>
 			</unpackOptions>
 		</dependencySet>
