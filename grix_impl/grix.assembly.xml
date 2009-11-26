@@ -31,7 +31,7 @@
 					<exclude>**/log4j.properties</exclude>
 					<exclude>**/LICENSE</exclude>
 					<exclude>**/NOTICE</exclude>
-<!--					<exclude>arcs/__init__.py</exclude>-->
+					<exclude>arcs/__init__.py</exclude>
 				</excludes>
 			</unpackOptions>
 		</dependencySet>
@@ -39,11 +39,11 @@
 
 
 	<files>
-<!--		<file>-->
-<!--			<source>deployment-config/__init__.py-->
-<!--			</source>-->
-<!--			<outputDirectory>arcs</outputDirectory>-->
-<!--		</file>-->
+		<file>
+			<source>deployment-config/__init__.py
+			</source>
+			<outputDirectory>arcs</outputDirectory>
+		</file>
 		<file>
 			<source>deployment-config/ControlMessagesBundle.properties
 			</source>
