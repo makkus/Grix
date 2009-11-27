@@ -89,7 +89,7 @@ import au.org.arcs.jcommons.utils.JythonHelpers;
 
 public class Grix implements CertificateStatusListener, ProxyInitListener {
 
-	public static final String GRIX_VERSION = "v1.2-SNAPSHOT";
+	public static final String GRIX_VERSION = "v1.2.2";
 
 	static final Logger myLogger = Logger.getLogger(Grix.class.getName());
 
