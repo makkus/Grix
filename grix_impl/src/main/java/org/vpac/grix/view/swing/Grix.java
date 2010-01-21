@@ -169,8 +169,9 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 		java.security.Security.setProperty("ssl.TrustManagerFactory.algorithm",
 				"TrustAllCertificates");
 
+		System.setSecurityManager(null);
 		Init.initBouncyCastle();
-		
+
 		final SplashScreen screen = new SplashScreen();
 		screen.setVisible(true);
 
