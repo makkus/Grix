@@ -149,7 +149,7 @@ public class VOPanelShlix extends JPanel implements VomsesStatusListener,
 			voPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0), "VO\'s", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 14), null));
 			voPanel.setBackground(getLighterColor());
 			voPanel.add(getJScrollPane(), gridBagConstraints1);
-			voPanel.add(getJButton(), gridBagConstraints);
+			//			voPanel.add(getJButton(), gridBagConstraints);
 		}
 		return voPanel;
 	}

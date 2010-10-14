@@ -182,7 +182,7 @@ public class MembershipInfoPanel extends JPanel implements VomsesStatusListener 
 		expiresLabelConstraints.anchor = GridBagConstraints.EAST;
 		expiresLabelConstraints.insets = new Insets(0, 20, 15, 0);
 		expiresLabelConstraints.gridy = 1;
-		this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0), "Information about your VO membership", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 14), new Color(51, 51, 51)));
+		this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0), "Information about your group membership", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 14), new Color(51, 51, 51)));
 		this.setSize(new Dimension(610, 346));
 		if ( lighterColor != null )	this.setBackground(lighterColor);
 		this.add(expiresLabel, expiresLabelConstraints);

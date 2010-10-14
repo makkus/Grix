@@ -184,14 +184,14 @@ public class VomsesManagementDialog extends JDialog {
 			gridBagConstraints3.anchor = GridBagConstraints.WEST;
 			gridBagConstraints3.gridy = 0;
 			jLabel1 = new JLabel();
-			jLabel1.setText("Active VOs");
+			jLabel1.setText("Active groups");
 			GridBagConstraints gridBagConstraints2 = new GridBagConstraints();
 			gridBagConstraints2.gridx = 0;
 			gridBagConstraints2.insets = new Insets(10, 15, 0, 0);
 			gridBagConstraints2.anchor = GridBagConstraints.WEST;
 			gridBagConstraints2.gridy = 0;
 			jLabel = new JLabel();
-			jLabel.setText("In-active VOs");
+			jLabel.setText("Unused groups:");
 			GridBagConstraints gridBagConstraints1 = new GridBagConstraints();
 			gridBagConstraints1.fill = GridBagConstraints.BOTH;
 			gridBagConstraints1.gridy = 1;
@@ -366,7 +366,7 @@ public class VomsesManagementDialog extends JDialog {
 	 */
 	private SimpleMessagePanel getInfoPanel() {
 		if (infoPanel == null) {
-			infoPanel = new SimpleMessagePanel("Drag & Drop VO's you want to contact to the \"Active VOs\" panel.");
+			infoPanel = new SimpleMessagePanel("Drag & Drop groups you want to contact to the \"Active Groups\" panel.");
 		}
 		return infoPanel;
 	}

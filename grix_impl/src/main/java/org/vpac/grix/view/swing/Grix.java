@@ -176,7 +176,7 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 		screen.setVisible(true);
 
 		try {
-			CertificateFiles.copyCACerts();
+			CertificateFiles.copyCACerts(false);
 		} catch (Exception e) {
 			myLogger.error(e);
 		}
@@ -279,7 +279,7 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 			jTabbedPane.addTab("Authentication", getAuthenticationPanel());
 			getAuthenticationPanel().addProxyListener(this);
 
-			jTabbedPane.addTab("VOs", null, getVomrsPanel(), null);
+			jTabbedPane.addTab("Group Membership", null, getVomrsPanel(), null);
 
 			if ((GlobusLocations.defaultLocations().getUserCert().exists() && GlobusLocations
 					.defaultLocations().getUserKey().exists())
@@ -325,7 +325,7 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 				// .indexOfTab("LocalProxy"));
 				else if ("VO"
 						.equals(UserProperty.getProperty("TAB_AT_STARTUP")))
-					jTabbedPane.setSelectedIndex(jTabbedPane.indexOfTab("VOs"));
+					jTabbedPane.setSelectedIndex(jTabbedPane.indexOfTab("Group Membership"));
 				else
 					jTabbedPane.setSelectedIndex(jTabbedPane
 							.indexOfTab("Certificate"));
