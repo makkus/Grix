@@ -86,65 +86,20 @@ import au.org.arcs.jcommons.dependencies.Dependency;
 import au.org.arcs.jcommons.dependencies.DependencyManager;
 import au.org.arcs.jcommons.utils.ArcsSecurityProvider;
 import au.org.arcs.jcommons.utils.JythonHelpers;
+import au.org.arcs.jcommons.utils.Version;
 
 public class Grix implements CertificateStatusListener, ProxyInitListener {
 
-	public static final String GRIX_VERSION = "v1.3";
+	public static final String GRIX_VERSION = Version.get("grix");
 
 	static final Logger myLogger = Logger.getLogger(Grix.class.getName());
 
-	private static ResourceBundle messages = ResourceBundle.getBundle(
-			"SwingViewMessagesBundle", java.util.Locale.getDefault()); // @jve:decl-index=0:
+	private static ResourceBundle messages = ResourceBundle
+			.getBundle("SwingViewMessagesBundle"); // @jve:decl-index=0:
 
-	private JFrame jFrame = null; // @jve:decl-index=0:visual-constraint="0,51"
-
-	private JPanel jContentPane = null;
-
-	private JMenuBar jJMenuBar = null;
-
-	private JMenu fileMenu = null;
-
-	private JMenu toolsMenu = null;
-
-	private JMenu helpMenu = null;
-
-	private JMenuItem exitMenuItem = null;
-
-	private JMenuItem aboutMenuItem = null;
-
-	private JMenuItem cutMenuItem = null;
-
-	private JMenuItem copyMenuItem = null;
-
-	private JMenuItem pasteMenuItem = null;
-
-	private JMenuItem saveMenuItem = null;
-
-	private JMenuItem optionsMenuItem = null;
-
-	private JDialog aboutDialog = null; // @jve:decl-index=0:visual-constraint="954,106"
-
-	private JPanel aboutContentPane = null;
-
-	private JLabel aboutVersionLabel = null;
-
-	private JTabbedPane jTabbedPane = null;
-
-	private CertificatePanel certificatePanel = null;
-
-	private JPanel vomrsPanel = null;
-
-	private GenericProxyCreationPanel authenticationPanel = null;
-
-	private GridProxyDialog gridProxyDialog = null;
-
-	private JDialog optionsDialog = null;
-
-	private JPanel gridProxyStatusPanel = null;
-
-	private Color base_color = null;
-
-	private Color lighter_color = null;
+	public static ResourceBundle getMessages() {
+		return messages;
+	}
 
 	/**
 	 * @param args
@@ -152,17 +107,18 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 	public static void main(String[] args) {
 
 		DependencyManager.showDownloadDialog = true;
-		
+
 		Map<Dependency, String> dependencies = new HashMap<Dependency, String>();
 
 		dependencies.put(Dependency.BOUNCYCASTLE, "jdk15-143");
-//		dependencies.put(Dependency.ARCSGSI, "1.1");
+		// dependencies.put(Dependency.ARCSGSI, "1.1");
 
-		DependencyManager.addDependencies(dependencies, ArcsEnvironment
-				.getArcsCommonJavaLibDirectory());
+		DependencyManager.addDependencies(dependencies,
+				ArcsEnvironment.getArcsCommonJavaLibDirectory());
 
 		JythonHelpers.setJythonCachedir();
-		CoGProperties.getDefault().setProperty(CoGProperties.ENFORCE_SIGNING_POLICY, "false");
+		CoGProperties.getDefault().setProperty(
+				CoGProperties.ENFORCE_SIGNING_POLICY, "false");
 
 		java.security.Security.addProvider(new ArcsSecurityProvider());
 
@@ -265,6 +221,403 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 		});
 	}
 
+	private JFrame jFrame = null; // @jve:decl-index=0:visual-constraint="0,51"
+
+	private JPanel jContentPane = null;
+
+	private JMenuBar jJMenuBar = null;
+
+	private JMenu fileMenu = null;
+
+	private JMenu toolsMenu = null;
+
+	private JMenu helpMenu = null;
+
+	private JMenuItem exitMenuItem = null;
+
+	private JMenuItem aboutMenuItem = null;
+
+	private JMenuItem cutMenuItem = null;
+
+	private JMenuItem copyMenuItem = null;
+
+	private JMenuItem pasteMenuItem = null;
+
+	private JMenuItem saveMenuItem = null;
+
+	private JMenuItem optionsMenuItem = null;
+
+	private JDialog aboutDialog = null; // @jve:decl-index=0:visual-constraint="954,106"
+
+	private JPanel aboutContentPane = null;
+
+	private JLabel aboutVersionLabel = null;
+
+	private JTabbedPane jTabbedPane = null;
+
+	private CertificatePanel certificatePanel = null;
+
+	private JPanel vomrsPanel = null;
+
+	private GenericProxyCreationPanel authenticationPanel = null;
+
+	private GridProxyDialog gridProxyDialog = null;
+
+	private JDialog optionsDialog = null;
+
+	private JPanel gridProxyStatusPanel = null;
+
+	private Color base_color = null;
+
+	private Color lighter_color = null;
+
+	private ImageIcon redLight = null;
+
+	private ImageIcon yellowLight = null;
+
+	// private ProxyPanel getProxyPanel() {
+	// if (proxyPanel == null) {
+	// proxyPanel = new ProxyPanel();
+	// }
+	// return proxyPanel;
+	// }
+	//
+	// private VomsProxyPanelHolder getLocalGridProxyPanel() {
+	// if (vomsProxyPanel == null) {
+	// vomsProxyPanel = new VomsProxyPanelHolder();
+	// }
+	// return vomsProxyPanel;
+	// }
+
+	private ImageIcon greenLight = null; // @jve:decl-index=0:
+
+	// private JPanel getSlcsPanel() {
+	// if (slcsPanel == null ) {
+	//
+	// // try {
+	// slcsPanel = new SlcsPanel();
+	// // } catch (ShibbolethException e) {
+	// // slcsPanel = new SimpleMessagePanel(messages
+	// // .getString("error.details")
+	// // + "<p>" + e.getStackTrace() + "</p>", Color.white);
+	// // }
+	//
+	// }
+	// return slcsPanel;
+	// }
+
+	// private JPanel getAuthToolPanel() {
+	// if ( authToolPanel == null ) {
+	// authToolPanel = new AuthToolPanel();
+	// }
+	// return authToolPanel;
+	// }
+
+	private ImageIcon greyLight = null; // @jve:decl-index=0:
+
+	/**
+	 * This method initializes aboutContentPane
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel getAboutContentPane() {
+		if (aboutContentPane == null) {
+			aboutContentPane = new JPanel();
+			aboutContentPane.setLayout(new BorderLayout());
+			aboutContentPane.setPreferredSize(new Dimension(300, 300));
+			// aboutContentPane.add(getAboutVersionLabel(),
+			// BorderLayout.CENTER);
+			try {
+				aboutContentPane.add(
+						new SimpleMessagePanel(MessagePanel
+								.getHTMLDocument("about"), Color.white),
+						BorderLayout.CENTER);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				// e.printStackTrace();
+				myLogger.error(e);
+				aboutContentPane.add(getAboutVersionLabel(),
+						BorderLayout.CENTER);
+			}
+		}
+		return aboutContentPane;
+	}
+
+	/**
+	 * This method initializes aboutDialog
+	 * 
+	 * @return javax.swing.JDialog
+	 */
+	private JDialog getAboutDialog() {
+		if (aboutDialog == null) {
+			aboutDialog = new JDialog(getJFrame(), true);
+			aboutDialog.setTitle("About");
+			aboutDialog.setSize(new Dimension(402, 365));
+			aboutDialog.setContentPane(getAboutContentPane());
+		}
+		return aboutDialog;
+	}
+
+	/**
+	 * This method initializes jMenuItem
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem getAboutMenuItem() {
+		if (aboutMenuItem == null) {
+			aboutMenuItem = new JMenuItem();
+			aboutMenuItem.setText("About");
+			aboutMenuItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JDialog aboutDialog = getAboutDialog();
+					aboutDialog.pack();
+					Point loc = getJFrame().getLocation();
+					loc.translate(20, 20);
+					aboutDialog.setLocation(loc);
+					aboutDialog.setVisible(true);
+				}
+			});
+		}
+		return aboutMenuItem;
+	}
+
+	/**
+	 * This method initializes aboutVersionLabel
+	 * 
+	 * @return javax.swing.JLabel
+	 */
+	private JLabel getAboutVersionLabel() {
+		if (aboutVersionLabel == null) {
+			aboutVersionLabel = new JLabel();
+			aboutVersionLabel.setText("Grix " + GRIX_VERSION);
+			aboutVersionLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		return aboutVersionLabel;
+	}
+
+	private GenericProxyCreationPanel getAuthenticationPanel() {
+
+		if (authenticationPanel == null) {
+
+			boolean useShib = true;
+			String disableShib = GrixProperty.getString("disable.shibboleth");
+			if ("yes".equals(disableShib)) {
+				useShib = false;
+			}
+
+			String shibUrl = System.getProperty("shibUrl");
+
+			authenticationPanel = new GenericProxyCreationPanel(useShib, true,
+					true, true, shibUrl);
+		}
+		return authenticationPanel;
+
+	}
+
+	public Color getBaseColor() {
+		if (base_color == null) {
+			base_color = getJContentPane().getBackground();
+		}
+		return base_color;
+	}
+
+	/**
+	 * This method initializes certificatePanel
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private CertificatePanel getCertificatePanel() {
+		if (certificatePanel == null) {
+			certificatePanel = new CertificatePanel(this);
+			// certificatePanel.setLayout(new GridBagLayout());
+		}
+		return certificatePanel;
+	}
+
+	/**
+	 * This method initializes jMenuItem
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem getCopyMenuItem() {
+		if (copyMenuItem == null) {
+			copyMenuItem = new JMenuItem();
+			copyMenuItem.setText("Copy");
+			copyMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,
+					Event.CTRL_MASK, true));
+		}
+		return copyMenuItem;
+	}
+
+	/**
+	 * This method initializes jMenuItem
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem getCutMenuItem() {
+		if (cutMenuItem == null) {
+			cutMenuItem = new JMenuItem();
+			cutMenuItem.setText("Cut");
+			cutMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,
+					Event.CTRL_MASK, true));
+		}
+		return cutMenuItem;
+	}
+
+	/**
+	 * This method initializes jMenuItem
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem getExitMenuItem() {
+		if (exitMenuItem == null) {
+			exitMenuItem = new JMenuItem();
+			exitMenuItem.setText("Exit");
+			exitMenuItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					System.exit(0);
+				}
+			});
+		}
+		return exitMenuItem;
+	}
+
+	/**
+	 * This method initializes jMenu
+	 * 
+	 * @return javax.swing.JMenu
+	 */
+	private JMenu getFileMenu() {
+		if (fileMenu == null) {
+			fileMenu = new JMenu();
+			fileMenu.setText("File");
+			// fileMenu.add(getSaveMenuItem());
+			fileMenu.add(getExitMenuItem());
+		}
+		return fileMenu;
+	}
+
+	private GridProxyDialog getGridProxyDialog() {
+		if (gridProxyDialog == null) {
+			gridProxyDialog = new GridProxyDialog(this.getJFrame());
+			// gridProxyDialog.setLayout(new BorderLayout());
+		}
+		return gridProxyDialog;
+	}
+
+	/**
+	 * This method initializes gridProxyStatusPanel
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel getGridProxyStatusPanel() {
+		if (gridProxyStatusPanel == null) {
+			gridProxyStatusPanel = new GridProxyStatusPanel();
+			gridProxyStatusPanel.setBackground(getBaseColor());
+		}
+		return gridProxyStatusPanel;
+	}
+
+	// /**
+	// * This method initializes jMenuItem
+	// *
+	// * @return javax.swing.JMenuItem
+	// */
+	// private JMenuItem getGridProxyMenuItem() {
+	// if (gridProxyMenuItem == null) {
+	// gridProxyMenuItem = new JMenuItem();
+	// gridProxyMenuItem.setText("Grid proxy");
+	// gridProxyMenuItem
+	// .addActionListener(new java.awt.event.ActionListener() {
+	// public void actionPerformed(java.awt.event.ActionEvent e) {
+	// getGridProxyDialog().setVisible(true);
+	// }
+	// });
+	// }
+	// return gridProxyMenuItem;
+	// }
+
+	/**
+	 * This method initializes jMenu
+	 * 
+	 * @return javax.swing.JMenu
+	 */
+	private JMenu getHelpMenu() {
+		if (helpMenu == null) {
+			helpMenu = new JMenu();
+			helpMenu.setText("Help");
+			helpMenu.add(getAboutMenuItem());
+		}
+		return helpMenu;
+	}
+
+	/**
+	 * This method initializes jContentPane
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel getJContentPane() {
+		if (jContentPane == null) {
+			GridBagConstraints gridBagConstraints1 = new GridBagConstraints();
+			gridBagConstraints1.fill = GridBagConstraints.HORIZONTAL;
+			gridBagConstraints1.weightx = 1.0;
+			gridBagConstraints1.gridx = 0;
+			GridBagConstraints gridBagConstraints = new GridBagConstraints();
+			gridBagConstraints.fill = GridBagConstraints.BOTH;
+			gridBagConstraints.gridy = 1;
+			gridBagConstraints.weightx = 1.0;
+			gridBagConstraints.weighty = 1.0;
+			gridBagConstraints.gridx = 0;
+			jContentPane = new JPanel();
+			jContentPane.setLayout(new GridBagLayout());
+			jContentPane.add(getJTabbedPane(), gridBagConstraints);
+			if ("top".equals(UserProperty
+					.getProperty("SHOW_GRID_PROXY_STATUS_PANEL"))) {
+				gridBagConstraints1.gridy = 0;
+				jContentPane
+						.add(getGridProxyStatusPanel(), gridBagConstraints1);
+			} else if ("bottom".equals(UserProperty
+					.getProperty("SHOW_GRID_PROXY_STATUS_PANEL"))) {
+				gridBagConstraints1.gridy = 2;
+				jContentPane
+						.add(getGridProxyStatusPanel(), gridBagConstraints1);
+			}
+		}
+		return jContentPane;
+	}
+
+	/**
+	 * This method initializes jFrame
+	 * 
+	 * @return javax.swing.JFrame
+	 */
+	private JFrame getJFrame() {
+		if (jFrame == null) {
+			jFrame = new JFrame();
+			jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			jFrame.setJMenuBar(getJJMenuBar());
+			jFrame.setSize(764, 730);
+			jFrame.setContentPane(getJContentPane());
+			jFrame.setTitle("Grix " + GRIX_VERSION);
+		}
+		return jFrame;
+	}
+
+	/**
+	 * This method initializes jJMenuBar
+	 * 
+	 * @return javax.swing.JMenuBar
+	 */
+	private JMenuBar getJJMenuBar() {
+		if (jJMenuBar == null) {
+			jJMenuBar = new JMenuBar();
+			jJMenuBar.add(getFileMenu());
+			// jJMenuBar.add(getToolsMenu());
+			jJMenuBar.add(getHelpMenu());
+		}
+		return jJMenuBar;
+	}
+
 	/**
 	 * This method initializes jTabbedPane
 	 * 
@@ -317,19 +670,17 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 				// jTabbedPane.setEnabledAt(jTabbedPane.indexOfTab("MyProxy"),
 				// true);
 				if ("Authentication".equals(UserProperty
-						.getProperty("TAB_AT_STARTUP")))
+						.getProperty("TAB_AT_STARTUP"))) {
 					jTabbedPane.setSelectedIndex(jTabbedPane
 							.indexOfTab("MyProxy"));
-				// else if ("LocalProxy".equals(UserProperty
-				// .getProperty("TAB_AT_STARTUP")))
-				// jTabbedPane.setSelectedIndex(jTabbedPane
-				// .indexOfTab("LocalProxy"));
-				else if ("VO"
-						.equals(UserProperty.getProperty("TAB_AT_STARTUP")))
-					jTabbedPane.setSelectedIndex(jTabbedPane.indexOfTab("Group Membership"));
-				else
+				} else if ("VO".equals(UserProperty
+						.getProperty("TAB_AT_STARTUP"))) {
+					jTabbedPane.setSelectedIndex(jTabbedPane
+							.indexOfTab("Group Membership"));
+				} else {
 					jTabbedPane.setSelectedIndex(jTabbedPane
 							.indexOfTab("Authentication"));
+				}
 
 				// } else {
 				// jTabbedPane.setEnabledAt(jTabbedPane.indexOfTab("VOs"),
@@ -344,167 +695,14 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 		return jTabbedPane;
 	}
 
-	/**
-	 * This method initializes certificatePanel
-	 * 
-	 * @return javax.swing.JPanel
-	 */
-	private CertificatePanel getCertificatePanel() {
-		if (certificatePanel == null) {
-			certificatePanel = new CertificatePanel(this);
-			// certificatePanel.setLayout(new GridBagLayout());
+	public Color getLighterColor() {
+		if (lighter_color == null) {
+			int red = getBaseColor().getRed() + 10;
+			int green = getBaseColor().getGreen() + 10;
+			int blue = getBaseColor().getBlue() + 10;
+			lighter_color = new Color(red, green, blue);
 		}
-		return certificatePanel;
-	}
-
-	private GenericProxyCreationPanel getAuthenticationPanel() {
-
-		if (authenticationPanel == null) {
-
-			boolean useShib = true;
-			String disableShib = GrixProperty.getString("disable.shibboleth");
-			if ("yes".equals(disableShib)) {
-				useShib = false;
-			}
-			
-			String shibUrl = System.getProperty("shibUrl");
-
-			authenticationPanel = new GenericProxyCreationPanel(useShib, true,
-					true, true, shibUrl);
-		}
-		return authenticationPanel;
-
-	}
-
-	// private ProxyPanel getProxyPanel() {
-	// if (proxyPanel == null) {
-	// proxyPanel = new ProxyPanel();
-	// }
-	// return proxyPanel;
-	// }
-	//
-	// private VomsProxyPanelHolder getLocalGridProxyPanel() {
-	// if (vomsProxyPanel == null) {
-	// vomsProxyPanel = new VomsProxyPanelHolder();
-	// }
-	// return vomsProxyPanel;
-	// }
-
-	/**
-	 * This method initializes vomrsPanel
-	 * 
-	 * @return javax.swing.JPanel
-	 */
-	private JPanel getVomrsPanel() {
-		if (vomrsPanel == null) {
-			try {
-				vomrsPanel = new VOPanelShlix();
-				vomrsPanel.setEnabled(true);
-			} catch (Exception e) {
-				myLogger.error(e);
-				// e.printStackTrace();
-				vomrsPanel = new SimpleMessagePanel(messages
-						.getString("error.details")
-						+ "<p>" + e.getStackTrace() + "</p>", Color.white);
-			}
-
-		}
-		return vomrsPanel;
-	}
-
-	// private JPanel getSlcsPanel() {
-	// if (slcsPanel == null ) {
-	//			
-	// // try {
-	// slcsPanel = new SlcsPanel();
-	// // } catch (ShibbolethException e) {
-	// // slcsPanel = new SimpleMessagePanel(messages
-	// // .getString("error.details")
-	// // + "<p>" + e.getStackTrace() + "</p>", Color.white);
-	// // }
-	//			
-	// }
-	// return slcsPanel;
-	// }
-
-	// private JPanel getAuthToolPanel() {
-	// if ( authToolPanel == null ) {
-	// authToolPanel = new AuthToolPanel();
-	// }
-	// return authToolPanel;
-	// }
-
-	/**
-	 * This method initializes gridProxyStatusPanel
-	 * 
-	 * @return javax.swing.JPanel
-	 */
-	private JPanel getGridProxyStatusPanel() {
-		if (gridProxyStatusPanel == null) {
-			gridProxyStatusPanel = new GridProxyStatusPanel();
-			gridProxyStatusPanel.setBackground(getBaseColor());
-		}
-		return gridProxyStatusPanel;
-	}
-
-	/**
-	 * This method initializes jFrame
-	 * 
-	 * @return javax.swing.JFrame
-	 */
-	private JFrame getJFrame() {
-		if (jFrame == null) {
-			jFrame = new JFrame();
-			jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			jFrame.setJMenuBar(getJJMenuBar());
-			jFrame.setSize(764, 730);
-			jFrame.setContentPane(getJContentPane());
-			jFrame.setTitle("Grix " + GRIX_VERSION);
-		}
-		return jFrame;
-	}
-
-	/**
-	 * This method initializes jContentPane
-	 * 
-	 * @return javax.swing.JPanel
-	 */
-	private JPanel getJContentPane() {
-		if (jContentPane == null) {
-			GridBagConstraints gridBagConstraints1 = new GridBagConstraints();
-			gridBagConstraints1.fill = GridBagConstraints.HORIZONTAL;
-			gridBagConstraints1.weightx = 1.0;
-			gridBagConstraints1.gridx = 0;
-			GridBagConstraints gridBagConstraints = new GridBagConstraints();
-			gridBagConstraints.fill = GridBagConstraints.BOTH;
-			gridBagConstraints.gridy = 1;
-			gridBagConstraints.weightx = 1.0;
-			gridBagConstraints.weighty = 1.0;
-			gridBagConstraints.gridx = 0;
-			jContentPane = new JPanel();
-			jContentPane.setLayout(new GridBagLayout());
-			jContentPane.add(getJTabbedPane(), gridBagConstraints);
-			if ("top".equals(UserProperty
-					.getProperty("SHOW_GRID_PROXY_STATUS_PANEL"))) {
-				gridBagConstraints1.gridy = 0;
-				jContentPane
-						.add(getGridProxyStatusPanel(), gridBagConstraints1);
-			} else if ("bottom".equals(UserProperty
-					.getProperty("SHOW_GRID_PROXY_STATUS_PANEL"))) {
-				gridBagConstraints1.gridy = 2;
-				jContentPane
-						.add(getGridProxyStatusPanel(), gridBagConstraints1);
-			}
-		}
-		return jContentPane;
-	}
-
-	private GridProxyDialog getGridProxyDialog() {
-		if (gridProxyDialog == null) {
-			gridProxyDialog = new GridProxyDialog(this.getJFrame());
-			// gridProxyDialog.setLayout(new BorderLayout());
-		}
-		return gridProxyDialog;
+		return lighter_color;
 	}
 
 	private JDialog getOptionsDialog() {
@@ -513,185 +711,6 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 		}
 		return optionsDialog;
 	}
-
-	/**
-	 * This method initializes jJMenuBar
-	 * 
-	 * @return javax.swing.JMenuBar
-	 */
-	private JMenuBar getJJMenuBar() {
-		if (jJMenuBar == null) {
-			jJMenuBar = new JMenuBar();
-			jJMenuBar.add(getFileMenu());
-			// jJMenuBar.add(getToolsMenu());
-			jJMenuBar.add(getHelpMenu());
-		}
-		return jJMenuBar;
-	}
-
-	/**
-	 * This method initializes jMenu
-	 * 
-	 * @return javax.swing.JMenu
-	 */
-	private JMenu getFileMenu() {
-		if (fileMenu == null) {
-			fileMenu = new JMenu();
-			fileMenu.setText("File");
-			// fileMenu.add(getSaveMenuItem());
-			fileMenu.add(getExitMenuItem());
-		}
-		return fileMenu;
-	}
-
-	/**
-	 * This method initializes jMenu
-	 * 
-	 * @return javax.swing.JMenu
-	 */
-	private JMenu getToolsMenu() {
-		if (toolsMenu == null) {
-			toolsMenu = new JMenu();
-			toolsMenu.setText("Tools");
-			toolsMenu.setActionCommand("Tools");
-			// toolsMenu.add(getGridProxyMenuItem());
-			toolsMenu.add(getOptionsMenuItem());
-			// toolsMenu.add(getCutMenuItem());
-			// toolsMenu.add(getCopyMenuItem());
-			// toolsMenu.add(getPasteMenuItem());
-		}
-		return toolsMenu;
-	}
-
-	/**
-	 * This method initializes jMenu
-	 * 
-	 * @return javax.swing.JMenu
-	 */
-	private JMenu getHelpMenu() {
-		if (helpMenu == null) {
-			helpMenu = new JMenu();
-			helpMenu.setText("Help");
-			helpMenu.add(getAboutMenuItem());
-		}
-		return helpMenu;
-	}
-
-	/**
-	 * This method initializes jMenuItem
-	 * 
-	 * @return javax.swing.JMenuItem
-	 */
-	private JMenuItem getExitMenuItem() {
-		if (exitMenuItem == null) {
-			exitMenuItem = new JMenuItem();
-			exitMenuItem.setText("Exit");
-			exitMenuItem.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					System.exit(0);
-				}
-			});
-		}
-		return exitMenuItem;
-	}
-
-	/**
-	 * This method initializes jMenuItem
-	 * 
-	 * @return javax.swing.JMenuItem
-	 */
-	private JMenuItem getAboutMenuItem() {
-		if (aboutMenuItem == null) {
-			aboutMenuItem = new JMenuItem();
-			aboutMenuItem.setText("About");
-			aboutMenuItem.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					JDialog aboutDialog = getAboutDialog();
-					aboutDialog.pack();
-					Point loc = getJFrame().getLocation();
-					loc.translate(20, 20);
-					aboutDialog.setLocation(loc);
-					aboutDialog.setVisible(true);
-				}
-			});
-		}
-		return aboutMenuItem;
-	}
-
-	/**
-	 * This method initializes aboutDialog
-	 * 
-	 * @return javax.swing.JDialog
-	 */
-	private JDialog getAboutDialog() {
-		if (aboutDialog == null) {
-			aboutDialog = new JDialog(getJFrame(), true);
-			aboutDialog.setTitle("About");
-			aboutDialog.setSize(new Dimension(402, 365));
-			aboutDialog.setContentPane(getAboutContentPane());
-		}
-		return aboutDialog;
-	}
-
-	/**
-	 * This method initializes aboutContentPane
-	 * 
-	 * @return javax.swing.JPanel
-	 */
-	private JPanel getAboutContentPane() {
-		if (aboutContentPane == null) {
-			aboutContentPane = new JPanel();
-			aboutContentPane.setLayout(new BorderLayout());
-			aboutContentPane.setPreferredSize(new Dimension(300, 300));
-			// aboutContentPane.add(getAboutVersionLabel(),
-			// BorderLayout.CENTER);
-			try {
-				aboutContentPane.add(new SimpleMessagePanel(MessagePanel
-						.getHTMLDocument("about"), Color.white),
-						BorderLayout.CENTER);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				// e.printStackTrace();
-				myLogger.error(e);
-				aboutContentPane.add(getAboutVersionLabel(),
-						BorderLayout.CENTER);
-			}
-		}
-		return aboutContentPane;
-	}
-
-	/**
-	 * This method initializes aboutVersionLabel
-	 * 
-	 * @return javax.swing.JLabel
-	 */
-	private JLabel getAboutVersionLabel() {
-		if (aboutVersionLabel == null) {
-			aboutVersionLabel = new JLabel();
-			aboutVersionLabel.setText("Grix " + GRIX_VERSION);
-			aboutVersionLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		}
-		return aboutVersionLabel;
-	}
-
-	// /**
-	// * This method initializes jMenuItem
-	// *
-	// * @return javax.swing.JMenuItem
-	// */
-	// private JMenuItem getGridProxyMenuItem() {
-	// if (gridProxyMenuItem == null) {
-	// gridProxyMenuItem = new JMenuItem();
-	// gridProxyMenuItem.setText("Grid proxy");
-	// gridProxyMenuItem
-	// .addActionListener(new java.awt.event.ActionListener() {
-	// public void actionPerformed(java.awt.event.ActionEvent e) {
-	// getGridProxyDialog().setVisible(true);
-	// }
-	// });
-	// }
-	// return gridProxyMenuItem;
-	// }
 
 	/**
 	 * This method initializes jMenuItem
@@ -717,36 +736,6 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 	 * 
 	 * @return javax.swing.JMenuItem
 	 */
-	private JMenuItem getCutMenuItem() {
-		if (cutMenuItem == null) {
-			cutMenuItem = new JMenuItem();
-			cutMenuItem.setText("Cut");
-			cutMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,
-					Event.CTRL_MASK, true));
-		}
-		return cutMenuItem;
-	}
-
-	/**
-	 * This method initializes jMenuItem
-	 * 
-	 * @return javax.swing.JMenuItem
-	 */
-	private JMenuItem getCopyMenuItem() {
-		if (copyMenuItem == null) {
-			copyMenuItem = new JMenuItem();
-			copyMenuItem.setText("Copy");
-			copyMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,
-					Event.CTRL_MASK, true));
-		}
-		return copyMenuItem;
-	}
-
-	/**
-	 * This method initializes jMenuItem
-	 * 
-	 * @return javax.swing.JMenuItem
-	 */
 	private JMenuItem getPasteMenuItem() {
 		if (pasteMenuItem == null) {
 			pasteMenuItem = new JMenuItem();
@@ -756,6 +745,9 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 		}
 		return pasteMenuItem;
 	}
+
+	// =====================================================================
+	// blinking light
 
 	/**
 	 * This method initializes jMenuItem
@@ -772,8 +764,89 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 		return saveMenuItem;
 	}
 
-	public static ResourceBundle getMessages() {
-		return messages;
+	/**
+	 * This method initializes jMenu
+	 * 
+	 * @return javax.swing.JMenu
+	 */
+	private JMenu getToolsMenu() {
+		if (toolsMenu == null) {
+			toolsMenu = new JMenu();
+			toolsMenu.setText("Tools");
+			toolsMenu.setActionCommand("Tools");
+			// toolsMenu.add(getGridProxyMenuItem());
+			toolsMenu.add(getOptionsMenuItem());
+			// toolsMenu.add(getCutMenuItem());
+			// toolsMenu.add(getCopyMenuItem());
+			// toolsMenu.add(getPasteMenuItem());
+		}
+		return toolsMenu;
+	}
+
+	/**
+	 * This method initializes vomrsPanel
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel getVomrsPanel() {
+		if (vomrsPanel == null) {
+			try {
+				vomrsPanel = new VOPanelShlix();
+				vomrsPanel.setEnabled(true);
+			} catch (Exception e) {
+				myLogger.error(e);
+				// e.printStackTrace();
+				vomrsPanel = new SimpleMessagePanel(
+						messages.getString("error.details") + "<p>"
+								+ e.getStackTrace() + "</p>", Color.white);
+			}
+
+		}
+		return vomrsPanel;
+	}
+
+	public void initIcons() {
+
+		redLight = new ImageIcon(getClass().getResource(
+				"/org/vpac/grix/images/redLight_small.png"));
+		yellowLight = new ImageIcon(getClass().getResource(
+				"/org/vpac/grix/images/yellowLight_small.png"));
+		greenLight = new ImageIcon(getClass().getResource(
+				"/org/vpac/grix/images/greenLight_small.png"));
+		greyLight = new ImageIcon(getClass().getResource(
+				"/org/vpac/grix/images/greyLight_small.png"));
+
+	}
+
+	public void proxyCreated(GlobusCredential newProxy) {
+
+		// LocalProxy.destroy();
+
+		myLogger.debug("Proxy created in authentication panel.");
+
+		if (newProxy == null) {
+			proxyDestroyed();
+		} else {
+
+			try {
+				CredentialHelpers.writeToDisk(newProxy,
+						LocalProxy.getProxyFile());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return;
+			}
+
+			LocalProxy.getDefaultProxy().checkStatus();
+		}
+
+	}
+
+	public void proxyDestroyed() {
+
+		myLogger.debug("Proxy destroyed");
+		LocalProxy.destroy();
+
 	}
 
 	public void statusChanged(CertificateEvent event) {
@@ -803,13 +876,13 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 		// getJTabbedPane().setEnabledAt(jTabbedPane.indexOfTab("MyProxy"),
 		// true);
 		// }else {
-		//				 
+		//
 		// if ( CertificatePanel.CERT_EXPIRED.equals(event.getStatus()) ) {
 		// getJTabbedPane().setIconAt(0, redLight);
 		// } else {
 		// getJTabbedPane().setIconAt(0, yellowLight);
 		// }
-		//				
+		//
 		// getJTabbedPane().setEnabledAt(jTabbedPane.indexOfTab("VOs"), false);
 		// getJTabbedPane().setEnabledAt(jTabbedPane.indexOfTab("LocalProxy"),
 		// false);
@@ -820,75 +893,6 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 		// // never mind
 		// // ioobe.printStackTrace();
 		// }
-
-	}
-
-	public Color getBaseColor() {
-		if (base_color == null) {
-			base_color = getJContentPane().getBackground();
-		}
-		return base_color;
-	}
-
-	public Color getLighterColor() {
-		if (lighter_color == null) {
-			int red = getBaseColor().getRed() + 10;
-			int green = getBaseColor().getGreen() + 10;
-			int blue = getBaseColor().getBlue() + 10;
-			lighter_color = new Color(red, green, blue);
-		}
-		return lighter_color;
-	}
-
-	// =====================================================================
-	// blinking light
-
-	private ImageIcon redLight = null;
-	private ImageIcon yellowLight = null;
-	private ImageIcon greenLight = null; // @jve:decl-index=0:
-	private ImageIcon greyLight = null; // @jve:decl-index=0:
-
-	public void initIcons() {
-
-		redLight = new ImageIcon(getClass().getResource(
-				"/org/vpac/grix/images/redLight_small.png"));
-		yellowLight = new ImageIcon(getClass().getResource(
-				"/org/vpac/grix/images/yellowLight_small.png"));
-		greenLight = new ImageIcon(getClass().getResource(
-				"/org/vpac/grix/images/greenLight_small.png"));
-		greyLight = new ImageIcon(getClass().getResource(
-				"/org/vpac/grix/images/greyLight_small.png"));
-
-	}
-
-	public void proxyCreated(GlobusCredential newProxy) {
-
-		// LocalProxy.destroy();
-
-		myLogger.debug("Proxy created in authentication panel.");
-
-		if (newProxy == null) {
-			proxyDestroyed();
-		} else {
-
-			try {
-				CredentialHelpers.writeToDisk(newProxy, LocalProxy
-						.getProxyFile());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return;
-			}
-
-			LocalProxy.getDefaultProxy().checkStatus();
-		}
-
-	}
-
-	public void proxyDestroyed() {
-
-		myLogger.debug("Proxy destroyed");
-		LocalProxy.destroy();
 
 	}
 

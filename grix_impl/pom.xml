@@ -9,12 +9,6 @@
 	<artifactId>grix_impl</artifactId>
 
 	<dependencies>
-		<dependency>
-			<groupId>au.org.arcs.grix</groupId>
-			<artifactId>common</artifactId>
-			<version>1.2-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
 
 		<dependency>
 			<groupId>au.org.arcs.grix</groupId>
@@ -64,21 +58,21 @@
 		<dependency>
 			<groupId>external.jglobus</groupId>
 			<artifactId>cryptix32</artifactId>
-			<version>1.7.0</version>
+			<version>1.8.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>external.jglobus</groupId>
 			<artifactId>cryptix-asn1</artifactId>
-			<version>1.7.0</version>
+			<version>1.8.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>external.jglobus</groupId>
 			<artifactId>cryptix</artifactId>
-			<version>1.7.0</version>
+			<version>1.8.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -87,19 +81,6 @@
 			<artifactId>arcs-gsi</artifactId>
 			<version>1.3-SNAPSHOT</version>
 <!--			<scope>provided</scope>-->
-		</dependency>
-		<dependency>
-			<groupId>au.org.arcs.commons</groupId>
-			<artifactId>arcs-jcommons</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>jar</type>
-			<scope>compile</scope>
-			<exclusions>
-				<exclusion>
-					<artifactId>commons-beanutils-core</artifactId>
-					<groupId>commons-beanutils</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.jgoodies</groupId>
@@ -129,6 +110,35 @@
 		</resources>
 
 		<plugins>
+	
+			<!-- replace version in file -->
+			<plugin>
+				<groupId>com.google.code.maven-replacer-plugin</groupId>
+				<artifactId>maven-replacer-plugin</artifactId>
+				<version>1.3.2</version>
+				<executions>
+					<execution>
+						<!-- the replace should happen before the app is packaged -->
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>replace</goal>
+						</goals>
+					</execution>
+				</executions>
+
+				<configuration>
+					<includes>
+						<!-- replace the token in this file -->
+						<include>target/classes/grix.version</include>
+					</includes>
+					<regex>false</regex>
+					<!-- the name of the token to replace -->
+					<token>VERSION_TOKEN</token>
+					<!-- replace it with the maven project version -->
+					<value>${project.version}</value>
+				</configuration>
+			</plugin>		
+		
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<executions>
