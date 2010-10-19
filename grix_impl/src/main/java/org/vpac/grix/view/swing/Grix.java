@@ -89,7 +89,7 @@ import au.org.arcs.jcommons.utils.JythonHelpers;
 
 public class Grix implements CertificateStatusListener, ProxyInitListener {
 
-	public static final String GRIX_VERSION = "v1.2.2";
+	public static final String GRIX_VERSION = "v1.3";
 
 	static final Logger myLogger = Logger.getLogger(Grix.class.getName());
 
@@ -274,9 +274,10 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 		if (jTabbedPane == null) {
 			jTabbedPane = new JTabbedPane();
 			jTabbedPane.setTabPlacement(JTabbedPane.TOP);
-			jTabbedPane.addTab("Certificate", getCertificatePanel());
 
 			jTabbedPane.addTab("Authentication", getAuthenticationPanel());
+			jTabbedPane.addTab("Certificate", getCertificatePanel());
+
 			getAuthenticationPanel().addProxyListener(this);
 
 			jTabbedPane.addTab("Group Membership", null, getVomrsPanel(), null);
@@ -328,7 +329,7 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 					jTabbedPane.setSelectedIndex(jTabbedPane.indexOfTab("Group Membership"));
 				else
 					jTabbedPane.setSelectedIndex(jTabbedPane
-							.indexOfTab("Certificate"));
+							.indexOfTab("Authentication"));
 
 				// } else {
 				// jTabbedPane.setEnabledAt(jTabbedPane.indexOfTab("VOs"),

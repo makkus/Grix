@@ -103,11 +103,11 @@ public class VOPanelShlix extends JPanel implements VomsesStatusListener,
 		contentPanelConstraints.fill = GridBagConstraints.BOTH;
 		contentPanelConstraints.weighty = 1.0;
 		contentPanelConstraints.insets = new Insets(20, 0, 20, 20);
-		contentPanelConstraints.weightx = 1.0;
+		contentPanelConstraints.weightx = 2.0;
 		GridBagConstraints voPanelConstraints = new GridBagConstraints();
 		voPanelConstraints.gridx = 0;
 		voPanelConstraints.fill = GridBagConstraints.BOTH;
-		voPanelConstraints.weightx = 0.0;
+		voPanelConstraints.weightx = 1.0;
 		voPanelConstraints.weighty = 1.0;
 		voPanelConstraints.insets = new Insets(20, 20, 20, 20);
 		voPanelConstraints.gridy = 0;
@@ -129,7 +129,7 @@ public class VOPanelShlix extends JPanel implements VomsesStatusListener,
 			gridBagConstraints.gridx = 0;
 			gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
 			gridBagConstraints.insets = new Insets(15, 10, 10, 10);
-			gridBagConstraints.weightx = 1.0;
+			gridBagConstraints.weightx = 2.0;
 			gridBagConstraints.gridy = 2;
 			GridBagConstraints gridBagConstraints1 = new GridBagConstraints();
 			gridBagConstraints1.fill = GridBagConstraints.BOTH;
@@ -146,10 +146,14 @@ public class VOPanelShlix extends JPanel implements VomsesStatusListener,
 //			gridBagConstraints4.gridx = 0;
 			voPanel = new JPanel();
 			voPanel.setLayout(new GridBagLayout());
-			voPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0), "VO\'s", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 14), null));
+			voPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0), 
+									   "Communities", 
+									   TitledBorder.DEFAULT_JUSTIFICATION, 
+									   TitledBorder.DEFAULT_POSITION, 
+									   new Font("Dialog", Font.BOLD, 14), null));
 			voPanel.setBackground(getLighterColor());
 			voPanel.add(getJScrollPane(), gridBagConstraints1);
-			//			voPanel.add(getJButton(), gridBagConstraints);
+			//voPanel.add(getJButton(), gridBagConstraints);
 		}
 		return voPanel;
 	}
