@@ -1,0 +1,89 @@
+<assembly>
+	<id>binary</id>
+	<formats>
+		<!--		<format>dir</format>-->
+		<!--		<format>zip</format>-->
+		<!--		<format>tar.gz</format>-->
+		<format>jar</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<dependencySets>
+		<dependencySet>
+			<unpack>true</unpack>
+			<useTransitiveDependencies>true</useTransitiveDependencies>
+			<useTransitiveFiltering>true</useTransitiveFiltering>
+			<useProjectArtifact>true</useProjectArtifact>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>au.org.arcs.grix:grix_impl</include>
+			</includes>
+			<excludes>
+				<exclude>junit:junit</exclude>
+				<exclude>bouncycastle:bcprov-jdk15</exclude>
+<!--				<exclude>au.org.arcs.auth:arcs-gsi</exclude>-->
+			</excludes>
+			<unpackOptions>
+				<excludes>
+					<exclude>**/INDEX.LIST</exclude>
+					<exclude>**/MANIFEST.MF</exclude>
+					<exclude>**/LICENSE.txt</exclude>
+					<exclude>**/NOTICE.txt</exclude>
+					<exclude>**/log4j.properties</exclude>
+					<exclude>**/LICENSE</exclude>
+					<exclude>**/NOTICE</exclude>
+					<exclude>arcs/__init__.py</exclude>
+					<exclude>vomses.zip</exclude>
+				</excludes>
+			</unpackOptions>
+		</dependencySet>
+	</dependencySets>
+
+
+	<files>
+		<file>
+			<source>deployment-config.bestgrid/__init__.py
+			</source>
+			<outputDirectory>arcs</outputDirectory>
+		</file>
+		<file>
+			<source>deployment-config.bestgrid/ControlMessagesBundle.properties
+			</source>
+			<outputDirectory></outputDirectory>
+		</file>
+		<file>
+			<source>deployment-config.bestgrid/SwingViewMessagesBundle.properties
+			</source>
+			<outputDirectory></outputDirectory>
+		</file>
+		<file>
+			<source>deployment-config.bestgrid/log4j.properties
+			</source>
+			<outputDirectory></outputDirectory>
+		</file>
+		<file>
+			<source>deployment-config.bestgrid/config.properties
+			</source>
+			<outputDirectory></outputDirectory>
+		</file>
+		<file>
+			<source>deployment-config.bestgrid/certificateRequested.html
+			</source>
+			<outputDirectory>org/vpac/grix/html
+			</outputDirectory>
+			<destName>requested.html</destName>
+		</file>
+		<file>
+			<source>deployment-config.bestgrid/infoCandidate.html
+			</source>
+			<outputDirectory>org/vpac/grix/html
+			</outputDirectory>
+		</file>
+				<file>
+			<source>deployment-config.bestgrid/vomses.zip
+			</source>
+			<outputDirectory></outputDirectory>
+		</file>
+	</files>
+
+
+</assembly>
