@@ -51,19 +51,20 @@ import org.vpac.common.view.swing.messagePanel.MessagePanel;
 import org.vpac.common.view.swing.messagePanel.SimpleMessagePanel;
 
 /**
- * A panel that lets the user manage the LocalProxy via a Swing GUI.
- * It provides an Init and a Destroy button and displays the remaining time of the current proxy.
+ * A panel that lets the user manage the LocalProxy via a Swing GUI. It provides
+ * an Init and a Destroy button and displays the remaining time of the current
+ * proxy.
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
 public class GridProxyPanel extends JPanel implements GridProxyListener {
 
 	private static ResourceBundle messages = ResourceBundle.getBundle(
-			"GridProxyPanelMessageBundle", java.util.Locale.getDefault()); 
+			"GridProxyPanelMessageBundle", java.util.Locale.getDefault());
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final long EXPIREDPROXYWARNING = 1800;
 
 	private JLabel imageLabel = null;
@@ -84,7 +85,7 @@ public class GridProxyPanel extends JPanel implements GridProxyListener {
 
 	private ImageIcon currentIcon = null;
 
-	private ImageIcon redLight = null;  
+	private ImageIcon redLight = null;
 
 	private ImageIcon yellowLight = null;
 
@@ -94,16 +95,16 @@ public class GridProxyPanel extends JPanel implements GridProxyListener {
 
 	private Timer blinkTimer = null;
 
-	private Action blinkingAction = null;  //  @jve:decl-index=0:
+	private Action blinkingAction = null; // @jve:decl-index=0:
 
-	private Action updatePanelAction = null;  //  @jve:decl-index=0:
+	private Action updatePanelAction = null; // @jve:decl-index=0:
 
 	private MessagePanel statusPanel = null;
 
 	private Frame dialog = null;
-	
+
 	private JDialog closeParent = null;
-	
+
 	private boolean warning = false;
 
 	/**
@@ -115,12 +116,14 @@ public class GridProxyPanel extends JPanel implements GridProxyListener {
 		LocalProxy.addStatusListener(this);
 		initTimer();
 		initialize();
-		//LocalProxy.getDefaultProxy().fireStatusChanged();
-		this.gridProxyStatusChanged(new GridProxyEvent(this, LocalProxy.getStatus()));
+		// LocalProxy.getDefaultProxy().fireStatusChanged();
+		this.gridProxyStatusChanged(new GridProxyEvent(this, LocalProxy
+				.getStatus()));
 	}
-	
+
 	/**
-	 * 	Use this constructor if the parent dialog should be closed with every button click
+	 * Use this constructor if the parent dialog should be closed with every
+	 * button click
 	 */
 	public GridProxyPanel(Frame parent, JDialog closeParent) {
 		super();
@@ -129,8 +132,9 @@ public class GridProxyPanel extends JPanel implements GridProxyListener {
 		LocalProxy.addStatusListener(this);
 		initTimer();
 		initialize();
-		//LocalProxy.getDefaultProxy().fireStatusChanged();
-		this.gridProxyStatusChanged(new GridProxyEvent(this, LocalProxy.getStatus()));
+		// LocalProxy.getDefaultProxy().fireStatusChanged();
+		this.gridProxyStatusChanged(new GridProxyEvent(this, LocalProxy
+				.getStatus()));
 	}
 
 	public void initTimer() {
@@ -157,10 +161,13 @@ public class GridProxyPanel extends JPanel implements GridProxyListener {
 								+ "min, "
 								+ LocalProxy.getDefaultProxy().getSecondsLeft()
 								+ "sec");
-				if ( !warning && LocalProxy.getDefaultProxy().getTimeLeft() < EXPIREDPROXYWARNING ){
+				if (!warning
+						&& LocalProxy.getDefaultProxy().getTimeLeft() < EXPIREDPROXYWARNING) {
 					setCurrentIcon(yellowLight);
 					blinkTimer.start();
-					getStatusPanel().setDocument(getMessages().getString("status.proxyAboutToExpire"));
+					getStatusPanel().setDocument(
+							getMessages()
+									.getString("status.proxyAboutToExpire"));
 					warning = true;
 				}
 			}
@@ -274,7 +281,7 @@ public class GridProxyPanel extends JPanel implements GridProxyListener {
 	public void gridProxyStatusChanged(GridProxyEvent e) {
 
 		warning = false;
-		
+
 		if (GridProxy.INITIALIZED == e.getStatus()) {
 			getTimeLeftTextField().setText(
 					LocalProxy.getDefaultProxy().getFormatedTime());
@@ -363,92 +370,94 @@ public class GridProxyPanel extends JPanel implements GridProxyListener {
 			toggleButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 
-					
 					new Thread() {
 
 						public void run() {
 
-							Cursor hourglassCursor = new Cursor(Cursor.WAIT_CURSOR);
+							Cursor hourglassCursor = new Cursor(
+									Cursor.WAIT_CURSOR);
 							setCursor(hourglassCursor);
 							int oldStatus = LocalProxy.getStatus();
 
-					if ( oldStatus != GridProxy.INITIALIZED ) {
-						try {
-							LocalProxy.destroy();
-							LocalProxy.createPlainGlobusProxy(
-									getPassphraseField().getPassword(),
+							if (oldStatus != GridProxy.INITIALIZED) {
+								try {
+									LocalProxy.destroy();
+									LocalProxy.createPlainGlobusProxy(
+											getPassphraseField().getPassword(),
 											43200000);
-						} catch (MissingPrerequisitesException e1) {
-							JOptionPane
-									.showMessageDialog(
-											getParent(),
-											"<html><body><p>"
-													+ getMessages()
-															.getString(
-																	"error.init.missingPrerequisites")
-													+ "</p><p>"
-													+ e1.getMessage()
-													+ "</p></body></html>",
-											getMessages().getString(
-													"error.init.title"),
-											JOptionPane.ERROR_MESSAGE);
-						} catch (IOException e1) {
-							JOptionPane
-									.showMessageDialog(
-											getParent(),
-											"<html><body><p>"
-													+ getMessages()
-															.getString(
-																	"error.init.ioexception")
-													+ "</p><p>"
-													+ e1.getMessage()
-													+ "</p></body></html>",
-											getMessages().getString(
-													"error.init.title"),
-											JOptionPane.ERROR_MESSAGE);
-						} catch (GeneralSecurityException e1) {
-							JOptionPane
-									.showMessageDialog(
-											getParent(),
-											"<html><body><p>"
-													+ getMessages()
-															.getString(
-																	"error.init.generalSecurityException")
-													+ "</p><p>"
-													+ e1.getMessage()
-													+ "</p></body></html>",
-											getMessages().getString(
-													"error.init.title"),
-											JOptionPane.ERROR_MESSAGE);
-						} catch (Exception e) {
-							JOptionPane
-							.showMessageDialog(
-									getParent(),
-									"<html><body><p>"
-											+ getMessages()
-													.getString(
-															"error.init.exception")
-											+ "</p><p>"
-											+ e.getMessage()
-											+ "</p></body></html>",
-									getMessages().getString(
-											"error.init.title"),
-									JOptionPane.ERROR_MESSAGE);
-						} finally {
-							getPassphraseField().setText("");
-						}
-					} else {
-						LocalProxy.destroy();
-					}
-					if ( oldStatus != LocalProxy.getStatus() && closeParent != null){
-						// status changed, close window 
-						closeParent.setVisible(false);
-					}
-							Cursor normalCursor = new Cursor(Cursor.DEFAULT_CURSOR);
+								} catch (MissingPrerequisitesException e1) {
+									JOptionPane
+											.showMessageDialog(
+													getParent(),
+													"<html><body><p>"
+															+ getMessages()
+																	.getString(
+																			"error.init.missingPrerequisites")
+															+ "</p><p>"
+															+ e1.getMessage()
+															+ "</p></body></html>",
+													getMessages().getString(
+															"error.init.title"),
+													JOptionPane.ERROR_MESSAGE);
+								} catch (IOException e1) {
+									JOptionPane
+											.showMessageDialog(
+													getParent(),
+													"<html><body><p>"
+															+ getMessages()
+																	.getString(
+																			"error.init.ioexception")
+															+ "</p><p>"
+															+ e1.getMessage()
+															+ "</p></body></html>",
+													getMessages().getString(
+															"error.init.title"),
+													JOptionPane.ERROR_MESSAGE);
+								} catch (GeneralSecurityException e1) {
+									JOptionPane
+											.showMessageDialog(
+													getParent(),
+													"<html><body><p>"
+															+ getMessages()
+																	.getString(
+																			"error.init.generalSecurityException")
+															+ "</p><p>"
+															+ e1.getMessage()
+															+ "</p></body></html>",
+													getMessages().getString(
+															"error.init.title"),
+													JOptionPane.ERROR_MESSAGE);
+								} catch (Exception e) {
+									JOptionPane
+											.showMessageDialog(
+													getParent(),
+													"<html><body><p>"
+															+ getMessages()
+																	.getString(
+																			"error.init.exception")
+															+ "</p><p>"
+															+ e.getMessage()
+															+ "</p></body></html>",
+													getMessages().getString(
+															"error.init.title"),
+													JOptionPane.ERROR_MESSAGE);
+								} finally {
+									getPassphraseField().setText("");
+								}
+							} else {
+								LocalProxy.destroy();
+							}
+							if (oldStatus != LocalProxy.getStatus()
+									&& closeParent != null) {
+								// status changed, close window
+								closeParent.setVisible(false);
+							}
+							Cursor normalCursor = new Cursor(
+									Cursor.DEFAULT_CURSOR);
 							setCursor(normalCursor);
-							
+
 						}
-					}.start();				
+					}.start();
 
 				}
 			});
@@ -489,4 +498,4 @@ public class GridProxyPanel extends JPanel implements GridProxyListener {
 		return dialog;
 	}
 
-} 
+}

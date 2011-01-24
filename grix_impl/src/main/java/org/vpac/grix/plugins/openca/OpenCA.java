@@ -85,22 +85,22 @@ public class OpenCA {
 	/**
 	 * Initializes this plugin.
 	 */
-//	public static void init() {
-//
-//		if (UnlimitedStrengthPolicyManager.maxRSAKeysize() >= GrixProperty
-//				.getInt("OPENCA_SERVER_KEYSIZE")) {
-//			myLogger
-//					.debug("Able to communicate with the openca server. That's good.");
-//			UserProperty.setProperty("ABLE_TO_COMMUNICATE_WITH_OPENCA_SERVER",
-//					"yes");
-//		} else {
-//			myLogger
-//					.debug("Not able to communicate with the openca server because of java policy restrictions. That's not good.");
-//			UserProperty.setProperty("ABLE_TO_COMMUNICATE_WITH_OPENCA_SERVER",
-//					"no");
-//		}
-//
-//	}
+	// public static void init() {
+	//
+	// if (UnlimitedStrengthPolicyManager.maxRSAKeysize() >= GrixProperty
+	// .getInt("OPENCA_SERVER_KEYSIZE")) {
+	// myLogger
+	// .debug("Able to communicate with the openca server. That's good.");
+	// UserProperty.setProperty("ABLE_TO_COMMUNICATE_WITH_OPENCA_SERVER",
+	// "yes");
+	// } else {
+	// myLogger
+	// .debug("Not able to communicate with the openca server because of java policy restrictions. That's not good.");
+	// UserProperty.setProperty("ABLE_TO_COMMUNICATE_WITH_OPENCA_SERVER",
+	// "no");
+	// }
+	//
+	// }
 
 	/**
 	 * Checks whether the certification request with the specified
@@ -115,17 +115,18 @@ public class OpenCA {
 		installTrustManager();
 		URL url = null;
 		try {
-			url = new URL(GrixProperty.getString("openca.base.url")+"?cmd=lists;action=newReqs");
+			url = new URL(GrixProperty.getString("openca.base.url")
+					+ "?cmd=lists;action=newReqs");
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block/ throw exception
-			//e.printStackTrace();
+			// e.printStackTrace();
 			myLogger.error(e);
 		}
-		
+
 		String result = readPage(url);
-		if ( result == null ){
+		if (result == null) {
 			myLogger.debug("Could not read OpenCA page... returning \"ready\" nontheless.");
-			//TODO throw exception
+			// TODO throw exception
 			return true;
 		}
 
@@ -134,30 +135,30 @@ public class OpenCA {
 			myLogger.debug("Request serial found, this means the request is not processed yet.");
 			return false;
 		} else {
-			while ( (url = containsNextPage(result)) != null )  {
-				
-				myLogger.debug("Next page url: "+url.toString());
+			while ((url = containsNextPage(result)) != null) {
+
+				myLogger.debug("Next page url: " + url.toString());
 				result = readPage(url);
-				if ( result == null ) {
+				if (result == null) {
 					myLogger.debug("Could not read OpenCA page... returning \"ready\" nontheless.");
-					return true; //TODO throw exception
+					return true; // TODO throw exception
 				}
-				
-				if ( result.indexOf(request_serial) != -1 ) {
+
+				if (result.indexOf(request_serial) != -1) {
 					myLogger.debug("Request serial found on this page, this means the request is not processed yet.");
 					return false; // still on list => not processed
 				}
-				
-			} 
-			
+
+			}
+
 			myLogger.debug("Request processed.");
-			
+
 			return true;
 		}
 	}
-	
-	private static String readPage(URL url){
-		
+
+	private static String readPage(URL url) {
+
 		StringBuffer result = new StringBuffer();
 		BufferedReader reader = null;
 		try {
@@ -175,35 +176,37 @@ public class OpenCA {
 				reader.close();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				//e.printStackTrace();
+				// e.printStackTrace();
 				myLogger.error(e);
 				return null;
 			}
 		}
 		return result.toString();
-		
+
 	}
-	
-	private static URL containsNextPage(String page_body){
-		if ( page_body.indexOf("&gt;&gt;") != -1 ) {
-			int startLink = page_body.lastIndexOf("Extra References&nbsp; <a href=")+32;
-			int endLink = page_body.indexOf(">&gt;</a> &nbsp;", startLink)-1;
+
+	private static URL containsNextPage(String page_body) {
+		if (page_body.indexOf("&gt;&gt;") != -1) {
+			int startLink = page_body
+					.lastIndexOf("Extra References&nbsp; <a href=") + 32;
+			int endLink = page_body.indexOf(">&gt;</a> &nbsp;", startLink) - 1;
 			String url_string = page_body.substring(startLink, endLink);
-			if ( (startLink = url_string.lastIndexOf("&lt;</a>")) != -1 ) {
-				startLink = url_string.indexOf("<a href=", startLink)+9;
+			if ((startLink = url_string.lastIndexOf("&lt;</a>")) != -1) {
+				startLink = url_string.indexOf("<a href=", startLink) + 9;
 				url_string = url_string.substring(startLink);
 			}
 			URL url = null;
 			try {
-				url = new URL(GrixProperty.getString("openca.base.url")+url_string);
+				url = new URL(GrixProperty.getString("openca.base.url")
+						+ url_string);
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
-				//e.printStackTrace();
+				// e.printStackTrace();
 				myLogger.error(e);
 				return null;
 			}
 			return url;
-		} else 
+		} else
 			return null;
 	}
 
@@ -233,20 +236,20 @@ public class OpenCA {
 				"value_5", "", "name_3", "DN", "name_5", "KEY", "name_1", "CN",
 				"cmd", "search", "dataType", "CERTIFICATE", "name_4", "ROLE",
 				"pcounter", "5", "name_2", "EMAILADDRESS" };
-		
-//		Object[] post_options_pre = {
-//				"value_1", cn,
-//				"value_2", email,
-//				"value_3", "*",
-//				"value_4", "*",
-//				"value_5", "",
-//				"name_1", "CN",
-//				"name_2", "EMAILADDRESS",
-//				"name_3", "DN",
-//				"name_4", "ROLE",
-//				"cmd", "search",
-//				"pcounter", "5"
-//		};
+
+		// Object[] post_options_pre = {
+		// "value_1", cn,
+		// "value_2", email,
+		// "value_3", "*",
+		// "value_4", "*",
+		// "value_5", "",
+		// "name_1", "CN",
+		// "name_2", "EMAILADDRESS",
+		// "name_3", "DN",
+		// "name_4", "ROLE",
+		// "cmd", "search",
+		// "pcounter", "5"
+		// };
 
 		String certificate = null;
 
@@ -402,8 +405,8 @@ public class OpenCA {
 				"ADDITIONAL_ATTRIBUTE_TELEPHONE",
 				additional_attribute_telephone, "cmd", cmd, "passwd1", passwd1,
 				"ADDITIONAL_ATTRIBUTE_EMAIL", additional_attribute_email, "ra",
-				ra, "passwd2", passwd2, "operation", operation, "role",
-				role, "ADDITIONAL_ATTRIBUTE_REQUESTERCN",
+				ra, "passwd2", passwd2, "operation", operation, "role", role,
+				"ADDITIONAL_ATTRIBUTE_REQUESTERCN",
 				additional_attribute_requestercn };
 
 		installTrustManager();
@@ -435,10 +438,12 @@ public class OpenCA {
 		// TODO dodgy but I don't know how else to do it.
 		try {
 			int index = answer.indexOf("serial") + 7;
-			if ( index == -1 || answer.indexOf("error") != -1 || answer.indexOf("Error") != -1 ) {
-				//means: not successful
+			if (index == -1 || answer.indexOf("error") != -1
+					|| answer.indexOf("Error") != -1) {
+				// means: not successful
 				myLogger.error("Could not upload certification request.");
-				throw new UnableToUploadCertificationRequestException("OpenCA", new Exception(answer.toString()));
+				throw new UnableToUploadCertificationRequestException("OpenCA",
+						new Exception(answer.toString()));
 			}
 			int index_end = answer.indexOf(" ", index);
 			String req_serial = answer.substring(index, index_end);
@@ -446,7 +451,7 @@ public class OpenCA {
 			UserProperty.setProperty("REQUEST_SERIAL", req_serial);
 		} catch (RuntimeException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			myLogger.error(e);
 			throw e;
 		}

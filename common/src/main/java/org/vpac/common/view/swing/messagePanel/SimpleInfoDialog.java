@@ -29,14 +29,14 @@ import javax.swing.JPanel;
  * Wraps a SimpleMessagePanel to be able to display a dialog.
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
 public class SimpleInfoDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 
 	private JPanel jContentPane = null;
-	
+
 	private String htmlfile = null;
 
 	private InfoPagePanel infoPagePanel = null;
@@ -77,9 +77,9 @@ public class SimpleInfoDialog extends JDialog {
 	}
 
 	/**
-	 * This method initializes infoPagePanel	
-	 * 	
-	 * @return javax.swing.JPanel	
+	 * This method initializes infoPagePanel
+	 * 
+	 * @return javax.swing.JPanel
 	 */
 	private InfoPagePanel getInfoPagePanel() {
 		if (infoPagePanel == null) {
@@ -88,4 +88,4 @@ public class SimpleInfoDialog extends JDialog {
 		return infoPagePanel;
 	}
 
-}  //  @jve:decl-index=0:visual-constraint="10,10"
+} // @jve:decl-index=0:visual-constraint="10,10"

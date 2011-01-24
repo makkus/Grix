@@ -28,54 +28,64 @@ import org.vpac.qc.model.query.ArgumentsException;
 import org.vpac.qc.model.query.QueryArgument;
 
 /**
- * <p>This retriever plugin is able to call a class with empty or 
- * non-empty constructor and gives back the value of a called method.
- * This could be a getter or another method.</p>
+ * <p>
+ * This retriever plugin is able to call a class with empty or non-empty
+ * constructor and gives back the value of a called method. This could be a
+ * getter or another method.
+ * </p>
  * 
- * <p>The xml code for this plugin looks like:</p>
- * <pre>{@code
- *<method name="CallClass" object="org.vpac.voc.model.clients.TestClass" object_property="addToConstructor">
- *  		<constructor_arg object="java.lang.Integer">11</constructor_arg>
- *  		<method_arg object="java.lang.Integer">10</method_arg>
- *</method>}
+ * <p>
+ * The xml code for this plugin looks like:
+ * </p>
+ * 
+ * <pre>
+ * {@code
+ * <method name="CallClass" object="org.vpac.voc.model.clients.TestClass" object_property="addToConstructor">
+ *   		<constructor_arg object="java.lang.Integer">11</constructor_arg>
+ *   		<method_arg object="java.lang.Integer">10</method_arg>
+ * </method>}
  * </pre>
  * 
- * , where <b>object</b> is the class to call and <b>object_property</b> is the method to use. If <b>method_arg</b> tags are present, these
- * will be used to call the method (e.g. addToConstructor).
- * If there is a <b>constructor_arg</b> (even an empty on), the the constructor of this class is called before executing
- * the method object_property. If not, the method should be static (not implemented yet, I think).
+ * , where <b>object</b> is the class to call and <b>object_property</b> is the
+ * method to use. If <b>method_arg</b> tags are present, these will be used to
+ * call the method (e.g. addToConstructor). If there is a <b>constructor_arg</b>
+ * (even an empty on), the the constructor of this class is called before
+ * executing the method object_property. If not, the method should be static
+ * (not implemented yet, I think).
  * <p>
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
 public class CallClass extends QcRetriever {
-	
-	static final Logger myLogger = Logger.getLogger(CallClass.class
-			.getName());	
-	
+
+	static final Logger myLogger = Logger.getLogger(CallClass.class.getName());
+
 	Class classToCall = null;
 	List constructorArguments = null;
 	String methodToCall = null;
 	List arguments = null;
-	
+
 	public CallClass(QueryArgument arg) throws ArgumentsException {
 		super(arg);
 		try {
-			classToCall = Class.forName(method_element.getAttributeValue("object"));
-			constructorArguments = method_element.getChildren("constructor_arg");
+			classToCall = Class.forName(method_element
+					.getAttributeValue("object"));
+			constructorArguments = method_element
+					.getChildren("constructor_arg");
 			methodToCall = method_element.getAttributeValue("object_property");
 			arguments = method_element.getChildren("method_arg");
-			
-		} catch (ClassNotFoundException cnfe){
-			throw new ArgumentsException("Could not init CallClass retreiver: "+cnfe.getMessage());
+
+		} catch (ClassNotFoundException cnfe) {
+			throw new ArgumentsException("Could not init CallClass retreiver: "
+					+ cnfe.getMessage());
 		}
 	}
-	
-	public Object[] retrieveValue() throws Exception  {
+
+	public Object[] retrieveValue() throws Exception {
 
 		Object classObject = null;
-		
+
 		// if a constructor has to be called
 		if (constructorArguments.size() != 0) {
 			// check if empty constructor
@@ -145,9 +155,8 @@ public class CallClass extends QcRetriever {
 
 		Method method = classToCall.getMethod(methodToCall, argumentClasses);
 
-		return new Object[]{method.invoke(classObject, argumentObjects)};
+		return new Object[] { method.invoke(classObject, argumentObjects) };
 
 	}
-	
 
 }

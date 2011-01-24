@@ -19,7 +19,7 @@
 package org.vpac.common.view.swing;
 
 public interface OneElementPanel {
-	
+
 	public ElementsPanel getElementsPanel();
 
 }

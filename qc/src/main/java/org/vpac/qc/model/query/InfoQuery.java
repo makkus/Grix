@@ -24,47 +24,52 @@ import org.jdom.JDOMException;
 import org.vpac.qc.model.clients.GenericClient;
 
 /**
- * An InfoQuery is a {@link Query} that does not need any user input/interaction. If a value for {@link QueryArgument} 
- * of the {@link Query} can not be determined, an {@link ArgumentsException} is thrown.
+ * An InfoQuery is a {@link Query} that does not need any user
+ * input/interaction. If a value for {@link QueryArgument} of the {@link Query}
+ * can not be determined, an {@link ArgumentsException} is thrown.
  * <p>
- * The workflow is the same as for a {@link UserInputQuery}, except you don't need to execute the query.fillUserInput() method.
+ * The workflow is the same as for a {@link UserInputQuery}, except you don't
+ * need to execute the query.fillUserInput() method.
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
-public class InfoQuery extends Query{
-	
+public class InfoQuery extends Query {
+
 	public InfoQuery(String name, GenericClient client, String context) {
 
 		super(name, client, context);
-	}	
+	}
 
 	@Override
 	public void prepare() throws ArgumentsException {
-		
+
 		fillArguments();
-		
+
 	}
 
 	@Override
-	protected void setArguments(String[] arguments) throws JDOMException, ArgumentsException {
+	protected void setArguments(String[] arguments) throws JDOMException,
+			ArgumentsException {
 
 		this.arguments = new QueryArgument[arguments.length];
-		
+
 		for (int i = 0; i < arguments.length; i++) {
 
-			this.arguments[i] = QueryArgument
-					.argumentFactory(this, arguments[i]);
+			this.arguments[i] = QueryArgument.argumentFactory(this,
+					arguments[i]);
 			String typeString = this.arguments[i].getType().getAttributeValue(
 					"name");
-			if (! ArgumentType.DEFAULT.equals(typeString))
-				throw new ArgumentsException("Argument: "
-						+ this.arguments[i].name + "is not of type \"default\". Can't process InfoQuery.");
+			if (!ArgumentType.DEFAULT.equals(typeString))
+				throw new ArgumentsException(
+						"Argument: "
+								+ this.arguments[i].name
+								+ "is not of type \"default\". Can't process InfoQuery.");
 
-		}		
-		
+		}
+
 	}
-	
+
 	public void fillArguments() throws ArgumentsException {
 
 		for (QueryArgument arg : arguments) {
@@ -74,16 +79,16 @@ public class InfoQuery extends Query{
 			} catch (Throwable e) {
 				myLogger.warn("Could not fill argument \"" + arg.getName()
 						+ "\"with default value. Cause: " + e.getMessage());
-				throw new ArgumentsException("No value for argument: "+arg.getName()+". Cause"+e.getMessage());
-				
+				throw new ArgumentsException("No value for argument: "
+						+ arg.getName() + ". Cause" + e.getMessage());
+
 			}
 			if (arg.getValue() == null) {
-				throw new ArgumentsException("No value for argument: "+arg.getName());
+				throw new ArgumentsException("No value for argument: "
+						+ arg.getName());
 			}
 
 		}
-	}	
+	}
 
-
-	
 }

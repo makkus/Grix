@@ -38,12 +38,13 @@ import org.vpac.common.model.GlobusLocations;
  * 
  */
 public class UserProperty {
-	
+
 	static final Logger myLogger = Logger.getLogger(UserProperty.class
 			.getName());
 
 	private static final File prop_file = new File(GlobusLocations
-			.defaultLocations().getGlobusDirectory().getAbsolutePath() + File.separator
+			.defaultLocations().getGlobusDirectory().getAbsolutePath()
+			+ File.separator
 			+ GrixProperty.getString("user.properties.filename"));
 
 	private static Properties grix_properties = getGrixProperties();
@@ -56,11 +57,9 @@ public class UserProperty {
 		try {
 			properties.load(new FileInputStream(prop_file));
 		} catch (FileNotFoundException fnfe) {
-			myLogger
-					.debug("Property file not found. Does not matter, it will be created later on.");
+			myLogger.debug("Property file not found. Does not matter, it will be created later on.");
 		} catch (IOException ioe) {
-			myLogger
-					.debug("Could not read property file. Most likely due to permission issues. Hmm.");
+			myLogger.debug("Could not read property file. Most likely due to permission issues. Hmm.");
 		}
 
 		return properties;
@@ -210,10 +209,9 @@ public class UserProperty {
 			}
 			grix_properties.store(new FileOutputStream(prop_file), null);
 		} catch (IOException e) {
-			myLogger
-					.error("Can not store properties file. This is pretty serious, so I am exiting. Please check the permissions for the folder: "
-							+ GlobusLocations.defaultLocations()
-									.getGlobusDirectory().toString());
+			myLogger.error("Can not store properties file. This is pretty serious, so I am exiting. Please check the permissions for the folder: "
+					+ GlobusLocations.defaultLocations().getGlobusDirectory()
+							.toString());
 			System.exit(-1);
 		}
 	}

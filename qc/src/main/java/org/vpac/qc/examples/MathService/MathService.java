@@ -19,13 +19,15 @@
 package org.vpac.qc.examples.MathService;
 
 public class MathService {
-	
-	public static String add(String a, String b){
-		return new Integer(Integer.parseInt(a)+Integer.parseInt(b)).toString();
+
+	public static String add(String a, String b) {
+		return new Integer(Integer.parseInt(a) + Integer.parseInt(b))
+				.toString();
 	}
-	
-	public static String substract(String a, String b){
-		return new Integer(Integer.parseInt(a)-Integer.parseInt(b)).toString();
+
+	public static String substract(String a, String b) {
+		return new Integer(Integer.parseInt(a) - Integer.parseInt(b))
+				.toString();
 	}
 
 }

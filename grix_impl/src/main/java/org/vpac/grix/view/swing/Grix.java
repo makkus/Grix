@@ -18,6 +18,13 @@
 
 package org.vpac.grix.view.swing;
 
+import grith.jgrith.CredentialHelpers;
+import grith.jgrith.Init;
+import grith.jgrith.control.CertificateFiles;
+import grith.jgrith.control.VomsesFiles;
+import grith.jgrith.view.swing.ProxyInitListener;
+import grith.jgrith.view.swing.proxyInit.GenericProxyCreationPanel;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -69,12 +76,6 @@ import org.vpac.grix.view.swing.certificate.CertificateStatusListener;
 import org.vpac.grix.view.swing.common.GridProxyDialog;
 import org.vpac.grix.view.swing.tools.OptionsDialog;
 import org.vpac.grix.view.swing.vomrs.VOPanelShlix;
-import org.vpac.security.light.CredentialHelpers;
-import org.vpac.security.light.Init;
-import org.vpac.security.light.control.CertificateFiles;
-import org.vpac.security.light.control.VomsesFiles;
-import org.vpac.security.light.view.swing.ProxyInitListener;
-import org.vpac.security.light.view.swing.proxyInit.GenericProxyCreationPanel;
 import org.vpac.voms.control.LocalVomses;
 import org.vpac.voms.model.proxy.NoVomsProxyException;
 import org.vpac.voms.model.proxy.VomsProxy;
@@ -91,7 +92,7 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 	static final Logger myLogger = Logger.getLogger(Grix.class.getName());
 
 	private static ResourceBundle messages = ResourceBundle
-			.getBundle("SwingViewMessagesBundle"); // @jve:decl-index=0:
+	.getBundle("SwingViewMessagesBundle"); // @jve:decl-index=0:
 
 	public static ResourceBundle getMessages() {
 		return messages;
@@ -120,7 +121,7 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 		java.security.Security.addProvider(new ArcsSecurityProvider());
 
 		java.security.Security.setProperty("ssl.TrustManagerFactory.algorithm",
-				"TrustAllCertificates");
+		"TrustAllCertificates");
 
 		System.setSecurityManager(null);
 		Init.initBouncyCastle();
@@ -198,7 +199,7 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 					if (GlobusLocations.defaultLocations().getUserCert()
 							.exists()
 							&& GlobusLocations.defaultLocations().getUserKey()
-									.exists()
+							.exists()
 							&& !LocalProxy.getDefaultProxy().isValid()
 							&& "yes".equals(UserProperty
 									.getProperty("CREATE_PROXY_AT_STARTUP"))) {
@@ -328,7 +329,7 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 				aboutContentPane.add(
 						new SimpleMessagePanel(MessagePanel
 								.getHTMLDocument("about"), Color.white),
-						BorderLayout.CENTER);
+								BorderLayout.CENTER);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				// e.printStackTrace();
@@ -572,12 +573,12 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 					.getProperty("SHOW_GRID_PROXY_STATUS_PANEL"))) {
 				gridBagConstraints1.gridy = 0;
 				jContentPane
-						.add(getGridProxyStatusPanel(), gridBagConstraints1);
+				.add(getGridProxyStatusPanel(), gridBagConstraints1);
 			} else if ("bottom".equals(UserProperty
 					.getProperty("SHOW_GRID_PROXY_STATUS_PANEL"))) {
 				gridBagConstraints1.gridy = 2;
 				jContentPane
-						.add(getGridProxyStatusPanel(), gridBagConstraints1);
+				.add(getGridProxyStatusPanel(), gridBagConstraints1);
 			}
 		}
 		return jContentPane;
@@ -634,7 +635,7 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 
 			if ((GlobusLocations.defaultLocations().getUserCert().exists() && GlobusLocations
 					.defaultLocations().getUserKey().exists())
-			// better not ||LocalProxy.getDefaultProxy().isValid()
+					// better not ||LocalProxy.getDefaultProxy().isValid()
 			) {
 
 				// if cert expired or is expiring
@@ -719,11 +720,11 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 			optionsMenuItem = new JMenuItem();
 			optionsMenuItem.setText("Preferences");
 			optionsMenuItem
-					.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(java.awt.event.ActionEvent e) {
-							getOptionsDialog().setVisible(true);
-						}
-					});
+			.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					getOptionsDialog().setVisible(true);
+				}
+			});
 		}
 		return optionsMenuItem;
 	}
@@ -795,7 +796,7 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 				// e.printStackTrace();
 				vomrsPanel = new SimpleMessagePanel(
 						messages.getString("error.details") + "<p>"
-								+ e.getStackTrace() + "</p>", Color.white);
+						+ e.getStackTrace() + "</p>", Color.white);
 			}
 
 		}
@@ -805,13 +806,13 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 	public void initIcons() {
 
 		redLight = new ImageIcon(getClass().getResource(
-				"/org/vpac/grix/images/redLight_small.png"));
+		"/org/vpac/grix/images/redLight_small.png"));
 		yellowLight = new ImageIcon(getClass().getResource(
-				"/org/vpac/grix/images/yellowLight_small.png"));
+		"/org/vpac/grix/images/yellowLight_small.png"));
 		greenLight = new ImageIcon(getClass().getResource(
-				"/org/vpac/grix/images/greenLight_small.png"));
+		"/org/vpac/grix/images/greenLight_small.png"));
 		greyLight = new ImageIcon(getClass().getResource(
-				"/org/vpac/grix/images/greyLight_small.png"));
+		"/org/vpac/grix/images/greyLight_small.png"));
 
 	}
 

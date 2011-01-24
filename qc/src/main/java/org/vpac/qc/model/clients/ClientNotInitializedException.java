@@ -18,29 +18,28 @@
 
 package org.vpac.qc.model.clients;
 
-
 public class ClientNotInitializedException extends Exception {
-	
+
 	/**
 	 * Thrown if a client can't be initialized for whatever reason.
 	 */
 	private static final long serialVersionUID = 1L;
 	private Exception exception = null;
 	private String message = null;
-	
-	public ClientNotInitializedException(String message){
+
+	public ClientNotInitializedException(String message) {
 		super(message);
 		this.message = message;
 	}
-	
-	public ClientNotInitializedException(Exception e){
+
+	public ClientNotInitializedException(Exception e) {
 		super(e.getMessage());
 		this.message = e.getMessage();
 		this.exception = e;
 	}
 
 	public ClientNotInitializedException(String message, Exception e) {
-		super (message);
+		super(message);
 		this.exception = e;
 		this.message = message;
 	}

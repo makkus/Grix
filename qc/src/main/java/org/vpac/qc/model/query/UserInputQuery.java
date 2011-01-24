@@ -25,13 +25,14 @@ import org.jdom.JDOMException;
 import org.vpac.qc.model.clients.GenericClient;
 
 /**
- * This class is the default implementation of the abstract {@link Query}. A class extending {@link UserInput} is needed to 
- * be able to retrieve user input.
+ * This class is the default implementation of the abstract {@link Query}. A
+ * class extending {@link UserInput} is needed to be able to retrieve user
+ * input.
  * <p>
  * For more information read the documentation of {@link Query}.
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
 public class UserInputQuery extends Query {
 
@@ -54,8 +55,8 @@ public class UserInputQuery extends Query {
 		super(name, client, context);
 
 	}
-	
-	public void init() throws JDOMException, ArgumentsException{
+
+	public void init() throws JDOMException, ArgumentsException {
 		defaults = new ArrayList<QueryArgument>();
 		preselection = new ArrayList<QueryArgument>();
 		userInput = new ArrayList<QueryArgument>();
@@ -150,12 +151,12 @@ public class UserInputQuery extends Query {
 	// }
 
 	// public static void main (String[] args){
-	//		
+	//
 	// try {
-	//			
+	//
 	// GenericClient client = new
 	// VomrsClient({""},/home/markus/workspace/voc/queries.xml);
-	//			
+	//
 	// UserInputQuery userInputQuery = new UserInputQuery("testQuery", new
 	// File("/home/markus/workspace/voc/queries.xml"),
 	// new String[]{ "test21", "test10", "test1009", "test50", "representatives"
@@ -163,12 +164,12 @@ public class UserInputQuery extends Query {
 	// //new String[]{ "default1", "default2", "testprop", "testprop_list",
 	// "testprop_compbined", "test21", "test10", "test1009", "test50" }, new
 	// File("/home/markus/workspace/voc/queries.xml"));
-	//			
+	//
 	// userInputQuery.fillDefaults();
 	// userInputQuery.fillPreselections();
-	//			
+	//
 	// for ( QueryArgument qarg : userInputQuery.getArguments() ){
-	//				
+	//
 	// System.out.println("Argument: "+qarg.getName());
 	// try {
 	// for ( Object obj : (Object[])qarg.getValue() ){
@@ -179,14 +180,14 @@ public class UserInputQuery extends Query {
 	// "+qarg.getValue().getClass().toString());
 	// }
 	// System.out.println();
-	//				
+	//
 	// }
-	//			
+	//
 	// } catch (Exception e) {
 	// // TODO Auto-generated catch block
 	// e.printStackTrace();
 	// }
-	//		
+	//
 	// }
 
 	/**
@@ -334,7 +335,5 @@ public class UserInputQuery extends Query {
 		this.fillUserInputWithDefaults();
 
 	}
-
-
 
 }

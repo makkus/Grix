@@ -32,7 +32,7 @@ public class GridProxyDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 
 	private JPanel jContentPane = null;
-	
+
 	private Frame parent = null;
 
 	private JPanel gridProxyPanel = null;
@@ -55,7 +55,7 @@ public class GridProxyDialog extends JDialog {
 		this.setSize(430, 399);
 		Point p = new Point();
 		p = this.getOwner().getLocation();
-		this.setLocation(p.x+150, p.y+100);
+		this.setLocation(p.x + 150, p.y + 100);
 		this.setContentPane(getJContentPane());
 	}
 
@@ -74,9 +74,9 @@ public class GridProxyDialog extends JDialog {
 	}
 
 	/**
-	 * This method initializes gridProxyPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
+	 * This method initializes gridProxyPanel
+	 * 
+	 * @return javax.swing.JPanel
 	 */
 	private JPanel getGridProxyPanel() {
 		if (gridProxyPanel == null) {
@@ -89,4 +89,4 @@ public class GridProxyDialog extends JDialog {
 		return parent;
 	}
 
-}  //  @jve:decl-index=0:visual-constraint="10,10"
+} // @jve:decl-index=0:visual-constraint="10,10"

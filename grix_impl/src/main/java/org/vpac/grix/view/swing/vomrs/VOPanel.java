@@ -123,8 +123,10 @@ public class VOPanel extends JPanel implements VomsesStatusListener,
 		this.setLayout(new GridBagLayout());
 		this.add(getVoPanel(), voPanelConstraints);
 		this.add(getContentPanel(), contentPanelConstraints);
-		if ( ! ( "top".equals(UserProperty.getProperty("SHOW_GRID_PROXY_STATUS_PANEL"))  ||
-				"bottom".equals(UserProperty.getProperty("SHOW_GRID_PROXY_STATUS_PANEL")) ))
+		if (!("top".equals(UserProperty
+				.getProperty("SHOW_GRID_PROXY_STATUS_PANEL")) || "bottom"
+				.equals(UserProperty
+						.getProperty("SHOW_GRID_PROXY_STATUS_PANEL"))))
 			this.add(getMiniGridProxyPanel(), miniGridPanelConstraints);
 		revalidate();
 	}
@@ -148,19 +150,24 @@ public class VOPanel extends JPanel implements VomsesStatusListener,
 			gridBagConstraints1.insets = new Insets(10, 10, 10, 10);
 			gridBagConstraints1.gridy = 1;
 			gridBagConstraints1.weightx = 1.0;
-//			GridBagConstraints gridBagConstraints4 = new GridBagConstraints();
-//			gridBagConstraints4.fill = GridBagConstraints.BOTH;
-//			gridBagConstraints4.gridy = 0;
-//			gridBagConstraints4.weightx = 1.0;
-//			gridBagConstraints4.weighty = 1.0;
-//			gridBagConstraints4.insets = new Insets(20, 20, 20, 20);
-//			gridBagConstraints4.gridx = 0;
+			// GridBagConstraints gridBagConstraints4 = new
+			// GridBagConstraints();
+			// gridBagConstraints4.fill = GridBagConstraints.BOTH;
+			// gridBagConstraints4.gridy = 0;
+			// gridBagConstraints4.weightx = 1.0;
+			// gridBagConstraints4.weighty = 1.0;
+			// gridBagConstraints4.insets = new Insets(20, 20, 20, 20);
+			// gridBagConstraints4.gridx = 0;
 			voPanel = new JPanel();
 			voPanel.setLayout(new GridBagLayout());
-			voPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0), "VO\'s", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 14), null));
+			voPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory
+					.createEmptyBorder(15, 0, 0, 0), "VO\'s",
+					TitledBorder.DEFAULT_JUSTIFICATION,
+					TitledBorder.DEFAULT_POSITION, new Font("Dialog",
+							Font.BOLD, 14), null));
 			voPanel.setBackground(getLighterColor());
 			voPanel.add(getJScrollPane(), gridBagConstraints1);
-			//			voPanel.add(getJButton(), gridBagConstraints);
+			// voPanel.add(getJButton(), gridBagConstraints);
 		}
 		return voPanel;
 	}
@@ -174,12 +181,14 @@ public class VOPanel extends JPanel implements VomsesStatusListener,
 		if (contentPanel == null) {
 			contentPanel = new JPanel();
 			contentPanel.setLayout(new CardLayout());
-			contentPanel.add(new InfoPagePanel("loadingInfo", Color.white), "loadingInfo");
-			contentPanel.add(new InfoPagePanel("noGridProxy", Color.white), "noGridProxy");
+			contentPanel.add(new InfoPagePanel("loadingInfo", Color.white),
+					"loadingInfo");
+			contentPanel.add(new InfoPagePanel("noGridProxy", Color.white),
+					"noGridProxy");
 			contentPanel.add(new InfoPagePanel("noVO", Color.white), "noVO");
 			CardLayout cl = (CardLayout) (getContentPanel().getLayout());
 			if (GridProxy.INITIALIZED == LocalProxy.getStatus()) {
-				if ( LocalVomses.getLocalVomses().getVOs().size() == 0 )
+				if (LocalVomses.getLocalVomses().getVOs().size() == 0)
 					cl.show(getContentPanel(), "noVO");
 				else
 					cl.show(contentPanel, "loadingInfo");
@@ -205,30 +214,28 @@ public class VOPanel extends JPanel implements VomsesStatusListener,
 			voList.setFont(new Font("Dialog", Font.PLAIN, 12));
 			voList.setPreferredSize(new Dimension(70, 50));
 			voList.setSelectedIndex(0);
-			voList
-					.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-						public void valueChanged(
-								javax.swing.event.ListSelectionEvent e) {
+			voList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+				public void valueChanged(javax.swing.event.ListSelectionEvent e) {
 
-							//TODOif ( e.getSource() ){}
-							if (voListModel.getSize() > 0) {
-								CardLayout cl = (CardLayout) (getContentPanel()
-										.getLayout());
-								try {
-									cl.show(getContentPanel(), ((Voms) voList
-											.getSelectedValue()).toString());
-								} catch (NullPointerException npe) {
-									// does not matter
-								}
-							}
+					// TODOif ( e.getSource() ){}
+					if (voListModel.getSize() > 0) {
+						CardLayout cl = (CardLayout) (getContentPanel()
+								.getLayout());
+						try {
+							cl.show(getContentPanel(), ((Voms) voList
+									.getSelectedValue()).toString());
+						} catch (NullPointerException npe) {
+							// does not matter
 						}
-					});
+					}
+				}
+			});
 		}
 		return voList;
 	}
 
 	private void addVoms(Voms voms, boolean add_to_model) {
-		
+
 		if (add_to_model) {
 			voListModel.addElement(voms);
 		}
@@ -237,37 +244,40 @@ public class VOPanel extends JPanel implements VomsesStatusListener,
 		if (voms.getStatus() == Voms.NO_CONNECTION_TO_VOMRS) {
 			// no connection (most likely only voms, not vomrs
 			try {
-				SimpleMessagePanel mp = new SimpleMessagePanel(MessagePanel
-						.getHTML("no_vomrs_server")+"<p><a href=\""+voms.getVomsWebURL()+"\">"
-						+voms.getVomsWebURL()+"</a></p></li></ul></div>", Color.white);
-				mp.setMargins(new Insets(40,40,40,40));
+				SimpleMessagePanel mp = new SimpleMessagePanel(
+						MessagePanel.getHTML("no_vomrs_server")
+								+ "<p><a href=\"" + voms.getVomsWebURL()
+								+ "\">" + voms.getVomsWebURL()
+								+ "</a></p></li></ul></div>", Color.white);
+				mp.setMargins(new Insets(40, 40, 40, 40));
 				contentPanel.add(mp, voms.toString());
 			} catch (Exception ex) {
 				myLogger.error(ex);
-				//ex.printStackTrace();
+				// ex.printStackTrace();
 			}
 
-		} else if ( voms.getStatus() == Voms.CANDIDATE ) {
+		} else if (voms.getStatus() == Voms.CANDIDATE) {
 			VomrsRegisterPanelPhaseII regIIPanel = null;
 			try {
-				regIIPanel = new VomrsRegisterPanelPhaseII(voms, getLighterColor());
-				//regPanel.setBackground(getLighterColor());
+				regIIPanel = new VomrsRegisterPanelPhaseII(voms,
+						getLighterColor());
+				// regPanel.setBackground(getLighterColor());
 				contentPanel.add(regIIPanel, voms.toString());
 			} catch (JDOMException e) {
 				// TODO Auto-generated catch block
-				//e.printStackTrace();
+				// e.printStackTrace();
 				myLogger.error(e);
 			} catch (ArgumentsException e) {
 				// TODO Auto-generated catch block
-				//e.printStackTrace();
+				// e.printStackTrace();
 				myLogger.error(e);
 			}
-		}else if (voms.getStatus() == Voms.NO_MEMBER) {
+		} else if (voms.getStatus() == Voms.NO_MEMBER) {
 			// test whether already registered...
 			VomrsRegisterPanel regPanel = null;
 			try {
 				regPanel = new VomrsRegisterPanel(voms, getLighterColor());
-				//regPanel.setBackground(getLighterColor());
+				// regPanel.setBackground(getLighterColor());
 				contentPanel.add(regPanel, voms.toString());
 			} catch (JDOMException e) {
 				// TODO Auto-generated catch block
@@ -276,17 +286,19 @@ public class VOPanel extends JPanel implements VomsesStatusListener,
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} else if ( voms.getStatus() == Voms.NON_VOMRS_MEMBER ) { 
+		} else if (voms.getStatus() == Voms.NON_VOMRS_MEMBER) {
 			// NO connection to vomrs => no detailed member info
 			try {
-				SimpleMessagePanel mp = new SimpleMessagePanel(MessagePanel
-						.getHTML("no_vomrs_server_but_voms")+"<p><a href=\""+voms.getVomsWebURL()+"\">"
-						+voms.getVomsWebURL()+"</a></p></div>", Color.white);
-				mp.setMargins(new Insets(40,40,40,40));
+				SimpleMessagePanel mp = new SimpleMessagePanel(
+						MessagePanel.getHTML("no_vomrs_server_but_voms")
+								+ "<p><a href=\"" + voms.getVomsWebURL()
+								+ "\">" + voms.getVomsWebURL()
+								+ "</a></p></div>", Color.white);
+				mp.setMargins(new Insets(40, 40, 40, 40));
 				contentPanel.add(mp, voms.toString());
 			} catch (Exception ex) {
 				myLogger.error(ex);
-				//ex.printStackTrace();
+				// ex.printStackTrace();
 			}
 		} else if (voms.getStatus() != Voms.NO_MEMBER) {
 			newPanel = new VomrsInfoPanel(voms, getLighterColor());
@@ -318,7 +330,7 @@ public class VOPanel extends JPanel implements VomsesStatusListener,
 				}
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
-				//e.printStackTrace();
+				// e.printStackTrace();
 				myLogger.error(e);
 			}
 		}
@@ -343,15 +355,15 @@ public class VOPanel extends JPanel implements VomsesStatusListener,
 		int status = e.getStatus();
 		CardLayout cl = (CardLayout) (getContentPanel().getLayout());
 		if (status == GridProxy.INITIALIZED) {
-			if ( LocalVomses.getLocalVomses().getVOs().size() == 0 )
+			if (LocalVomses.getLocalVomses().getVOs().size() == 0)
 				cl.show(getContentPanel(), "noVO");
 			else
 				cl.show(getContentPanel(), "loadingInfo");
 		} else {
-//			for ( int i = 0; i < voListModel.getSize(); i++ ) {
-//				removeVoms((Voms)voListModel.get(i), false);
-//			}
-//			voListModel.removeAllElements();
+			// for ( int i = 0; i < voListModel.getSize(); i++ ) {
+			// removeVoms((Voms)voListModel.get(i), false);
+			// }
+			// voListModel.removeAllElements();
 			cl.show(getContentPanel(), "noGridProxy");
 		}
 		this.revalidate();
@@ -365,7 +377,11 @@ public class VOPanel extends JPanel implements VomsesStatusListener,
 	private MiniGridProxyPanel getMiniGridProxyPanel() {
 		if (miniGridProxyPanel == null) {
 			miniGridProxyPanel = new MiniGridProxyPanel();
-			miniGridProxyPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0), "Grid proxy", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 14), new Color(51, 51, 51)));
+			miniGridProxyPanel.setBorder(BorderFactory.createTitledBorder(
+					BorderFactory.createEmptyBorder(15, 0, 0, 0), "Grid proxy",
+					TitledBorder.DEFAULT_JUSTIFICATION,
+					TitledBorder.DEFAULT_POSITION, new Font("Dialog",
+							Font.BOLD, 14), new Color(51, 51, 51)));
 			miniGridProxyPanel.setBackground(getLighterColor());
 
 		}
@@ -374,13 +390,15 @@ public class VOPanel extends JPanel implements VomsesStatusListener,
 
 	public void vomsStatusChanged(VomsStatusEvent event) {
 
-		if (event.getAction() == VomsStatusEvent.STATUS_CHANGED || event.getAction() == VomsStatusEvent.REMOVED_VOMS_MEMBERSHIP ) {
-			
-			//TODO maybe give a message to the user that a vo membership was removed
-			
+		if (event.getAction() == VomsStatusEvent.STATUS_CHANGED
+				|| event.getAction() == VomsStatusEvent.REMOVED_VOMS_MEMBERSHIP) {
+
+			// TODO maybe give a message to the user that a vo membership was
+			// removed
+
 			final CardLayout cl = (CardLayout) (getContentPanel().getLayout());
 			cl.show(contentPanel, "loadingInfo");
-			final Voms changed_voms = (Voms)event.getSource();
+			final Voms changed_voms = (Voms) event.getSource();
 			new Thread() {
 				public void run() {
 					removeVoms(changed_voms, false);
@@ -390,53 +408,55 @@ public class VOPanel extends JPanel implements VomsesStatusListener,
 			}.start();
 		} else if (event.getAction() == VomsStatusEvent.NEW_VOMS) {
 			addVoms((Voms) event.getSource(), true);
-			//TODO somehow this is buggy but I don't know why
+			// TODO somehow this is buggy but I don't know why
 			if (getVoList().getSelectedIndex() == -1) {
 				getVoList().setSelectedIndex(0);
 			}
 		} else if (event.getAction() == VomsStatusEvent.REMOVED_VOMS) {
 			removeVoms((Voms) event.getSource(), true);
-			if ( voListModel.size() == 0 && LocalProxy.isValid() ){
-				final CardLayout cl = (CardLayout) (getContentPanel().getLayout());
+			if (voListModel.size() == 0 && LocalProxy.isValid()) {
+				final CardLayout cl = (CardLayout) (getContentPanel()
+						.getLayout());
 				cl.show(contentPanel, "noVO");
 			}
 		}
 
 		this.revalidate();
 	}
-	
+
 	public Color getBaseColor() {
-		if ( base_color == null ) {
+		if (base_color == null) {
 			base_color = this.getBackground();
 		}
 		return base_color;
 	}
-	
+
 	public Color getLighterColor() {
-		if ( lighter_color == null ){
-			int red = getBaseColor().getRed()+10;
-			int green = getBaseColor().getGreen()+10;
-			int blue = getBaseColor().getBlue()+10;
+		if (lighter_color == null) {
+			int red = getBaseColor().getRed() + 10;
+			int green = getBaseColor().getGreen() + 10;
+			int blue = getBaseColor().getBlue() + 10;
 			lighter_color = new Color(red, green, blue);
 		}
 		return lighter_color;
 	}
 
 	/**
-	 * This method initializes jButton	
-	 * 	
-	 * @return javax.swing.JButton	
+	 * This method initializes jButton
+	 * 
+	 * @return javax.swing.JButton
 	 */
 	private JButton getJButton() {
 		if (jButton == null) {
 			jButton = new JButton();
 			jButton.setText("Manage VOMS");
 			jButton.setToolTipText("Manage the VOs you want to connect to.");
-			//jButton.setEnabled(false);
-			//jButton.setVisible(false);
+			// jButton.setEnabled(false);
+			// jButton.setVisible(false);
 			jButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					VomsesManagementDialog vmd = new VomsesManagementDialog(null);
+					VomsesManagementDialog vmd = new VomsesManagementDialog(
+							null);
 					vmd.setVisible(true);
 				}
 			});

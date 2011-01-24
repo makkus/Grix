@@ -19,32 +19,33 @@
 package org.vpac.qc.model.clients;
 
 /**
- * A test class to demostrate the {@link org.vpac.qc.control.retrievers.CallClass} retrievers.
+ * A test class to demostrate the
+ * {@link org.vpac.qc.control.retrievers.CallClass} retrievers.
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
 public class TestClass {
-	
+
 	private int result = 0;
-	
-	public static int mirror(Integer arg){
+
+	public static int mirror(Integer arg) {
 		return arg;
 	}
-	
-	public int addToConstructor(Integer intOne){
-		return result+intOne;
+
+	public int addToConstructor(Integer intOne) {
+		return result + intOne;
 	}
-	
-	public TestClass(Integer intOne, Integer intTwo){
-		result = intOne+intTwo;
+
+	public TestClass(Integer intOne, Integer intTwo) {
+		result = intOne + intTwo;
 	}
-	
-	public TestClass(Integer intOne){
+
+	public TestClass(Integer intOne) {
 		result = intOne;
 	}
-	
-	public TestClass(){
+
+	public TestClass() {
 		result = 999;
 	}
 

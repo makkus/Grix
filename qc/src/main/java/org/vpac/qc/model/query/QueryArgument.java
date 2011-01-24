@@ -30,15 +30,17 @@ import org.vpac.qc.control.retrievers.QcRetriever;
 import org.vpac.qc.model.clients.GenericClient;
 
 /**
- * A QueryArgument has got a name which is the same as the {@link GenericClient} returns with the 
- * getQueryArgumentNames() method. The name can also be found in the xml config file for a Query.
- * The xml file is parsed, and if the name is found the QueryArgument will be processed according 
- * to the parameters in the xml file.
+ * A QueryArgument has got a name which is the same as the {@link GenericClient}
+ * returns with the getQueryArgumentNames() method. The name can also be found
+ * in the xml config file for a Query. The xml file is parsed, and if the name
+ * is found the QueryArgument will be processed according to the parameters in
+ * the xml file.
  * <p>
- * If the QueryArgument name is not found, the type is set to USERINPUT automatically.
+ * If the QueryArgument name is not found, the type is set to USERINPUT
+ * automatically.
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
 public class QueryArgument {
 
@@ -68,8 +70,8 @@ public class QueryArgument {
 		this.description = description;
 		this.value = value;
 	}
-	
-	public QueryArgument (Query query, String name){
+
+	public QueryArgument(Query query, String name) {
 		this.query = query;
 		this.name = name;
 		this.type = new Element("type").setAttribute("name", "userinput");
@@ -90,7 +92,8 @@ public class QueryArgument {
 
 		Object[] value = null;
 
-		String searchString = "/QueryArguments/QueryArgument[@name=\"" + name + "\"]";
+		String searchString = "/QueryArguments/QueryArgument[@name=\"" + name
+				+ "\"]";
 		XPath x = XPath.newInstance(searchString);
 		Element rootElement = query.getClient().getRootElement();
 
@@ -104,11 +107,11 @@ public class QueryArgument {
 			// check whether this element contains a query element with the name
 			// of
 			// the Query
-			searchString = searchString+"/query[@name=\"" + query.getName() + "\"]";
-			//searchString = "/QueryArguments/QueryArgument/query";
+			searchString = searchString + "/query[@name=\"" + query.getName()
+					+ "\"]";
+			// searchString = "/QueryArguments/QueryArgument/query";
 			x = XPath.newInstance(searchString);
 			list = x.selectNodes(rootElement);
-
 
 			Element queryElement = null;
 			// if something is found, again, take the first result
@@ -154,17 +157,19 @@ public class QueryArgument {
 		}
 
 	}
-	
-	public boolean equals(QueryArgument other){
-		if ( other.getName().equals(this.getName()) ) return true;
-		else return false;
+
+	public boolean equals(QueryArgument other) {
+		if (other.getName().equals(this.getName()))
+			return true;
+		else
+			return false;
 	}
 
 	/**
 	 * This method calls the class specified in the xml file to fill the value
 	 * field of the QueryArgument with an array for preselection
 	 * 
-	 * @throws Throwable 
+	 * @throws Throwable
 	 */
 	public void retrieveValue() throws ArgumentsException {
 
@@ -175,27 +180,33 @@ public class QueryArgument {
 		try {
 			Class plugin = Class.forName("org.vpac.qc.control.retrievers."
 					+ method_name);
-			
+
 			// Constructor
 			Constructor call_classConstructor = null;
-			Class[] call_classConstructorClasses = new Class[]{QueryArgument.class};
-			Object[] call_classConstructorObjects = new Object[]{this};
-			
-			call_classConstructor = plugin.getConstructor(call_classConstructorClasses);
-			retreiver = (QcRetriever)call_classConstructor.newInstance(call_classConstructorObjects);
-		} catch (ClassCastException cce){
+			Class[] call_classConstructorClasses = new Class[] { QueryArgument.class };
+			Object[] call_classConstructorObjects = new Object[] { this };
+
+			call_classConstructor = plugin
+					.getConstructor(call_classConstructorClasses);
+			retreiver = (QcRetriever) call_classConstructor
+					.newInstance(call_classConstructorObjects);
+		} catch (ClassCastException cce) {
 			// should not happen
-			throw new ArgumentsException("Could not cast retreiver plugin: "+cce.getMessage());
-		} catch (Exception ae){
-			throw (ArgumentsException)ae;
+			throw new ArgumentsException("Could not cast retreiver plugin: "
+					+ cce.getMessage());
+		} catch (Exception ae) {
+			throw (ArgumentsException) ae;
 		}
 
 		try {
 			this.value = retreiver.retrieveValue();
-		
+
 		} catch (Exception e) {
-			myLogger.warn("Error when invoking method: "+method_name+": "+e.getMessage());
-			throw new ArgumentsException("Could not retreive data with retreiver "+retreiver+": "+e.getMessage());
+			myLogger.warn("Error when invoking method: " + method_name + ": "
+					+ e.getMessage());
+			throw new ArgumentsException(
+					"Could not retreive data with retreiver " + retreiver
+							+ ": " + e.getMessage());
 		}
 
 	}
@@ -229,16 +240,19 @@ public class QueryArgument {
 	}
 
 	public void changeType(String type) throws ArgumentsException {
-		
-		if ( ArgumentType.DEFAULT.equals(type) )
+
+		if (ArgumentType.DEFAULT.equals(type))
 			this.type = new Element("type").setAttribute("name", "default");
-		else if ( ArgumentType.PRESELECTION.equals(type) )
-			this.type = new Element("type").setAttribute("name", "preselection");
-		else if ( ArgumentType.INPUT_DEPENDANT.equals(type) )
-			this.type = new Element("type").setAttribute("name", "input_dependant");
-		else if ( ArgumentType.USERINPUT.equals(type) )
+		else if (ArgumentType.PRESELECTION.equals(type))
+			this.type = new Element("type")
+					.setAttribute("name", "preselection");
+		else if (ArgumentType.INPUT_DEPENDANT.equals(type))
+			this.type = new Element("type").setAttribute("name",
+					"input_dependant");
+		else if (ArgumentType.USERINPUT.equals(type))
 			this.type = new Element("type").setAttribute("name", "userinput");
-		else throw new ArgumentsException("Unknown ArgumentType: "+type);
+		else
+			throw new ArgumentsException("Unknown ArgumentType: " + type);
 	}
 
 }

@@ -48,7 +48,7 @@ import org.vpac.qc.model.query.UserInputQuery;
 import org.vpac.qc.view.swing.OneQueryPanel;
 import org.vpac.qc.view.swing.OneQueryPanelParent;
 
-public class GuiExample implements OneQueryPanelParent{
+public class GuiExample implements OneQueryPanelParent {
 
 	private JFrame jFrame = null;
 
@@ -81,11 +81,12 @@ public class GuiExample implements OneQueryPanelParent{
 	private JLabel aboutVersionLabel = null;
 
 	private JPanel jPanel = null;
-	
+
 	// -----------------------------------------
 	private OneQueryPanel inputPanel = null;
 	private GenericClient client = null;
 	private UserInputQuery currentQuery = null;
+
 	// -----------------------------------------
 
 	/**
@@ -120,9 +121,9 @@ public class GuiExample implements OneQueryPanelParent{
 	}
 
 	/**
-	 * This method initializes jJMenuBar	
-	 * 	
-	 * @return javax.swing.JMenuBar	
+	 * This method initializes jJMenuBar
+	 * 
+	 * @return javax.swing.JMenuBar
 	 */
 	private JMenuBar getJJMenuBar() {
 		if (jJMenuBar == null) {
@@ -135,9 +136,9 @@ public class GuiExample implements OneQueryPanelParent{
 	}
 
 	/**
-	 * This method initializes jMenu	
-	 * 	
-	 * @return javax.swing.JMenu	
+	 * This method initializes jMenu
+	 * 
+	 * @return javax.swing.JMenu
 	 */
 	private JMenu getFileMenu() {
 		if (fileMenu == null) {
@@ -150,9 +151,9 @@ public class GuiExample implements OneQueryPanelParent{
 	}
 
 	/**
-	 * This method initializes jMenu	
-	 * 	
-	 * @return javax.swing.JMenu	
+	 * This method initializes jMenu
+	 * 
+	 * @return javax.swing.JMenu
 	 */
 	private JMenu getEditMenu() {
 		if (editMenu == null) {
@@ -166,9 +167,9 @@ public class GuiExample implements OneQueryPanelParent{
 	}
 
 	/**
-	 * This method initializes jMenu	
-	 * 	
-	 * @return javax.swing.JMenu	
+	 * This method initializes jMenu
+	 * 
+	 * @return javax.swing.JMenu
 	 */
 	private JMenu getHelpMenu() {
 		if (helpMenu == null) {
@@ -180,9 +181,9 @@ public class GuiExample implements OneQueryPanelParent{
 	}
 
 	/**
-	 * This method initializes jMenuItem	
-	 * 	
-	 * @return javax.swing.JMenuItem	
+	 * This method initializes jMenuItem
+	 * 
+	 * @return javax.swing.JMenuItem
 	 */
 	private JMenuItem getExitMenuItem() {
 		if (exitMenuItem == null) {
@@ -198,9 +199,9 @@ public class GuiExample implements OneQueryPanelParent{
 	}
 
 	/**
-	 * This method initializes jMenuItem	
-	 * 	
-	 * @return javax.swing.JMenuItem	
+	 * This method initializes jMenuItem
+	 * 
+	 * @return javax.swing.JMenuItem
 	 */
 	private JMenuItem getAboutMenuItem() {
 		if (aboutMenuItem == null) {
@@ -221,8 +222,8 @@ public class GuiExample implements OneQueryPanelParent{
 	}
 
 	/**
-	 * This method initializes aboutDialog	
-	 * 	
+	 * This method initializes aboutDialog
+	 * 
 	 * @return javax.swing.JDialog
 	 */
 	private JDialog getAboutDialog() {
@@ -249,9 +250,9 @@ public class GuiExample implements OneQueryPanelParent{
 	}
 
 	/**
-	 * This method initializes aboutVersionLabel	
-	 * 	
-	 * @return javax.swing.JLabel	
+	 * This method initializes aboutVersionLabel
+	 * 
+	 * @return javax.swing.JLabel
 	 */
 	private JLabel getAboutVersionLabel() {
 		if (aboutVersionLabel == null) {
@@ -263,9 +264,9 @@ public class GuiExample implements OneQueryPanelParent{
 	}
 
 	/**
-	 * This method initializes jMenuItem	
-	 * 	
-	 * @return javax.swing.JMenuItem	
+	 * This method initializes jMenuItem
+	 * 
+	 * @return javax.swing.JMenuItem
 	 */
 	private JMenuItem getCutMenuItem() {
 		if (cutMenuItem == null) {
@@ -278,9 +279,9 @@ public class GuiExample implements OneQueryPanelParent{
 	}
 
 	/**
-	 * This method initializes jMenuItem	
-	 * 	
-	 * @return javax.swing.JMenuItem	
+	 * This method initializes jMenuItem
+	 * 
+	 * @return javax.swing.JMenuItem
 	 */
 	private JMenuItem getCopyMenuItem() {
 		if (copyMenuItem == null) {
@@ -293,9 +294,9 @@ public class GuiExample implements OneQueryPanelParent{
 	}
 
 	/**
-	 * This method initializes jMenuItem	
-	 * 	
-	 * @return javax.swing.JMenuItem	
+	 * This method initializes jMenuItem
+	 * 
+	 * @return javax.swing.JMenuItem
 	 */
 	private JMenuItem getPasteMenuItem() {
 		if (pasteMenuItem == null) {
@@ -308,9 +309,9 @@ public class GuiExample implements OneQueryPanelParent{
 	}
 
 	/**
-	 * This method initializes jMenuItem	
-	 * 	
-	 * @return javax.swing.JMenuItem	
+	 * This method initializes jMenuItem
+	 * 
+	 * @return javax.swing.JMenuItem
 	 */
 	private JMenuItem getSaveMenuItem() {
 		if (saveMenuItem == null) {
@@ -323,9 +324,9 @@ public class GuiExample implements OneQueryPanelParent{
 	}
 
 	/**
-	 * This method initializes jPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
+	 * This method initializes jPanel
+	 * 
+	 * @return javax.swing.JPanel
 	 */
 	private JPanel getJPanel() {
 		if (jPanel == null) {
@@ -346,18 +347,18 @@ public class GuiExample implements OneQueryPanelParent{
 			}
 		});
 	}
-	
+
 	// -----------------------------------------------------
-	public GuiExample(){
+	public GuiExample() {
 		try {
-			this.client = new MathServiceClient(new File("/home/markus/workspace/qc/src/org/vpac/qc/examples/MathService/queries.xml"));
+			this.client = new MathServiceClient(
+					new File(
+							"/home/markus/workspace/qc/src/org/vpac/qc/examples/MathService/queries.xml"));
 
 		} catch (ClientNotInitializedException e) {
 			JOptionPane
-					.showMessageDialog(
-							this.getJFrame(),
-							"<html><body><p>"
-									+ "Could not initialize client: "
+					.showMessageDialog(this.getJFrame(),
+							"<html><body><p>" + "Could not initialize client: "
 									+ "</p><p>" + e.getMessage()
 									+ "</p></body></html>",
 							"Error initializing client",
@@ -373,14 +374,16 @@ public class GuiExample implements OneQueryPanelParent{
 					+ "</p><p>" + e.getMessage() + "</p></body></html>",
 					"Error parsing xml config file", JOptionPane.ERROR_MESSAGE);
 		} catch (ArgumentsException e) {
-			JOptionPane.showMessageDialog(this.getJFrame(), "<html><body><p>"
-					+ "Could not parse init Query: " + "</p><p>"
-					+ e.getMessage() + "</p></body></html>",
-					"Error init Query", JOptionPane.ERROR_MESSAGE);
+			JOptionPane
+					.showMessageDialog(this.getJFrame(),
+							"<html><body><p>" + "Could not parse init Query: "
+									+ "</p><p>" + e.getMessage()
+									+ "</p></body></html>", "Error init Query",
+							JOptionPane.ERROR_MESSAGE);
 		}
-		
+
 	}
-	
+
 	/**
 	 * This method initializes inputPanel
 	 * 
@@ -395,7 +398,7 @@ public class GuiExample implements OneQueryPanelParent{
 
 	public void cancel() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public UserInputQuery getQuery() {
@@ -404,15 +407,14 @@ public class GuiExample implements OneQueryPanelParent{
 
 	public void submitted(boolean success) {
 		JOptionPane.showMessageDialog(this.getJFrame(), "<html><body><p>"
-				+ "The result is: "+currentQuery.getResult()[0]
-				+ "</p></body></html>",
-				"Result", JOptionPane.INFORMATION_MESSAGE);
+				+ "The result is: " + currentQuery.getResult()[0]
+				+ "</p></body></html>", "Result",
+				JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public boolean tellUser() {
 		// TODO Auto-generated method stub
 		return true;
 	}
-	
 
 }

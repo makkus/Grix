@@ -28,22 +28,25 @@ import org.vpac.common.exceptions.MissingPrerequisitesException;
 import org.vpac.common.model.GlobusLocations;
 
 /**
- * A GlobusProxy is the default X509 proxy that is used with Globus. It is normally stored under 
- *  /tmp/x509up_u<uid>. 
+ * A GlobusProxy is the default X509 proxy that is used with Globus. It is
+ * normally stored under /tmp/x509up_u<uid>.
+ * 
  * @author Markus Binsteiner
- *
+ * 
  */
 public class GlobusProxy extends GridProxy {
-	
+
 	private DefaultGridProxyModel model = null;
-	
-	public GlobusProxy(File proxyFile){
+
+	public GlobusProxy(File proxyFile) {
 		super(proxyFile);
 		model = new DefaultGridProxyModel();
-		model.getProperties().setUserCertFile(GlobusLocations.defaultLocations().getUserCert().toString());
-		model.getProperties().setUserKeyFile(GlobusLocations.defaultLocations().getUserKey().toString());
+		model.getProperties().setUserCertFile(
+				GlobusLocations.defaultLocations().getUserCert().toString());
+		model.getProperties().setUserKeyFile(
+				GlobusLocations.defaultLocations().getUserKey().toString());
 	}
-	
+
 	protected void checkPrerequisites() throws MissingPrerequisitesException {
 
 		ArrayList<File> missingFiles = new ArrayList<File>();
@@ -56,17 +59,19 @@ public class GlobusProxy extends GridProxy {
 
 		if (missingFiles.size() != 0)
 			throw new MissingPrerequisitesException(missingFiles);
-	}	
-	
-	protected GlobusCredential createProxy(char[] passphrase, long lifetime_in_ms) throws Exception{
-		model.getProperties().setProxyLifeTime(new Long((lifetime_in_ms)/(1000*3600)).intValue());
+	}
+
+	protected GlobusCredential createProxy(char[] passphrase,
+			long lifetime_in_ms) throws Exception {
+		model.getProperties().setProxyLifeTime(
+				new Long((lifetime_in_ms) / (1000 * 3600)).intValue());
 		return model.createProxy(new String(passphrase));
 	}
 
 	@Override
 	protected ArrayList<String> proxyInfo() {
-		//TODO ?
+		// TODO ?
 		return new ArrayList<String>();
 	}
-	
+
 }

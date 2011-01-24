@@ -40,17 +40,19 @@ import org.w3c.dom.Document;
 import com.centerkey.utils.BareBonesBrowserLaunch;
 
 /**
- * The easiest implementation of a MessagePanel. Uses a JEditorPane to display plain HTML.
- * Also has a hyperlink handler.
+ * The easiest implementation of a MessagePanel. Uses a JEditorPane to display
+ * plain HTML. Also has a hyperlink handler.
+ * 
  * @author Markus Binsteiner
- *
+ * 
  */
-public class SimpleMessagePanel extends MessagePanel implements HyperlinkListener {
+public class SimpleMessagePanel extends MessagePanel implements
+		HyperlinkListener {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	static final Logger myLogger = Logger.getLogger(SimpleMessagePanel.class
-			.getName());  //  @jve:decl-index=0:
+			.getName()); // @jve:decl-index=0:
 
 	private JEditorPane jEditorPane = null;
 
@@ -61,8 +63,9 @@ public class SimpleMessagePanel extends MessagePanel implements HyperlinkListene
 	/*
 	 * (non-Javadoc) Not properly implemented. Don't use it!
 	 * 
-	 * @see org.vpac.grix.view.swing.common.MessagePanel#setDocument(org.w3c.dom.Document,
-	 *      java.lang.String)
+	 * @see
+	 * org.vpac.grix.view.swing.common.MessagePanel#setDocument(org.w3c.dom.
+	 * Document, java.lang.String)
 	 */
 	public void setDocument(Document doc, String uri) {
 		// this.uri = uri;
@@ -87,24 +90,26 @@ public class SimpleMessagePanel extends MessagePanel implements HyperlinkListene
 		revalidate();
 
 	}
-	
-	public void setDocument(String message, boolean include_header_and_footer)  {
-		if ( include_header_and_footer ){
-			jEditorPane.setText(MessagePanel.getMessages().getString("HTML.header")
-					+ message + MessagePanel.getMessages().getString("HTML.footer"));			
+
+	public void setDocument(String message, boolean include_header_and_footer) {
+		if (include_header_and_footer) {
+			jEditorPane.setText(MessagePanel.getMessages().getString(
+					"HTML.header")
+					+ message
+					+ MessagePanel.getMessages().getString("HTML.footer"));
 		} else {
-			jEditorPane.setText( message );
+			jEditorPane.setText(message);
 		}
 		jEditorPane.setCaretPosition(0);
 
 	}
 
-	public void setDocument(String message)  {
+	public void setDocument(String message) {
 		setDocument(message, false);
 		jEditorPane.setCaretPosition(0);
 	}
-	
-	public void setDocument(File file){
+
+	public void setDocument(File file) {
 		try {
 			jEditorPane.setPage(file.toURL());
 		} catch (MalformedURLException e) {
@@ -114,9 +119,9 @@ public class SimpleMessagePanel extends MessagePanel implements HyperlinkListene
 		}
 		jEditorPane.setCaretPosition(0);
 	}
-	
-	public void setDocument(URL url){
-		
+
+	public void setDocument(URL url) {
+
 		try {
 			jEditorPane.setPage(url);
 		} catch (IOException e) {
@@ -126,10 +131,10 @@ public class SimpleMessagePanel extends MessagePanel implements HyperlinkListene
 	}
 
 	private String getHTMLbody(String in) {
-		      String tmp=in.toLowerCase();
-		      int i=tmp.indexOf("<body>")+6;
-		      int j=tmp.indexOf("</body>");
-		      return in.substring(i,j);
+		String tmp = in.toLowerCase();
+		int i = tmp.indexOf("<body>") + 6;
+		int j = tmp.indexOf("</body>");
+		return in.substring(i, j);
 	}
 
 	/**
@@ -141,35 +146,35 @@ public class SimpleMessagePanel extends MessagePanel implements HyperlinkListene
 		getJEditorPane().setContentType("text/html");
 		initialize();
 	}
-	
-	public SimpleMessagePanel(String message, Color background){
+
+	public SimpleMessagePanel(String message, Color background) {
 		super();
 		this.setBackground(background);
 		initialize();
 		setDocument(message);
 	}
-	
-	public SimpleMessagePanel(URL url, Color background){
+
+	public SimpleMessagePanel(URL url, Color background) {
 		super();
 		this.setBackground(background);
 		initialize();
 		setDocument(url);
-		
+
 	}
-	
+
 	public SimpleMessagePanel() {
 		super();
 		getJEditorPane().setContentType("text/html");
 		initialize();
 	}
-	
-	public SimpleMessagePanel(String message){
+
+	public SimpleMessagePanel(String message) {
 		super();
 		initialize();
 		setDocument(message);
 	}
-	
-	public SimpleMessagePanel(URL url){
+
+	public SimpleMessagePanel(URL url) {
 		super();
 		initialize();
 		setDocument(url);
@@ -201,8 +206,8 @@ public class SimpleMessagePanel extends MessagePanel implements HyperlinkListene
 		this.setLayout(new GridBagLayout());
 		this.add(getJScrollPane(), gridBagConstraints3);
 	}
-	
-	public void setMargins(Insets insets){
+
+	public void setMargins(Insets insets) {
 		jEditorPane.setMargin(insets);
 	}
 
@@ -222,26 +227,26 @@ public class SimpleMessagePanel extends MessagePanel implements HyperlinkListene
 		}
 		return jEditorPane;
 	}
-	
-	  public void hyperlinkUpdate(HyperlinkEvent event) {
-		  if (event.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-			  try {
-			  	myLogger.debug("Clicked url within SimpleMessagePanel.");
-		        BareBonesBrowserLaunch.openURL(event.getURL().toExternalForm());
-			  } catch (NullPointerException npe){
-				  BareBonesBrowserLaunch.openURL(event.getDescription());
-			  }
-		    }
-		  }
-	  
-	  public void setBackground(Color background){
-		  getJEditorPane().setBackground(background);
-	  }
+
+	public void hyperlinkUpdate(HyperlinkEvent event) {
+		if (event.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+			try {
+				myLogger.debug("Clicked url within SimpleMessagePanel.");
+				BareBonesBrowserLaunch.openURL(event.getURL().toExternalForm());
+			} catch (NullPointerException npe) {
+				BareBonesBrowserLaunch.openURL(event.getDescription());
+			}
+		}
+	}
+
+	public void setBackground(Color background) {
+		getJEditorPane().setBackground(background);
+	}
 
 	/**
-	 * This method initializes jScrollPane	
-	 * 	
-	 * @return javax.swing.JScrollPane	
+	 * This method initializes jScrollPane
+	 * 
+	 * @return javax.swing.JScrollPane
 	 */
 	private JScrollPane getJScrollPane() {
 		if (jScrollPane == null) {
@@ -250,7 +255,5 @@ public class SimpleMessagePanel extends MessagePanel implements HyperlinkListene
 		}
 		return jScrollPane;
 	}
-
-
 
 }

@@ -39,14 +39,15 @@ import fnal.vox.vomrs.services.VOMRS;
 import fnal.vox.vomrs.services.VOMRSServiceLocator;
 
 /**
- * This class connects to a vomrs server and executes web service queries. 
+ * This class connects to a vomrs server and executes web service queries.
  * 
  * @author Markus Binsteiner
  * 
  */
 public class VomrsClient extends GenericClient {
-	
-	static final Logger myLogger = Logger.getLogger(VomrsClient.class.getName());
+
+	static final Logger myLogger = Logger
+			.getLogger(VomrsClient.class.getName());
 
 	private URL url = null;
 
@@ -59,23 +60,31 @@ public class VomrsClient extends GenericClient {
 	/**
 	 * Default constructor
 	 * 
-	 * @param url the url of the VOMRS server as a string (e.g. new VomrsClient(new String[]{"https://vomrs.apac.edu.au:8443/vo/APAC/services/VOMRS?wsdl"})
-	 * @param doc the root of the xml-config file
+	 * @param url
+	 *            the url of the VOMRS server as a string (e.g. new
+	 *            VomrsClient(new String[]{
+	 *            "https://vomrs.apac.edu.au:8443/vo/APAC/services/VOMRS?wsdl"})
+	 * @param doc
+	 *            the root of the xml-config file
 	 * @throws ClientNotInitializedException
 	 */
 	public VomrsClient(String url, Document doc)
 			throws ClientNotInitializedException {
 		super(new Object[] { url }, doc);
 	}
-	
+
 	/**
 	 * Factory method of the above constructor
-	 * @param vo the vo
-	 * @param doc the root element of the xml config
+	 * 
+	 * @param vo
+	 *            the vo
+	 * @param doc
+	 *            the root element of the xml config
 	 * @return a VomrsClient for that certain VO
 	 * @throws ClientNotInitializedException
 	 */
-	public static VomrsClient getVomrsClient(VO vo, Document doc) throws ClientNotInitializedException {
+	public static VomrsClient getVomrsClient(VO vo, Document doc)
+			throws ClientNotInitializedException {
 
 		return new VomrsClient(vo.getVomrs_url(), doc);
 	}
@@ -92,7 +101,8 @@ public class VomrsClient extends GenericClient {
 	 * @throws CertificateException
 	 * @throws ServiceException
 	 */
-	protected void initializeClient(Object[] args) throws ClientNotInitializedException {
+	protected void initializeClient(Object[] args)
+			throws ClientNotInitializedException {
 
 		if (args.length != 1)
 			throw new ClientNotInitializedException("Wrong set of arguments.");
@@ -105,7 +115,7 @@ public class VomrsClient extends GenericClient {
 		}
 
 		try {
-			//VOMRS_utils.initVomrsWsWithHostCert();
+			// VOMRS_utils.initVomrsWsWithHostCert();
 			VOMRS_utils.initVomrsWS();
 		} catch (CertificateException e1) {
 			throw new ClientNotInitializedException(
@@ -120,15 +130,15 @@ public class VomrsClient extends GenericClient {
 			throw new ClientNotInitializedException(e.getMessage(), e);
 		}
 
-		myLogger
-				.debug("Stub successfully initialized. Connected to vomrs web service.");
+		myLogger.debug("Stub successfully initialized. Connected to vomrs web service.");
 
 		return;
 	}
 
 	/**
-	 * Returns all the representatives of the VO the VomrsClient is contacting. Not important for the 
-	 * GenericClient functionality of this client.
+	 * Returns all the representatives of the VO the VomrsClient is contacting.
+	 * Not important for the GenericClient functionality of this client.
+	 * 
 	 * @return all the representatives of this VO
 	 */
 	public String[] getRepresentatives() {
@@ -140,7 +150,7 @@ public class VomrsClient extends GenericClient {
 					new Object[] {});
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			myLogger.error(e);
 		}
 
@@ -148,8 +158,10 @@ public class VomrsClient extends GenericClient {
 	}
 
 	/**
-	 * Returns the information of the user whose grid proxy is used to contact the VOMRS server. Not important for the 
-	 * GenericClient functionality of this client.
+	 * Returns the information of the user whose grid proxy is used to contact
+	 * the VOMRS server. Not important for the GenericClient functionality of
+	 * this client.
+	 * 
 	 * @return information about VO membership
 	 */
 	public String[] getMyInfo() {
@@ -185,7 +197,7 @@ public class VomrsClient extends GenericClient {
 			roles = (String[]) execute("getMbrRoles", new Object[] {});
 		} catch (Exception e) {
 			// does not matter
-			//e.printStackTrace();
+			// e.printStackTrace();
 			myLogger.error(e);
 		}
 
@@ -214,7 +226,7 @@ public class VomrsClient extends GenericClient {
 		// if ( highestRole == null ) highestRole = defaultContext;
 		// else {
 		// }
-		//			
+		//
 		// }
 
 		// TODO
@@ -223,6 +235,7 @@ public class VomrsClient extends GenericClient {
 
 	/**
 	 * Not implemented. Returns null.
+	 * 
 	 * @return
 	 */
 	public String[] returnArgumentArray() {
@@ -234,7 +247,7 @@ public class VomrsClient extends GenericClient {
 			throws ClassCastException {
 
 		// pi means personal information in this method.
-		
+
 		if (argumentValues.length == 0)
 			return new Object[] {};
 		Object[] result = null;
@@ -288,9 +301,9 @@ public class VomrsClient extends GenericClient {
 
 			if (serviceArguments.length == 0
 					|| "".equals(serviceArguments[0].toString()))
-				//TODO check whether I return a non array here???
+				// TODO check whether I return a non array here???
 				return new String[0];
-			if ( pi == null )
+			if (pi == null)
 				pi = ((VOMRS) stub).getPI();
 		} catch (RemoteException e) {
 			throw new QueryException("Could not get QueryArgument names with "
@@ -343,7 +356,7 @@ public class VomrsClient extends GenericClient {
 			queries = (String[]) (execute("getServices", new Object[] {}));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			myLogger.error(e);
 		}
 
@@ -372,10 +385,11 @@ public class VomrsClient extends GenericClient {
 			return;
 		}
 	}
-	
+
 	/**
-	 * Returns the personal information that is required within this VO. Not important for the 
-	 * GenericClient functionality of this client.
+	 * Returns the personal information that is required within this VO. Not
+	 * important for the GenericClient functionality of this client.
+	 * 
 	 * @return all fields of required personal information within this VO
 	 */
 	public String[] getPI() {
@@ -391,8 +405,10 @@ public class VomrsClient extends GenericClient {
 	}
 
 	/**
-	 * Returns the personal information of the current user. For description of which field is what use the getPI() function.
-	 * Not important for the GenericClient functionality of this client.
+	 * Returns the personal information of the current user. For description of
+	 * which field is what use the getPI() function. Not important for the
+	 * GenericClient functionality of this client.
+	 * 
 	 * @return the personal information of the current user.
 	 */
 	public String[] getMyPI() {
@@ -406,10 +422,12 @@ public class VomrsClient extends GenericClient {
 
 		return pi;
 	}
+
 	/**
-	 * Returns all subgroups off the current VO. 
-	 * Not important for the GenericClient functionality of this client. Just a convenience method
+	 * Returns all subgroups off the current VO. Not important for the
+	 * GenericClient functionality of this client. Just a convenience method
 	 * because it is used more often.
+	 * 
 	 * @return all subgroups of this VO.
 	 */
 	public String[] getAllGroups() {
@@ -433,13 +451,13 @@ public class VomrsClient extends GenericClient {
 		try {
 			temp = (((VOMRS) stub).getServiceReturnValues(query.getName(),
 					role, ""));
-			if ( pi == null )
+			if (pi == null)
 				pi = ((VOMRS) stub).getPI();
 		} catch (RemoteException e) {
 			throw new QueryException("Could not get QueryResultNames with "
-					+ this.getClass().getName() + ": " + e.getMessage());			
+					+ this.getClass().getName() + ": " + e.getMessage());
 		}
-		
+
 		// TODO ok. here it gets dodgy. but I can't think of a better way to
 		// parse the answer string from vomrs
 
@@ -451,8 +469,7 @@ public class VomrsClient extends GenericClient {
 			arg_string_new = temp[0].split(" ");
 		} else {
 			String temp_pi = temp[0].substring(index);
-			temp = temp[0].substring(0, index - 1)
-					.split(" ");
+			temp = temp[0].substring(0, index - 1).split(" ");
 			arg_string_new = new String[temp.length + 1];
 			int i;
 			for (i = 0; i < temp.length; i++) {
@@ -468,69 +485,70 @@ public class VomrsClient extends GenericClient {
 
 		return arg_string_new;
 	}
-	
-//	public static void main(String[] args) {
-//
-//		try {
-//			GenericClient soapClient = new VomrsClient(
-//					"https://vomrsdev.vpac.org:8443/vo/Markus/services/VOMRS?wsdl" ,
-//					new File("/home/markus/workspace/voc/queries_test.xml"));
-//
-//			// UserInputQuery userInputQuery = new
-//			// UserInputQuery("registerMember", soapClient);
-//			InfoQuery infoQuery = new InfoQuery("registerMember", soapClient,
-//					"Visitor");
-//			infoQuery.init();
-//
-//			for (QueryArgument qarg : infoQuery.getArguments()) {
-//
-//				System.out.println("Argument: " + qarg.getName());
-//				System.out.println("\tType: "
-//						+ qarg.getType().getAttributeValue("name"));
-//				try {
-//					try {
-//						for (Object obj : (Object[]) qarg.getValue()) {
-//							System.out.println("Object: " + obj + "\tClass: "
-//									+ obj.getClass().toString());
-//						}
-//					} catch (ClassCastException e) {
-//						System.out.println("Single object: " + qarg.getValue()
-//								+ "\tClass: "
-//								+ qarg.getValue().getClass().toString());
-//					}
-//				} catch (NullPointerException npe) {
-//					System.out.println("No value for:" + qarg.getName());
-//				}
-//				System.out.println();
-//
-//			}
-//			infoQuery.submit();
-//
-//			for (Object result : infoQuery.getResult()) {
-//				System.out.println("Result: " + result.toString());
-//			}
-//			Object[] temp = infoQuery.getQueryResultNames();
-//			for (Object result : temp) {
-//				System.out.println("Result: " + result.toString());
-//			}			
-//
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//	}	
-	
-	
+
+	// public static void main(String[] args) {
+	//
+	// try {
+	// GenericClient soapClient = new VomrsClient(
+	// "https://vomrsdev.vpac.org:8443/vo/Markus/services/VOMRS?wsdl" ,
+	// new File("/home/markus/workspace/voc/queries_test.xml"));
+	//
+	// // UserInputQuery userInputQuery = new
+	// // UserInputQuery("registerMember", soapClient);
+	// InfoQuery infoQuery = new InfoQuery("registerMember", soapClient,
+	// "Visitor");
+	// infoQuery.init();
+	//
+	// for (QueryArgument qarg : infoQuery.getArguments()) {
+	//
+	// System.out.println("Argument: " + qarg.getName());
+	// System.out.println("\tType: "
+	// + qarg.getType().getAttributeValue("name"));
+	// try {
+	// try {
+	// for (Object obj : (Object[]) qarg.getValue()) {
+	// System.out.println("Object: " + obj + "\tClass: "
+	// + obj.getClass().toString());
+	// }
+	// } catch (ClassCastException e) {
+	// System.out.println("Single object: " + qarg.getValue()
+	// + "\tClass: "
+	// + qarg.getValue().getClass().toString());
+	// }
+	// } catch (NullPointerException npe) {
+	// System.out.println("No value for:" + qarg.getName());
+	// }
+	// System.out.println();
+	//
+	// }
+	// infoQuery.submit();
+	//
+	// for (Object result : infoQuery.getResult()) {
+	// System.out.println("Result: " + result.toString());
+	// }
+	// Object[] temp = infoQuery.getQueryResultNames();
+	// for (Object result : temp) {
+	// System.out.println("Result: " + result.toString());
+	// }
+	//
+	// } catch (Exception e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	//
+	// }
+
 	/**
 	 * Helper function
 	 * 
-	 * @param groups the groups string returned by the MbrInfo query
+	 * @param groups
+	 *            the groups string returned by the MbrInfo query
 	 * @return all groups the user is member of
 	 */
-	public static String[] parseGroups(String groups){
-		String [] parsed = groups.substring(1, groups.length()-1).split("\\]\\[");
-		
+	public static String[] parseGroups(String groups) {
+		String[] parsed = groups.substring(1, groups.length() - 1).split(
+				"\\]\\[");
+
 		return parsed;
 	}
 

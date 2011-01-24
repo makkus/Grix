@@ -18,7 +18,6 @@
 
 package org.vpac.grix.control.utils;
 
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -47,7 +46,7 @@ import org.apache.log4j.Logger;
 public class UnlimitedStrengthPolicyManager {
 
 	static final Logger myLogger = Logger
-			.getLogger( UnlimitedStrengthPolicyManager.class.getName() );
+			.getLogger(UnlimitedStrengthPolicyManager.class.getName());
 
 	public static final String LOCAL_POLICY_FILENAME = "local_policy.jar";
 
@@ -55,55 +54,57 @@ public class UnlimitedStrengthPolicyManager {
 
 	public static final String SUN_POLICY_ZIPFILENAME = "jce_policy-1_5_0.zip";
 
-	private static final File PATH = new File( System.getProperty( "java.home" )
-			+ File.separator + "lib" + File.separator + "security" );
+	private static final File PATH = new File(System.getProperty("java.home")
+			+ File.separator + "lib" + File.separator + "security");
 
 	// private static final File PATH = new File("/home/markus/Desktop/test");
-	private static final File LOCAL_POLICY_FILE = new File( PATH,
-			LOCAL_POLICY_FILENAME );
+	private static final File LOCAL_POLICY_FILE = new File(PATH,
+			LOCAL_POLICY_FILENAME);
 
-	private static final File US_EXPORT_POLICY_FILE = new File( PATH,
-			US_EXPORT_POLICY_FILENAME );
+	private static final File US_EXPORT_POLICY_FILE = new File(PATH,
+			US_EXPORT_POLICY_FILENAME);
 
-	private static final File SUN_POLICY_ZIPFILE = new File( new File( System
-			.getProperty( "user.home" ) ), SUN_POLICY_ZIPFILENAME );
+	private static final File SUN_POLICY_ZIPFILE = new File(new File(
+			System.getProperty("user.home")), SUN_POLICY_ZIPFILENAME);
 
 	/**
 	 * Tests whether Unlimited Strength Encryption is installed.
 	 * 
 	 * @return true if installed, false if not
 	 */
-//	public static boolean isUnlimited() {
-//
-//		try {
-//			if ( Cipher.getMaxAllowedKeyLength( "RC4" ) == Integer.MAX_VALUE ) return true;
-//			else return false;
-//		} catch (Exception e) {
-//			// TODO does not matter
-//			//e.printStackTrace();
-//			myLogger.error(e);
-//		}
-//		return false;
-//	}
-	
+	// public static boolean isUnlimited() {
+	//
+	// try {
+	// if ( Cipher.getMaxAllowedKeyLength( "RC4" ) == Integer.MAX_VALUE ) return
+	// true;
+	// else return false;
+	// } catch (Exception e) {
+	// // TODO does not matter
+	// //e.printStackTrace();
+	// myLogger.error(e);
+	// }
+	// return false;
+	// }
+
 	/**
 	 * Tests the max rsa keysize.
 	 * 
 	 * @return true if installed, false if not
 	 */
-//	public static int maxRSAKeysize() {
-//
-//		try {
-//			myLogger.debug( "Max RSA Keysize: "+Cipher.getMaxAllowedKeyLength( "RSA" ) );
-//			return Cipher.getMaxAllowedKeyLength( "RSA" );
-//		} catch (NoSuchAlgorithmException e) {
-//			// TODO Auto-generated catch block
-//			//e.printStackTrace();
-//			myLogger.error(e);
-//		}
-//		return -1;
-//		
-//	}	
+	// public static int maxRSAKeysize() {
+	//
+	// try {
+	// myLogger.debug( "Max RSA Keysize: "+Cipher.getMaxAllowedKeyLength( "RSA"
+	// ) );
+	// return Cipher.getMaxAllowedKeyLength( "RSA" );
+	// } catch (NoSuchAlgorithmException e) {
+	// // TODO Auto-generated catch block
+	// //e.printStackTrace();
+	// myLogger.error(e);
+	// }
+	// return -1;
+	//
+	// }
 
 	/**
 	 * Tests whether the current user is allowed to install the policy files
@@ -113,14 +114,12 @@ public class UnlimitedStrengthPolicyManager {
 	 */
 	public static boolean allowedToWritePolicyFiles() {
 
-		if ( PATH.canWrite() ) {
-			myLogger.debug( "Can write to path." );
-			if ( US_EXPORT_POLICY_FILE.canWrite() ) {
-				myLogger.debug( "Can write: "
-						+ US_EXPORT_POLICY_FILE.toString() );
-				if ( LOCAL_POLICY_FILE.canWrite() ) {
-					myLogger.debug( "Can write: "
-							+ LOCAL_POLICY_FILE.toString() );
+		if (PATH.canWrite()) {
+			myLogger.debug("Can write to path.");
+			if (US_EXPORT_POLICY_FILE.canWrite()) {
+				myLogger.debug("Can write: " + US_EXPORT_POLICY_FILE.toString());
+				if (LOCAL_POLICY_FILE.canWrite()) {
+					myLogger.debug("Can write: " + LOCAL_POLICY_FILE.toString());
 					return true;
 				}
 			}
@@ -144,34 +143,35 @@ public class UnlimitedStrengthPolicyManager {
 		InputStream in = null;
 		try {
 
-			URL url = new URL( policyFile );
-			out = new BufferedOutputStream( new FileOutputStream( SUN_POLICY_ZIPFILE ) );
+			URL url = new URL(policyFile);
+			out = new BufferedOutputStream(new FileOutputStream(
+					SUN_POLICY_ZIPFILE));
 			conn = url.openConnection();
 			in = conn.getInputStream();
 			byte[] buffer = new byte[1024];
 			int numRead;
 			long numWritten = 0;
-			while ((numRead = in.read( buffer )) != -1) {
-				out.write( buffer, 0, numRead );
+			while ((numRead = in.read(buffer)) != -1) {
+				out.write(buffer, 0, numRead);
 				numWritten += numRead;
 			}
-			myLogger.debug( "downloaded: " + policyFile.toString() + "\t"
-					+ "size: " + numWritten );
+			myLogger.debug("downloaded: " + policyFile.toString() + "\t"
+					+ "size: " + numWritten);
 			return true;
 		} catch (Exception exception) {
-			//exception.printStackTrace();
+			// exception.printStackTrace();
 			myLogger.error(exception);
 			return false;
 		} finally {
 			try {
-				if ( in != null ) {
+				if (in != null) {
 					in.close();
 				}
-				if ( out != null ) {
+				if (out != null) {
 					out.close();
 				}
 			} catch (IOException ioe) {
-				//ioe.printStackTrace();
+				// ioe.printStackTrace();
 				myLogger.error(ioe);
 				return false;
 			}
@@ -188,56 +188,55 @@ public class UnlimitedStrengthPolicyManager {
 	public static boolean install(ZipFile zipfile) {
 
 		// backup old files
-		if ( LOCAL_POLICY_FILE.exists() ) {
-			LOCAL_POLICY_FILE.renameTo( new File( LOCAL_POLICY_FILE.toString()
-					+ "."
-					+ GrixProperty.getString( "backup.file.extension" ) ) );
+		if (LOCAL_POLICY_FILE.exists()) {
+			LOCAL_POLICY_FILE.renameTo(new File(LOCAL_POLICY_FILE.toString()
+					+ "." + GrixProperty.getString("backup.file.extension")));
 		}
-		if ( US_EXPORT_POLICY_FILE.exists() ) {
-			US_EXPORT_POLICY_FILE.renameTo( new File( US_EXPORT_POLICY_FILE
+		if (US_EXPORT_POLICY_FILE.exists()) {
+			US_EXPORT_POLICY_FILE.renameTo(new File(US_EXPORT_POLICY_FILE
 					.toString()
 					+ "."
-					+ GrixProperty.getString( "backup.file.extension" ) ) );
+					+ GrixProperty.getString("backup.file.extension")));
 		}
 
 		Enumeration entries = zipfile.entries();
 		while (entries.hasMoreElements()) {
-			ZipEntry entry = (ZipEntry)entries.nextElement();
-			myLogger.debug( "ZipEntry: " + entry.getName() );
+			ZipEntry entry = (ZipEntry) entries.nextElement();
+			myLogger.debug("ZipEntry: " + entry.getName());
 			try {
-				if ( entry.getName().endsWith( LOCAL_POLICY_FILENAME ) ) {
-					myLogger.debug( "Extracting: " + entry.getName() );
-					BufferedInputStream in = new BufferedInputStream( zipfile
-							.getInputStream( entry ) );
+				if (entry.getName().endsWith(LOCAL_POLICY_FILENAME)) {
+					myLogger.debug("Extracting: " + entry.getName());
+					BufferedInputStream in = new BufferedInputStream(
+							zipfile.getInputStream(entry));
 					BufferedOutputStream out = new BufferedOutputStream(
-							new FileOutputStream( LOCAL_POLICY_FILE ) );
+							new FileOutputStream(LOCAL_POLICY_FILE));
 
 					byte[] b = new byte[512];
 					int len = 0;
-					while ((len = in.read( b )) != -1) {
-						out.write( b, 0, len );
+					while ((len = in.read(b)) != -1) {
+						out.write(b, 0, len);
 					}
 					out.close();
 					in.close();
 				}
-				if ( entry.getName().endsWith( US_EXPORT_POLICY_FILENAME ) ) {
-					myLogger.debug( "Extracting: " + entry.getName() );
-					BufferedInputStream in = new BufferedInputStream( zipfile
-							.getInputStream( entry ) );
+				if (entry.getName().endsWith(US_EXPORT_POLICY_FILENAME)) {
+					myLogger.debug("Extracting: " + entry.getName());
+					BufferedInputStream in = new BufferedInputStream(
+							zipfile.getInputStream(entry));
 					BufferedOutputStream out = new BufferedOutputStream(
-							new FileOutputStream( US_EXPORT_POLICY_FILE ) );
+							new FileOutputStream(US_EXPORT_POLICY_FILE));
 
 					byte[] b = new byte[512];
 					int len = 0;
-					while ((len = in.read( b )) != -1) {
-						out.write( b, 0, len );
+					while ((len = in.read(b)) != -1) {
+						out.write(b, 0, len);
 					}
 					out.close();
 					in.close();
 				}
 
 			} catch (Exception e) {
-				//e.printStackTrace();
+				// e.printStackTrace();
 				myLogger.error(e);
 				// TODO
 				return false;

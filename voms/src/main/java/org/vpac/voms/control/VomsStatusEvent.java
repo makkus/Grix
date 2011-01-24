@@ -21,25 +21,25 @@ package org.vpac.voms.control;
 import java.util.EventObject;
 
 public class VomsStatusEvent extends EventObject {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final int NEW_VOMS = 0;
 	public static final int REMOVED_VOMS = 1;
 	public static final int STATUS_CHANGED = 2;
 	public static final int REMOVED_VOMS_MEMBERSHIP = 3;
 	public static final int INFO_CHANGED = 4;
-	
+
 	private int action = -1;
 	private String[] message = null;
-	
+
 	public VomsStatusEvent(Voms voms, int action) {
 		super(voms);
 		this.action = action;
 
 	}
-	
-	public VomsStatusEvent(Voms voms, int action, String[] message){
+
+	public VomsStatusEvent(Voms voms, int action, String[] message) {
 		super(voms);
 		this.action = action;
 		this.message = message;

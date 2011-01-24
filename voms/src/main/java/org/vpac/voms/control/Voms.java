@@ -40,10 +40,11 @@ import org.vpac.voms.model.VO;
 import org.vpac.voms.model.proxy.VomsProxyCredential;
 
 /**
- * A voms is the combination of VO and the information about the membership of the current user (like status) in this VO.
+ * A voms is the combination of VO and the information about the membership of
+ * the current user (like status) in this VO.
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
 public class Voms {
 
@@ -79,6 +80,7 @@ public class Voms {
 
 	/**
 	 * Refresh the membership information within this voms.
+	 * 
 	 * @return the status of the member in the VO
 	 */
 	public int updateVoms() {
@@ -89,7 +91,7 @@ public class Voms {
 			infoQuery.submit();
 		} catch (JDOMException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			myLogger.error(e);
 		} catch (ArgumentsException e) {
 			// TODO That does not really belong here!!!
@@ -113,57 +115,62 @@ public class Voms {
 	}
 
 	/**
-	 * The constructor contacts the VOMS server/VO with the current grid proxy and 
-	 * retrieves the membership information of this DN/user to build the voms. In the curse of this a VomrsClient is created
-	 * to retrieve membership information for this VO from the according VOMRS server.
-	 * @param vo the VO
+	 * The constructor contacts the VOMS server/VO with the current grid proxy
+	 * and retrieves the membership information of this DN/user to build the
+	 * voms. In the curse of this a VomrsClient is created to retrieve
+	 * membership information for this VO from the according VOMRS server.
+	 * 
+	 * @param vo
+	 *            the VO
 	 */
 	public Voms(VO vo) {
 		this.vo = vo;
 		try {
-			
-//			if (true ) throw new ArgumentsException("test");
-			
-			InputStream in = Voms.class.getResourceAsStream("/org/vpac/voms/control/queries.xml");
+
+			// if (true ) throw new ArgumentsException("test");
+
+			InputStream in = Voms.class
+					.getResourceAsStream("/org/vpac/voms/control/queries.xml");
 
 			SAXBuilder builder = new SAXBuilder();
 			Document doc = null;
-			doc = builder.build(in);			
-			
-			
+			doc = builder.build(in);
+
 			this.client = VomrsClient.getVomrsClient(vo, doc);
 			infoQuery = new InfoQuery("getMbrInfo", client, "Member");
 			infoQuery.init();
 			infoQuery.submit();
 		} catch (ClientNotInitializedException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			myLogger.error(e);
 		} catch (JDOMException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			myLogger.error(e);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			status = -1;
 			return;
 		} catch (ArgumentsException e) {
 			// TODO That does not really belong here!!!
 			myLogger.debug("Exception in query: " + e.getMessage());
 			status = NO_CONNECTION_TO_VOMRS;
-			
+
 			GlobusCredential globusCredential = null;
 			try {
-				globusCredential = new GlobusCredential(CoGProperties.getDefault().getProxyFile());
-				
-				ac = VomsProxyCredential.getAC(globusCredential, vo, "A", null, 1);
-				
-				if ( ac != null ) {
+				globusCredential = new GlobusCredential(CoGProperties
+						.getDefault().getProxyFile());
+
+				ac = VomsProxyCredential.getAC(globusCredential, vo, "A", null,
+						1);
+
+				if (ac != null) {
 					status = NON_VOMRS_MEMBER;
 					return;
 				}
-				
+
 			} catch (Exception e1) {
 				myLogger.error(e1);
 				status = NO_CONNECTION_TO_VOMRS;
@@ -186,9 +193,11 @@ public class Voms {
 	}
 
 	/**
-	 * Takes the line (as explained in the LocalVomses class) that describes this VO and parses it to 
-	 * extract information to be able to create a VO.
-	 * @param line the first line of a vomses file
+	 * Takes the line (as explained in the LocalVomses class) that describes
+	 * this VO and parses it to extract information to be able to create a VO.
+	 * 
+	 * @param line
+	 *            the first line of a vomses file
 	 * @return the according VO
 	 */
 	public static VO parseVomsesLine(String line) {
@@ -231,36 +240,38 @@ public class Voms {
 			return null;
 
 		String hostDN = line.substring(start, end);
-		
+
 		start = line.indexOf("\"", end + 1) + 1;
 		end = line.indexOf("\"", start + 1);
-		
+
 		// no use for that
-		String stupidName = line.substring(start, end); 
-		
+		String stupidName = line.substring(start, end);
+
 		start = line.indexOf("\"", end + 1) + 1;
 		end = line.indexOf("\"", start + 1);
-		
-		if ( start < 1 ) {
+
+		if (start < 1) {
 			myLogger.debug(name + " " + host + " " + port + " " + hostDN);
 
 			return new VO(name, host, port, hostDN);
 		}
-		
-		String vomrsUrl = line.substring(start, end); 
-		
+
+		String vomrsUrl = line.substring(start, end);
+
 		myLogger.debug(name + " " + host + " " + port + " " + hostDN + vomrsUrl);
 
 		return new VO(name, host, port, hostDN, vomrsUrl);
 	}
-	
-	public boolean equals(Voms other){
-		
-		if ( other == null ) return false;
-		
-		if ( other.toString().equals(this.toString()) )
+
+	public boolean equals(Voms other) {
+
+		if (other == null)
+			return false;
+
+		if (other.toString().equals(this.toString()))
 			return true;
-		else return false;
+		else
+			return false;
 	}
 
 	public VomrsClient getClient() {
@@ -276,7 +287,8 @@ public class Voms {
 	}
 
 	/**
-	 * The InfoQuery that is used to retrieve membership information with the VomrsClient.
+	 * The InfoQuery that is used to retrieve membership information with the
+	 * VomrsClient.
 	 * 
 	 * @return the InfoQuery
 	 */
@@ -285,25 +297,26 @@ public class Voms {
 	}
 
 	public String getVomsWebURL() {
-		return "https://"+vo.getHost()+":8443/voms/"+vo.getVoName();
+		return "https://" + vo.getHost() + ":8443/voms/" + vo.getVoName();
 	}
 
 	public AttributeCertificate getAc() {
 		return ac;
 	}
-	
+
 	public boolean equals(Object other) {
-		
-		if ( other == null ) return false;
-		
+
+		if (other == null)
+			return false;
+
 		Voms othervoms = null;
-		
+
 		try {
 			othervoms = (Voms) other;
 		} catch (ClassCastException e) {
 			return false;
 		}
-		
+
 		return equals(othervoms);
 	}
 

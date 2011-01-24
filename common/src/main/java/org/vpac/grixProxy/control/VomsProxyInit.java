@@ -19,10 +19,9 @@
 package org.vpac.grixProxy.control;
 
 public class VomsProxyInit {
-	
-	public static boolean execute(){
-		
-		
+
+	public static boolean execute() {
+
 		return false;
 	}
 

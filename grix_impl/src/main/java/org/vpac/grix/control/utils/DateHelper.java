@@ -21,19 +21,18 @@ package org.vpac.grix.control.utils;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
-
 /**
  * Nice format output of the date...
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
 public class DateHelper {
-	
-	public static SimpleDateFormat getDateFormat(){
-		TimeZone tz = TimeZone.getTimeZone( GrixProperty.getString( "timezone" ) );
-		SimpleDateFormat df = new SimpleDateFormat( "dd.MM.yyyy - HH:mm:ss z" );
-		df.setTimeZone( tz );
+
+	public static SimpleDateFormat getDateFormat() {
+		TimeZone tz = TimeZone.getTimeZone(GrixProperty.getString("timezone"));
+		SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy - HH:mm:ss z");
+		df.setTimeZone(tz);
 		return df;
 	}
 

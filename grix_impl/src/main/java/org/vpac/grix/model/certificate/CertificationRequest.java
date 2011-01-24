@@ -18,7 +18,6 @@
 
 package org.vpac.grix.model.certificate;
 
-
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -41,7 +40,6 @@ import org.globus.util.PEMUtils;
 import org.vpac.common.exceptions.MissingInformationException;
 import org.vpac.grix.control.utils.GrixProperty;
 
-
 /**
  * A certification request similar/compatible with the one created by openssl
  * e.g.: openssl req -newkey rsa:1024 -config ./apacgrid-openssl.cnf -out
@@ -51,8 +49,9 @@ import org.vpac.grix.control.utils.GrixProperty;
  * 
  */
 public class CertificationRequest {
-	
-	static final Logger myLogger = Logger.getLogger(CertificationRequest.class.getName());
+
+	static final Logger myLogger = Logger.getLogger(CertificationRequest.class
+			.getName());
 
 	private final String signatureAlgorithm;
 
@@ -86,12 +85,14 @@ public class CertificationRequest {
 	 *            the email address of the applicant
 	 * @param passphrase
 	 *            the passphrase to encrypt the private key
-	 * @throws GeneralSecurityException 
-	 * @throws MissingInformationException 
-	 * @throws  
+	 * @throws GeneralSecurityException
+	 * @throws MissingInformationException
+	 * @throws
 	 */
 	public CertificationRequest(String c, String o, String ou, String cn,
-			String email, int keysize, String signature_algorithm, boolean hostcert) throws GeneralSecurityException, MissingInformationException  {
+			String email, int keysize, String signature_algorithm,
+			boolean hostcert) throws GeneralSecurityException,
+			MissingInformationException {
 
 		this.c = c;
 		this.o = o;
@@ -99,12 +100,12 @@ public class CertificationRequest {
 		this.cn = cn;
 		this.email = email;
 
-		createDN(hostcert); 
+		createDN(hostcert);
 
 		this.keypair = GlobusKeyPair.globusKeyPairFactory(keysize);
 		this.signatureAlgorithm = signature_algorithm;
 	}
-	
+
 	/**
 	 * Creates a certification request with the specified Subject. Generates a
 	 * RSA keypair. The private key has to be stored by the user manually.
@@ -119,33 +120,36 @@ public class CertificationRequest {
 	 *            the name of the applicant
 	 * @param passphrase
 	 *            the passphrase to encrypt the private key
-	 * @throws GeneralSecurityException 
-	 * @throws MissingInformationException 
-	 * @throws  
+	 * @throws GeneralSecurityException
+	 * @throws MissingInformationException
+	 * @throws
 	 */
 	public CertificationRequest(String c, String o, String ou, String cn,
-			int keysize, String signature_algorithm, boolean hostcert) throws GeneralSecurityException, MissingInformationException  {
+			int keysize, String signature_algorithm, boolean hostcert)
+			throws GeneralSecurityException, MissingInformationException {
 
 		this.c = c;
 		this.o = o;
 		this.ou = ou;
 		this.cn = cn;
 
-		createDN(hostcert); 
+		createDN(hostcert);
 
 		this.keypair = GlobusKeyPair.globusKeyPairFactory(keysize);
 		this.signatureAlgorithm = signature_algorithm;
-	}	
+	}
 
 	/**
 	 * Creates a certification request without user details. Only sets the
 	 * signature algorithm and creates a keypair.
-	 * @throws GeneralSecurityException 
-	 * @throws  
+	 * 
+	 * @throws GeneralSecurityException
+	 * @throws
 	 * 
 	 * @throws SecurityProviderException
 	 */
-	public CertificationRequest(int keysize, String signature_algorithm) throws GeneralSecurityException {
+	public CertificationRequest(int keysize, String signature_algorithm)
+			throws GeneralSecurityException {
 
 		this.keypair = GlobusKeyPair.globusKeyPairFactory(keysize);
 		this.signatureAlgorithm = signature_algorithm;
@@ -155,91 +159,108 @@ public class CertificationRequest {
 	 * Broken!!! This constructor does not read the public key in the .pem file
 	 * It just parses the subject line and fills the dn fields.
 	 * 
-	 * @param file the certificate request with a subject line containing the DN
-	 * @param signature_algorithm the algorithm for the private key. Use GrixProperty.getString("signature.algorithm");
-	 * @param hostcert whether the certification request was for a hostcert or not
-	 * @throws IOException 
-	 * @throws MissingInformationException 
+	 * @param file
+	 *            the certificate request with a subject line containing the DN
+	 * @param signature_algorithm
+	 *            the algorithm for the private key. Use
+	 *            GrixProperty.getString("signature.algorithm");
+	 * @param hostcert
+	 *            whether the certification request was for a hostcert or not
+	 * @throws IOException
+	 * @throws MissingInformationException
 	 */
-	public CertificationRequest(File file, String signature_algorithm, boolean hostcert) throws IOException, MissingInformationException  {
-		
+	public CertificationRequest(File file, String signature_algorithm,
+			boolean hostcert) throws IOException, MissingInformationException {
+
 		this.signatureAlgorithm = signature_algorithm;
 
 		BufferedReader input = null;
 		try {
-			input = new BufferedReader( new FileReader( file ) );
+			input = new BufferedReader(new FileReader(file));
 			String line = null; // not declared within while loop
 
 			while ((line = input.readLine()) != null) {
-				if ( line.startsWith( "/C=" ) ) {
+				if (line.startsWith("/C=")) {
 					parseDN(line, hostcert);
 				}
 			}
 		} finally {
 			try {
-				if ( input != null ) {
+				if (input != null) {
 					// flush and close both "input" and its underlying
 					// FileReader
 					input.close();
 				}
 			} catch (Exception e) {
-				//e.printStackTrace();
+				// e.printStackTrace();
 				myLogger.error(e);
 			}
 		}
 	}
 
-	private void parseDN(String line, boolean hostcert) throws MissingInformationException{
+	private void parseDN(String line, boolean hostcert)
+			throws MissingInformationException {
 
-		this.c = line.substring( line.indexOf( "/C=" )+3, line.indexOf( "/O=" ) );
-		this.o = line.substring( line.indexOf( "/O=" )+3, line.indexOf( "/OU=" ) );
-		this.ou = line.substring( line.indexOf( "/OU=" )+4, line.indexOf( "/CN=" ) );
-//		if (!hostcert){
-		if ( line.indexOf("/Email") != -1 ){
-			this.cn = line.substring( line.indexOf( "/CN=" )+4, line.indexOf( "/Email=" ) );
-			this.email = line.substring( line.indexOf("/Email=" )+7 );
+		this.c = line.substring(line.indexOf("/C=") + 3, line.indexOf("/O="));
+		this.o = line.substring(line.indexOf("/O=") + 3, line.indexOf("/OU="));
+		this.ou = line
+				.substring(line.indexOf("/OU=") + 4, line.indexOf("/CN="));
+		// if (!hostcert){
+		if (line.indexOf("/Email") != -1) {
+			this.cn = line.substring(line.indexOf("/CN=") + 4,
+					line.indexOf("/Email="));
+			this.email = line.substring(line.indexOf("/Email=") + 7);
 		} else {
-			this.cn = line.substring( line.indexOf( "/CN=" )+4, line.indexOf( "/E=" ) );
-			this.email = line.substring( line.indexOf("/E=" )+3 );
+			this.cn = line.substring(line.indexOf("/CN=") + 4,
+					line.indexOf("/E="));
+			this.email = line.substring(line.indexOf("/E=") + 3);
 		}
-//		} else {
-//			this.cn = line.substring( line.indexOf( "/CN=")+4 );
-//		}
+		// } else {
+		// this.cn = line.substring( line.indexOf( "/CN=")+4 );
+		// }
 		createDN(hostcert);
-		
+
 	}
 
 	/**
 	 * Concatenates all the user information to a DN and stores the DN into the
 	 * X509Name field dn.
-	 * @param hostcert whether this is for a hostcert or not
-	 * @throws MissingInformationException 
+	 * 
+	 * @param hostcert
+	 *            whether this is for a hostcert or not
+	 * @throws MissingInformationException
 	 */
 	public void createDN(boolean hostcert) throws MissingInformationException {
 
 		ArrayList<String> missingInformation = new ArrayList<String>();
-		
-		if ( this.c.equals("") ) missingInformation.add("C");
-		if ( this.o.equals("") ) missingInformation.add("O");
-		if ( this.ou.equals("") ) missingInformation.add("OU");
-		if ( this.cn.equals("") ) missingInformation.add("CN");
-		if ( this.email.equals("") ) missingInformation.add("EMAIL");
 
-		
-		if ( missingInformation.size() == 0 ) {
-			if ( !hostcert ) {
-			//user certificate
-			this.dn = new X509Name( "C=" + c + ", O=" + o + ", OU=" + ou + ", CN="
-					+ cn + ", emailAddress=" + email );
+		if (this.c.equals(""))
+			missingInformation.add("C");
+		if (this.o.equals(""))
+			missingInformation.add("O");
+		if (this.ou.equals(""))
+			missingInformation.add("OU");
+		if (this.cn.equals(""))
+			missingInformation.add("CN");
+		if (this.email.equals(""))
+			missingInformation.add("EMAIL");
+
+		if (missingInformation.size() == 0) {
+			if (!hostcert) {
+				// user certificate
+				this.dn = new X509Name("C=" + c + ", O=" + o + ", OU=" + ou
+						+ ", CN=" + cn + ", emailAddress=" + email);
 			} else {
-				//host certificate
-				this.dn = new X509Name( "C=" + c + ", O=" + o + ", OU=" + ou + ", CN="+ cn + ", emailAddress=" + email );
+				// host certificate
+				this.dn = new X509Name("C=" + c + ", O=" + o + ", OU=" + ou
+						+ ", CN=" + cn + ", emailAddress=" + email);
 
-		}
+			}
 		} else {
-			
+
 			throw new MissingInformationException(
-			"Could not create DN: not enough information available", missingInformation );
+					"Could not create DN: not enough information available",
+					missingInformation);
 		}
 	}
 
@@ -256,8 +277,7 @@ public class CertificationRequest {
 	 */
 	public CertificationRequest(GlobusKeyPair keypair) {
 
-		this.signatureAlgorithm = GrixProperty
-				.getString( "signature.algorithm" );
+		this.signatureAlgorithm = GrixProperty.getString("signature.algorithm");
 		this.keypair = keypair;
 	}
 
@@ -283,19 +303,19 @@ public class CertificationRequest {
 		try {
 			// using the already implemented .getEncoded() function of
 			// PKCS10CertificationRequest
-			request = new PKCS10CertificationRequest( this.signatureAlgorithm,
-					this.dn, pubkey, derset, privkey );
+			request = new PKCS10CertificationRequest(this.signatureAlgorithm,
+					this.dn, pubkey, derset, privkey);
 
-			PEMUtils.writeBase64( out, "-----BEGIN CERTIFICATE REQUEST-----",
-					Base64.encode( request.getEncoded() ),
-					"-----END CERTIFICATE REQUEST-----" );
+			PEMUtils.writeBase64(out, "-----BEGIN CERTIFICATE REQUEST-----",
+					Base64.encode(request.getEncoded()),
+					"-----END CERTIFICATE REQUEST-----");
 
 			request_string = out.toString();
 			out.close();
 		} catch (Exception e) {
 			// TODO throw new SecurityProviderException("Could not write
 			// certification request to file.");
-			//e.printStackTrace();
+			// e.printStackTrace();
 			myLogger.error(e);
 		}
 
@@ -307,57 +327,59 @@ public class CertificationRequest {
 	 * 
 	 * @param certReqFile
 	 *            the file
-	 * @throws IOException 
+	 * @throws IOException
 	 * @throws Exception
 	 */
-	public void writeToPEMFile(File certReqFile) throws IOException { 
-		
-		if ( !certReqFile.getParentFile().exists() )
-			if (!certReqFile.getParentFile().mkdirs()) throw new IOException("Could not create directory: "+certReqFile.getParent());
-		
-		//if ( !certReqFile.canWrite() ) throw new IOException("Can not write file: "+certReqFile.toString());
+	public void writeToPEMFile(File certReqFile) throws IOException {
+
+		if (!certReqFile.getParentFile().exists())
+			if (!certReqFile.getParentFile().mkdirs())
+				throw new IOException("Could not create directory: "
+						+ certReqFile.getParent());
+
+		// if ( !certReqFile.canWrite() ) throw new
+		// IOException("Can not write file: "+certReqFile.toString());
 
 		PrintStream ps = null;
 
 		try {
-			ps = new PrintStream( new FileOutputStream( certReqFile ) );
+			ps = new PrintStream(new FileOutputStream(certReqFile));
 
-			ps
-					.print( "\n\n"
-							+ "Please mail the following certificate request to "
-							+ GrixProperty
-									.getString( "CA_EMAIL_ADDRESS" )
-							+ "\n"
-							+ "\n"
-							+ "==================================================================\n"
-							+ "\n"
-							+ "Certificate Subject:\n"
-							+ "\n"
-							+ CertUtil.toGlobusID( this.dn.toString() )
-							+ "\n"
-							+ "\n"
-							+ "The above string is known as your user certificate subject, and it \n"
-							+ "uniquely identifies this user.\n"
-							+ "\n"
-							+ "To install this user certificate, please save this e-mail message\n"
-							+ "into the following file.\n"
-							+ "\n"
-							+ "\n"
-							+ certReqFile.getAbsolutePath()
-							+ "\n"
-							+ "\n"
-							+ "\n"
-							+ "      You need not edit this message in any way. Simply \n"
-							+ "      save this e-mail message to the file.\n"
-							+ "\n"
-							+ "\n"
-							+ "If you have any questions about the certificate contact\n"
-							+ "the Certificate Authority at "
-							+ GrixProperty
-									.getString( "CA_EMAIL_ADDRESS" )
-							+ "\n" + "\n" + getEncodedRequest() );
+			ps.print("\n\n"
+					+ "Please mail the following certificate request to "
+					+ GrixProperty.getString("CA_EMAIL_ADDRESS")
+					+ "\n"
+					+ "\n"
+					+ "==================================================================\n"
+					+ "\n"
+					+ "Certificate Subject:\n"
+					+ "\n"
+					+ CertUtil.toGlobusID(this.dn.toString())
+					+ "\n"
+					+ "\n"
+					+ "The above string is known as your user certificate subject, and it \n"
+					+ "uniquely identifies this user.\n"
+					+ "\n"
+					+ "To install this user certificate, please save this e-mail message\n"
+					+ "into the following file.\n"
+					+ "\n"
+					+ "\n"
+					+ certReqFile.getAbsolutePath()
+					+ "\n"
+					+ "\n"
+					+ "\n"
+					+ "      You need not edit this message in any way. Simply \n"
+					+ "      save this e-mail message to the file.\n"
+					+ "\n"
+					+ "\n"
+					+ "If you have any questions about the certificate contact\n"
+					+ "the Certificate Authority at "
+					+ GrixProperty.getString("CA_EMAIL_ADDRESS")
+					+ "\n"
+					+ "\n"
+					+ getEncodedRequest());
 		} finally {
-			if ( ps != null ) {
+			if (ps != null) {
 				ps.close();
 			}
 		}
@@ -422,11 +444,11 @@ public class CertificationRequest {
 
 		return dn;
 	}
-	
+
 	public String getDNwithoutEmail() {
-		
+
 		int index = dn.toString().indexOf(",E=");
-		if ( index == -1 )
+		if (index == -1)
 			index = dn.toString().indexOf(",Email=");
 		return dn.toString().substring(0, index);
 	}

@@ -37,99 +37,115 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 /**
- * A MessagePanel helps displaying formatted text (like HTML, XHTML) on a JPanel. It provides several ways to set the document.
- * I invented this abstract class because at first I used flyingsaucer to display help text within Grix. Turned out
- * that was way to slow and a normal JEditorPane is much better for that. Hence SimpleMessagePanel from now on.
+ * A MessagePanel helps displaying formatted text (like HTML, XHTML) on a
+ * JPanel. It provides several ways to set the document. I invented this
+ * abstract class because at first I used flyingsaucer to display help text
+ * within Grix. Turned out that was way to slow and a normal JEditorPane is much
+ * better for that. Hence SimpleMessagePanel from now on.
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
-public abstract class MessagePanel extends JPanel{
-	
-	static final Logger myLogger = Logger
-	.getLogger(MessagePanel.class.getName());	
-	
+public abstract class MessagePanel extends JPanel {
+
+	static final Logger myLogger = Logger.getLogger(MessagePanel.class
+			.getName());
+
 	private static ResourceBundle messages = ResourceBundle.getBundle(
-			"SwingViewMessagesBundle", java.util.Locale.getDefault()); 	
+			"SwingViewMessagesBundle", java.util.Locale.getDefault());
 
-	private static DocumentBuilder builder = null;  //  @jve:decl-index=0:
+	private static DocumentBuilder builder = null; // @jve:decl-index=0:
 
-	
-	
 	abstract public void setDocument(Document doc, String url);
+
 	abstract public void setDocument(String message);
-	//abstract public void appendText(String message);
-	abstract public void setDocument(String message, boolean include_header_and_footer);
+
+	// abstract public void appendText(String message);
+	abstract public void setDocument(String message,
+			boolean include_header_and_footer);
+
 	abstract public void setDocument(File file);
+
 	abstract public void setMargins(Insets insets);
+
 	abstract protected void setDefaultErrorPage();
 
 	public static DocumentBuilder getDocumentBuilder() {
 		return builder;
 	}
-	
-	public static Document getXHTMLDocument(String name) throws SAXException, IOException{
-		if ( builder == null ) {
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+	public static Document getXHTMLDocument(String name) throws SAXException,
+			IOException {
+		if (builder == null) {
+			DocumentBuilderFactory factory = DocumentBuilderFactory
+					.newInstance();
 			try {
 				builder = factory.newDocumentBuilder();
 			} catch (ParserConfigurationException e) {
 				myLogger.debug("Could not init DocumentBuilder. Exiting...");
 				System.exit(1);
-			}			
+			}
 		}
-		String uri = MessagePanel.class.getResource("/org/vpac/grix/xhtml/"+name+".xhtml").getFile();
+		String uri = MessagePanel.class.getResource(
+				"/org/vpac/grix/xhtml/" + name + ".xhtml").getFile();
 		Document doc = null;
-		doc = builder.parse( new File(uri) );
+		doc = builder.parse(new File(uri));
 		return doc;
 	}
-	
-	public static URL getHTMLDocument(String name) throws SAXException, IOException{
 
-		return MessagePanel.class.getResource("/org/vpac/grix/html/"+name+".html");
+	public static URL getHTMLDocument(String name) throws SAXException,
+			IOException {
+
+		return MessagePanel.class.getResource("/org/vpac/grix/html/" + name
+				+ ".html");
 
 	}
-	
+
 	public static String getHTML(String name) throws IOException {
-	
-		InputStream in = MessagePanel.class.getResourceAsStream("/org/vpac/grix/html/"+name+".html");
-		if ( in == null ) {
-			throw new IOException("Cound not find resource: org/vpac/grix/html/"+name+".html");
+
+		InputStream in = MessagePanel.class
+				.getResourceAsStream("/org/vpac/grix/html/" + name + ".html");
+		if (in == null) {
+			throw new IOException(
+					"Cound not find resource: org/vpac/grix/html/" + name
+							+ ".html");
 		}
 		BufferedReader d = new BufferedReader(new InputStreamReader(in));
 
 		StringBuffer sb = new StringBuffer();
-		try{
-		String line = null;
-		while((line=d.readLine()) != null){
-			sb.append(line+"\n");
-		}
-		}catch(Exception ex){
+		try {
+			String line = null;
+			while ((line = d.readLine()) != null) {
+				sb.append(line + "\n");
+			}
+		} catch (Exception ex) {
 			ex.getMessage();
-		}finally{
-		try{
-			in.close();
-		}catch(Exception ex){}
+		} finally {
+			try {
+				in.close();
+			} catch (Exception ex) {
+			}
 		}
 		return sb.toString();
 
-		
 	}
-	
+
 	public static InputStream getHTMLDocumentAsStream(String name) {
-	
+
 		return MessagePanel.class.getResourceAsStream(name);
-	
+
 	}
-	
-	 public static String getDocumentXHTMLParent(){
-		 return MessagePanel.class.getResource("/org/vpac/grix/xhtml/").toString();
-	 }
+
+	public static String getDocumentXHTMLParent() {
+		return MessagePanel.class.getResource("/org/vpac/grix/xhtml/")
+				.toString();
+	}
 
 	public static String getDocumentHTMLParent() {
-		return MessagePanel.class.getResource("/org/vpac/grix/html/").toString();
-	}	
-	
+		return MessagePanel.class.getResource("/org/vpac/grix/html/")
+				.toString();
+	}
+
 	public static ResourceBundle getMessages() {
 		return messages;
 	}

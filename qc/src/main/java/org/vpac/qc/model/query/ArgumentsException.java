@@ -19,8 +19,8 @@
 package org.vpac.qc.model.query;
 
 public class ArgumentsException extends RuntimeException {
-	
-	public ArgumentsException (String message){
+
+	public ArgumentsException(String message) {
 		super(message);
 	}
 

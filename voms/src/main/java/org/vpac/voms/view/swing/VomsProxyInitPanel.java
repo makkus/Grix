@@ -43,7 +43,7 @@ import org.vpac.voms.model.proxy.VomsProxy;
 public class VomsProxyInitPanel extends JPanel implements StatusListener {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private StatusSourceInterface ssi = null;
 
 	private JComboBox jComboBox = null;
@@ -182,20 +182,29 @@ public class VomsProxyInitPanel extends JPanel implements StatusListener {
 							setCursor(hourglassCursor);
 
 							try {
-								proxy.init(jPasswordField.getPassword(), 43200000);
+								proxy.init(jPasswordField.getPassword(),
+										43200000);
 								proxy = new VomsProxy(proxyFile);
-								ssi.fireStatusChanged(proxy.getStatus(), proxy.info());
-								JOptionPane.showMessageDialog( VomsProxyInitPanel.this,
-										"<html><p>Voms proxy successfully created."+
-												"</p><p>It is stored as: "+proxyFile.toString()+"</p></html>", "Voms proxy created",
-										JOptionPane.INFORMATION_MESSAGE );
+								ssi.fireStatusChanged(proxy.getStatus(),
+										proxy.info());
+								JOptionPane.showMessageDialog(
+										VomsProxyInitPanel.this,
+										"<html><p>Voms proxy successfully created."
+												+ "</p><p>It is stored as: "
+												+ proxyFile.toString()
+												+ "</p></html>",
+										"Voms proxy created",
+										JOptionPane.INFORMATION_MESSAGE);
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
-								//e.printStackTrace();
-								JOptionPane.showMessageDialog( VomsProxyInitPanel.this,
-										"<html><p>Error when trying to create voms proxy:"+
-												"</p><p>"+e.getMessage()+"</html>", "Could not create voms proxy.",
-										JOptionPane.ERROR_MESSAGE );
+								// e.printStackTrace();
+								JOptionPane.showMessageDialog(
+										VomsProxyInitPanel.this,
+										"<html><p>Error when trying to create voms proxy:"
+												+ "</p><p>" + e.getMessage()
+												+ "</html>",
+										"Could not create voms proxy.",
+										JOptionPane.ERROR_MESSAGE);
 							} finally {
 								getJPasswordField().setText("");
 								Cursor normalCursor = new Cursor(
@@ -212,33 +221,35 @@ public class VomsProxyInitPanel extends JPanel implements StatusListener {
 	}
 
 	/**
-	 * This method initializes destroyButton	
-	 * 	
-	 * @return javax.swing.JButton	
+	 * This method initializes destroyButton
+	 * 
+	 * @return javax.swing.JButton
 	 */
 	private JButton getDestroyButton() {
 		if (destroyButton == null) {
 			destroyButton = new JButton();
 			destroyButton.setText("Voms proxy destroy");
-			destroyButton.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					LocalProxy.destroy();
-					ssi.fireStatusChanged(GridProxy.NOT_INITIALIZED, new String[]{"There is no local proxy on this machine."});
-				}
-			});
+			destroyButton
+					.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(java.awt.event.ActionEvent e) {
+							LocalProxy.destroy();
+							ssi.fireStatusChanged(
+									GridProxy.NOT_INITIALIZED,
+									new String[] { "There is no local proxy on this machine." });
+						}
+					});
 		}
 		return destroyButton;
 	}
 
 	public void statusChanged(StatusEvent event) {
-		
-		if ( event.getStatus() == GridProxy.INITIALIZED ){
+
+		if (event.getStatus() == GridProxy.INITIALIZED) {
 			getDestroyButton().setEnabled(true);
 		} else {
 			getDestroyButton().setEnabled(false);
 		}
-		
-	}
 
+	}
 
 } // @jve:decl-index=0:visual-constraint="10,10"

@@ -24,15 +24,15 @@ import org.vpac.qc.model.query.QueryArgument;
  * This one just returns an empty Array of Object (new Object[]{}).
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
 public class Empty {
-	
-	public Empty(QueryArgument arg){
-		
+
+	public Empty(QueryArgument arg) {
+
 	}
 
-	public Object[] retrieveValue() throws Exception{
-		return new Object[]{};
+	public Object[] retrieveValue() throws Exception {
+		return new Object[] {};
 	}
 }

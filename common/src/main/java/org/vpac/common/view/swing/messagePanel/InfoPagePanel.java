@@ -32,22 +32,22 @@ import org.xml.sax.SAXException;
 import java.awt.Dimension;
 
 /**
- * Helper class to display HTML-text within a JPanel easily. Basically it wraps a MessagePanel and makes
- * it easier to use.
+ * Helper class to display HTML-text within a JPanel easily. Basically it wraps
+ * a MessagePanel and makes it easier to use.
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
 public class InfoPagePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	static final Logger myLogger = Logger.getLogger(InfoPagePanel.class
-			.getName());  //  @jve:decl-index=0:
-	
+			.getName()); // @jve:decl-index=0:
+
 	private String infoPage = null;
-	
-	private MessagePanel messagePanel = null;  //  @jve:decl-index=0:
+
+	private MessagePanel messagePanel = null; // @jve:decl-index=0:
 
 	/**
 	 * This is the default constructor
@@ -58,7 +58,7 @@ public class InfoPagePanel extends JPanel {
 		this.infoPage = infoPage;
 		initialize();
 	}
-	
+
 	public InfoPagePanel(String infoPage) {
 		super();
 		this.infoPage = infoPage;
@@ -71,28 +71,28 @@ public class InfoPagePanel extends JPanel {
 	 * @return void
 	 */
 	private void initialize() {
-//		GridBagConstraints gridBagConstraints = new GridBagConstraints();
-//		gridBagConstraints.gridx = 0;
-//		gridBagConstraints.fill = GridBagConstraints.BOTH;
-//		gridBagConstraints.insets = new Insets(20, 20, 20, 20);
-//		gridBagConstraints.gridy = 0;
+		// GridBagConstraints gridBagConstraints = new GridBagConstraints();
+		// gridBagConstraints.gridx = 0;
+		// gridBagConstraints.fill = GridBagConstraints.BOTH;
+		// gridBagConstraints.insets = new Insets(20, 20, 20, 20);
+		// gridBagConstraints.gridy = 0;
 		this.setSize(630, 689);
 		this.setLayout(new BorderLayout());
-		this.add((JPanel)getMessagePanel(), BorderLayout.CENTER);
-	
+		this.add((JPanel) getMessagePanel(), BorderLayout.CENTER);
+
 	}
 
 	/**
-	 * This method initializes messagePanel	
-	 * 	
-	 * @return javax.swing.JPanel	
+	 * This method initializes messagePanel
+	 * 
+	 * @return javax.swing.JPanel
 	 */
 	private MessagePanel getMessagePanel() {
 		if (messagePanel == null) {
-			//messagePanel = new XHTMLMessagePanel();
+			// messagePanel = new XHTMLMessagePanel();
 			messagePanel = new SimpleMessagePanel();
-			messagePanel.setMargins(new Insets(20,20,20,20));
-			((JPanel)messagePanel).setBackground(new Color(245, 245, 245));
+			messagePanel.setMargins(new Insets(20, 20, 20, 20));
+			((JPanel) messagePanel).setBackground(new Color(245, 245, 245));
 			try {
 				messagePanel.setDocument(MessagePanel.getHTML(infoPage));
 			} catch (IOException e) {
@@ -103,4 +103,4 @@ public class InfoPagePanel extends JPanel {
 		return messagePanel;
 	}
 
-}  //  @jve:decl-index=0:visual-constraint="10,10"
+} // @jve:decl-index=0:visual-constraint="10,10"

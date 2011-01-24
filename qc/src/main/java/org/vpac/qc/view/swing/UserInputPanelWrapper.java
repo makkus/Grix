@@ -34,10 +34,10 @@ import org.vpac.qc.model.query.UserInputQuery;
 public class UserInputPanelWrapper extends UserInput {
 
 	private UserInputPanel panel = null;
-	
+
 	private boolean clipboardSupport = false;
-	
-	public UserInputPanelWrapper(boolean clipboardSupport){
+
+	public UserInputPanelWrapper(boolean clipboardSupport) {
 		this.clipboardSupport = clipboardSupport;
 	}
 

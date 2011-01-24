@@ -44,13 +44,14 @@ import org.vpac.voms.model.proxy.VomsProxyEvent;
 import org.vpac.voms.model.proxy.VomsProxyListener;
 
 public class VomsProxyInitPanel extends JPanel {
-	
-	static final Logger myLogger = Logger.getLogger(VomsProxyInitPanel.class.getName());  //  @jve:decl-index=0:
+
+	static final Logger myLogger = Logger.getLogger(VomsProxyInitPanel.class
+			.getName()); // @jve:decl-index=0:
 
 	private static final long serialVersionUID = 1L;
-	
-	private Vector listeners;  //  @jve:decl-index=0:
-	
+
+	private Vector listeners; // @jve:decl-index=0:
+
 	private String[] groupRoles = null;
 
 	private JComboBox groupRolesComboBox = null;
@@ -58,9 +59,9 @@ public class VomsProxyInitPanel extends JPanel {
 	private JComboBox timeComboBox = null;
 
 	private JButton initButton = null;
-	
+
 	private GenericClient client = null;
-	
+
 	private VO vo = null;
 
 	/**
@@ -96,7 +97,9 @@ public class VomsProxyInitPanel extends JPanel {
 		groupRolesComboBoxConstraints.weightx = 1.0;
 		groupRolesComboBoxConstraints.insets = new Insets(15, 20, 15, 20);
 		groupRolesComboBoxConstraints.gridx = 0;
-		this.setBorder(BorderFactory.createTitledBorder(null, "Voms proxy init", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+		this.setBorder(BorderFactory.createTitledBorder(null,
+				"Voms proxy init", TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION, null, null));
 		this.setBackground(new Color(245, 245, 245));
 		this.setSize(490, 409);
 		this.setLayout(new GridBagLayout());
@@ -106,9 +109,9 @@ public class VomsProxyInitPanel extends JPanel {
 	}
 
 	/**
-	 * This method initializes groupRolesComboBox	
-	 * 	
-	 * @return javax.swing.JComboBox	
+	 * This method initializes groupRolesComboBox
+	 * 
+	 * @return javax.swing.JComboBox
 	 */
 	private JComboBox getGroupRolesComboBox() {
 		if (groupRolesComboBox == null) {
@@ -118,22 +121,22 @@ public class VomsProxyInitPanel extends JPanel {
 	}
 
 	/**
-	 * This method initializes timeComboBox	
-	 * 	
-	 * @return javax.swing.JComboBox	
+	 * This method initializes timeComboBox
+	 * 
+	 * @return javax.swing.JComboBox
 	 */
 	private JComboBox getTimeComboBox() {
 		if (timeComboBox == null) {
-			timeComboBox = new JComboBox(new Integer[]{1,2,3,4,5,6,7});
+			timeComboBox = new JComboBox(new Integer[] { 1, 2, 3, 4, 5, 6, 7 });
 			timeComboBox.setPreferredSize(new Dimension(69, 24));
 		}
 		return timeComboBox;
 	}
 
 	/**
-	 * This method initializes initButton	
-	 * 	
-	 * @return javax.swing.JButton	
+	 * This method initializes initButton
+	 * 
+	 * @return javax.swing.JButton
 	 */
 	private JButton getInitButton() {
 		if (initButton == null) {
@@ -141,72 +144,77 @@ public class VomsProxyInitPanel extends JPanel {
 			initButton.setText("Voms proxy init");
 			initButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					//TODO test file permissions
-					File proxyFile = new File(VomsProxy.DEFAULT_DIR, "VO_"+vo.getVoName()+((String)getGroupRolesComboBox().getSelectedItem()).replaceAll("/", "_"));
-					VomsProxy proxy = new VomsProxy( proxyFile, vo, "B"+getGroupRolesComboBox().getSelectedItem()+":"+VomsProxy.DEFAULT_ROLE, null);
+					// TODO test file permissions
+					File proxyFile = new File(VomsProxy.DEFAULT_DIR, "VO_"
+							+ vo.getVoName()
+							+ ((String) getGroupRolesComboBox()
+									.getSelectedItem()).replaceAll("/", "_"));
+					VomsProxy proxy = new VomsProxy(proxyFile, vo, "B"
+							+ getGroupRolesComboBox().getSelectedItem() + ":"
+							+ VomsProxy.DEFAULT_ROLE, null);
 					try {
-						proxy.init("xxx".toCharArray(), (Integer)getTimeComboBox().getSelectedItem()*86400000);
+						proxy.init(
+								"xxx".toCharArray(),
+								(Integer) getTimeComboBox().getSelectedItem() * 86400000);
 					} catch (MissingPrerequisitesException e1) {
 						// TODO Auto-generated catch block
 						myLogger.error(e1);
-						//e1.printStackTrace();
+						// e1.printStackTrace();
 					} catch (IOException e2) {
 						// TODO Auto-generated catch block
-						//e2.printStackTrace();
+						// e2.printStackTrace();
 						myLogger.error(e2);
 					} catch (GeneralSecurityException e3) {
 						// TODO Auto-generated catch block
-						//e3.printStackTrace();
+						// e3.printStackTrace();
 						myLogger.error(e3);
 					} catch (Exception e4) {
 						// TODO Auto-generated catch block
-						//e4.printStackTrace();
+						// e4.printStackTrace();
 						myLogger.error(e4);
-					} 
+					}
 					fireNewVomsProxy(VomsProxyEvent.NEW_PROXY, proxy);
-					
+
 				}
 			});
 		}
 		return initButton;
 	}
-	
-	public void fireNewVomsProxy(String action, VomsProxy proxy){
-	    // if we have no listeners, do nothing...
-	    if (listeners != null && !listeners.isEmpty()) {
-	      // create the event object to send
-	      VomsProxyEvent event = new VomsProxyEvent(this, action, proxy);
 
-	      // make a copy of the listener list in case
-	      //   anyone adds/removes listeners
-	      Vector targets;
-	      synchronized (this) {
-	        targets = (Vector) listeners.clone();
-	      }
+	public void fireNewVomsProxy(String action, VomsProxy proxy) {
+		// if we have no listeners, do nothing...
+		if (listeners != null && !listeners.isEmpty()) {
+			// create the event object to send
+			VomsProxyEvent event = new VomsProxyEvent(this, action, proxy);
 
-	      // walk through the listener list and
-	      //   call the gridproxychanged method in each
-	      Enumeration e = targets.elements();
-	      while (e.hasMoreElements()) {
-	        VomsProxyListener l = (VomsProxyListener) e.nextElement();
-	        l.vomsProxiesChanged(event);
-	      }
-	    }
+			// make a copy of the listener list in case
+			// anyone adds/removes listeners
+			Vector targets;
+			synchronized (this) {
+				targets = (Vector) listeners.clone();
+			}
+
+			// walk through the listener list and
+			// call the gridproxychanged method in each
+			Enumeration e = targets.elements();
+			while (e.hasMoreElements()) {
+				VomsProxyListener l = (VomsProxyListener) e.nextElement();
+				l.vomsProxiesChanged(event);
+			}
+		}
 	}
-	
 
-	  synchronized public void addStatusListener(VomsProxyListener l) {
-	    if (listeners == null)
-	      listeners = new Vector<VomsProxyListener>();
-	    listeners.addElement(l);
-	  }  
+	synchronized public void addStatusListener(VomsProxyListener l) {
+		if (listeners == null)
+			listeners = new Vector<VomsProxyListener>();
+		listeners.addElement(l);
+	}
 
+	synchronized public void removeStatusListener(VomsProxyListener l) {
+		if (listeners == null) {
+			listeners = new Vector();
+		}
+		listeners.removeElement(l);
+	}
 
-	  synchronized public void removeStatusListener(VomsProxyListener l) {
-	    if (listeners == null){
-	      listeners = new Vector();
-	    }
-	    listeners.removeElement(l);
-	  }
-
-}  //  @jve:decl-index=0:visual-constraint="10,10"
+} // @jve:decl-index=0:visual-constraint="10,10"

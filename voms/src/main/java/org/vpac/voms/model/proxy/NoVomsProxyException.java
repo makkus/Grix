@@ -19,11 +19,10 @@
 package org.vpac.voms.model.proxy;
 
 public class NoVomsProxyException extends Exception {
-	
 
 	private static final long serialVersionUID = 1L;
 
-	public NoVomsProxyException(String message){
+	public NoVomsProxyException(String message) {
 		super(message);
 	}
 

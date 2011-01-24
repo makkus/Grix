@@ -71,7 +71,7 @@ public class ProxyInitPanel extends JPanel implements VomsesStatusListener,
 
 	private JButton button;
 	private static final long serialVersionUID = 1L;
-	
+
 	private static ResourceBundle messages = ResourceBundle.getBundle(
 			"GridProxyPanelMessageBundle", java.util.Locale.getDefault());
 
@@ -109,9 +109,9 @@ public class ProxyInitPanel extends JPanel implements VomsesStatusListener,
 	private DefaultComboBoxModel voComboBoxModel = null;
 
 	private DefaultComboBoxModel groupComboBoxModel = null;
-	
+
 	private DefaultComboBoxModel validProxyComboBoxModel = null;
-	
+
 	private DefaultComboBoxModel delegatedProxyComboBoxModel = null;
 
 	private JPanel voAttributePanel = null;
@@ -139,7 +139,7 @@ public class ProxyInitPanel extends JPanel implements VomsesStatusListener,
 	private JCheckBox anonymousCheckBox = null;
 
 	private Color lighterColor = null;
-	
+
 	private String preferredVO = null;
 	private String preferredGroup = null;
 
@@ -201,7 +201,7 @@ public class ProxyInitPanel extends JPanel implements VomsesStatusListener,
 
 		this.setSize(686, 542);
 		final GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] {7};
+		gridBagLayout.columnWidths = new int[] { 7 };
 		this.setLayout(gridBagLayout);
 		this.setBackground(new Color(245, 245, 245));
 		this.add(getMyProxyPanel(), myProxyPanelConstraints);
@@ -217,34 +217,47 @@ public class ProxyInitPanel extends JPanel implements VomsesStatusListener,
 		deactivateVOMSPanel();
 		deactivateAdvancedPanel();
 		gridProxyStatusChanged(new GridProxyEvent(this, LocalProxy.getStatus()));
-		
+
 		// change to remembered settings (if applicable)
-		if ( "yes".equals(UserProperty.getProperty("REMEMBER_MYPROXY_SETTINGS")) ) {
-			
-			getUsernameTextField().setText(UserProperty.getProperty("MYPROXY_USERNAME_TEXTFIELD"));
-			
-			if ( "yes".equals(UserProperty.getProperty("MYPROXY_ADVANCED_CHECKBOX")) ){
+		if ("yes".equals(UserProperty.getProperty("REMEMBER_MYPROXY_SETTINGS"))) {
+
+			getUsernameTextField().setText(
+					UserProperty.getProperty("MYPROXY_USERNAME_TEXTFIELD"));
+
+			if ("yes".equals(UserProperty
+					.getProperty("MYPROXY_ADVANCED_CHECKBOX"))) {
 				activateAdvancedPanel();
-				getProxyNameTextField().setText(UserProperty.getProperty("MYPROXY_PROXYNAME_TEXTFIELD"));
+				getProxyNameTextField()
+						.setText(
+								UserProperty
+										.getProperty("MYPROXY_PROXYNAME_TEXTFIELD"));
 				try {
-					getDelegatedCredsComboBox().setSelectedItem(UserProperty.getProperty("MYPROXY_DELEGATED_LIFETIME_COMBOBOX"));
+					getDelegatedCredsComboBox()
+							.setSelectedItem(
+									UserProperty
+											.getProperty("MYPROXY_DELEGATED_LIFETIME_COMBOBOX"));
 				} catch (NumberFormatException nfe) {
 					myLogger.error(nfe);
 				}
-				getAnonymousCheckBox().setSelected("yes".equals(UserProperty.getProperty("MYPROXY_DONT_ALLOW_ANONYMOUS_CHECKBOX")) );
+				getAnonymousCheckBox()
+						.setSelected(
+								"yes".equals(UserProperty
+										.getProperty("MYPROXY_DONT_ALLOW_ANONYMOUS_CHECKBOX")));
 			}
-			
-			getValidComboBox().setSelectedItem(UserProperty.getProperty("MYPROXY_VALID_COMBOBOX"));
-			
-			if ( "yes".equals(UserProperty.getProperty("MYPROXY_VO_CHECKBOX")) ){
+
+			getValidComboBox().setSelectedItem(
+					UserProperty.getProperty("MYPROXY_VALID_COMBOBOX"));
+
+			if ("yes".equals(UserProperty.getProperty("MYPROXY_VO_CHECKBOX"))) {
 				activateVOMSPanel();
 			}
-				this.preferredVO = UserProperty.getProperty("MYPROXY_SELECTED_VO");
-				this.preferredGroup = UserProperty.getProperty("MYPROXY_SELECTED_GROUP");
-				getVoComboBox().setSelectedItem(this.preferredVO);
-				getGroupComboBox().setSelectedItem(this.preferredGroup);
+			this.preferredVO = UserProperty.getProperty("MYPROXY_SELECTED_VO");
+			this.preferredGroup = UserProperty
+					.getProperty("MYPROXY_SELECTED_GROUP");
+			getVoComboBox().setSelectedItem(this.preferredVO);
+			getGroupComboBox().setSelectedItem(this.preferredGroup);
 		}
-		
+
 	}
 
 	/**
@@ -275,48 +288,52 @@ public class ProxyInitPanel extends JPanel implements VomsesStatusListener,
 			if (voms_temp == null)
 				return;
 
-			if ( voms_temp.getAc() != null ) {
+			if (voms_temp.getAc() != null) {
 				// means non-vomrs voms
 				ArrayList<String> fqans;
 				try {
-					fqans = new VOMSAttributeCertificate(voms_temp.getAc()).getVOMSFQANs();
+					fqans = new VOMSAttributeCertificate(voms_temp.getAc())
+							.getVOMSFQANs();
 				} catch (Exception e) {
 					myLogger.error(e);
 					return;
 				}
 				for (String fqan : fqans) {
-					String substring = fqan.substring(0, fqan.indexOf("/Role="));
-					if (groupComboBoxModel.getIndexOf(substring) == -1 )
+					String substring = fqan
+							.substring(0, fqan.indexOf("/Role="));
+					if (groupComboBoxModel.getIndexOf(substring) == -1)
 						groupComboBoxModel.addElement(substring);
 				}
 			} else {
-			
-			String[] groups = VomrsClient.parseGroups((String) ((voms_temp
-					.getInfoQuery().getResult())[14]));
-			for (String group : groups) {
-				if (group.indexOf("STATUS:Approved") != -1
-						&& group.indexOf("Role=Member") != -1) {
-					groupComboBoxModel.addElement(group.substring(0, group
-							.indexOf("/Role=")));
+
+				String[] groups = VomrsClient.parseGroups((String) ((voms_temp
+						.getInfoQuery().getResult())[14]));
+				for (String group : groups) {
+					if (group.indexOf("STATUS:Approved") != -1
+							&& group.indexOf("Role=Member") != -1) {
+						groupComboBoxModel.addElement(group.substring(0,
+								group.indexOf("/Role=")));
+					}
 				}
-			}
 			}
 		}
 		if (getAdvancedCheckBox().isSelected() && !user_typed) {
-			if ( "yes".equals(UserProperty.getProperty("AUTOSUGGEST_PROXYNAMES")) )
+			if ("yes"
+					.equals(UserProperty.getProperty("AUTOSUGGEST_PROXYNAMES")))
 				suggestProxyName();
 		}
 	}
 
 	private void suggestProxyName() {
-		if ( "yes".equals(UserProperty.getProperty("AUTOSUGGEST_PROXYNAMES")) ){
-		try {
-			getProxyNameTextField().setText(
-					((String) groupComboBoxModel.getSelectedItem())
-							.substring(1).replaceAll("/", "_").toLowerCase());
-		} catch (RuntimeException e1) {
-			// does not matter
-		}
+		if ("yes".equals(UserProperty.getProperty("AUTOSUGGEST_PROXYNAMES"))) {
+			try {
+				getProxyNameTextField().setText(
+						((String) groupComboBoxModel.getSelectedItem())
+								.substring(1).replaceAll("/", "_")
+								.toLowerCase());
+			} catch (RuntimeException e1) {
+				// does not matter
+			}
 		}
 	}
 
@@ -329,16 +346,17 @@ public class ProxyInitPanel extends JPanel implements VomsesStatusListener,
 		if (usernameTextField == null) {
 			usernameTextField = new JTextField();
 			usernameTextField.setText(System.getProperty("user.name"));
-//			try {
-//				usernameTextField.setText(new Certificate(GlobusLocations.defaultLocations()
-//						.getUserCert()).getCn());
-//			} catch (IOException e) {
-//				// does not really matter
-//				//e.printStackTrace();
-//			} catch (GeneralSecurityException e) {
-//				// does not really matter
-//				//e.printStackTrace();
-//			}
+			// try {
+			// usernameTextField.setText(new
+			// Certificate(GlobusLocations.defaultLocations()
+			// .getUserCert()).getCn());
+			// } catch (IOException e) {
+			// // does not really matter
+			// //e.printStackTrace();
+			// } catch (GeneralSecurityException e) {
+			// // does not really matter
+			// //e.printStackTrace();
+			// }
 		}
 		return usernameTextField;
 	}
@@ -351,7 +369,8 @@ public class ProxyInitPanel extends JPanel implements VomsesStatusListener,
 	private JPasswordField getProxyPassphraseField() {
 		if (proxyPassphraseField == null) {
 			proxyPassphraseField = new JPasswordField();
-			proxyPassphraseField.setToolTipText("This is a password that will protect your\nnewly created proxy in the MyProxy server.");
+			proxyPassphraseField
+					.setToolTipText("This is a password that will protect your\nnewly created proxy in the MyProxy server.");
 		}
 		return proxyPassphraseField;
 	}
@@ -364,7 +383,8 @@ public class ProxyInitPanel extends JPanel implements VomsesStatusListener,
 	private JPasswordField getGridPassphraseField() {
 		if (gridPassphraseField == null) {
 			gridPassphraseField = new JPasswordField();
-			gridPassphraseField.setToolTipText("This is the passphrase protecting your private key on this computer.");
+			gridPassphraseField
+					.setToolTipText("This is the passphrase protecting your private key on this computer.");
 		}
 		return gridPassphraseField;
 	}
@@ -373,39 +393,41 @@ public class ProxyInitPanel extends JPanel implements VomsesStatusListener,
 
 		// check whether proxy lifetimes can be parsed to integer
 		try {
-			new Integer(((String)getDelegatedCredsComboBox().getSelectedItem()));
+			new Integer(
+					((String) getDelegatedCredsComboBox().getSelectedItem()));
 		} catch (NumberFormatException e3) {
 			JOptionPane.showMessageDialog(getParent(), "<html><body><p>"
-					+ getMessages()
-							.getString("error.init.notAnumber")
+					+ getMessages().getString("error.init.notAnumber")
 					+ "</p></body></html>",
 					getMessages().getString("error.init.title"),
 					JOptionPane.ERROR_MESSAGE);
-			getDelegatedCredsComboBox().setSelectedItem(GrixProperty.getString("default.myproxy.delegated.proxy.lifetimes"));
+			getDelegatedCredsComboBox()
+					.setSelectedItem(
+							GrixProperty
+									.getString("default.myproxy.delegated.proxy.lifetimes"));
 			getProxyPassphraseField().setText("");
 			getGridPassphraseField().setText("");
 			return;
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-		}							
+			// e.printStackTrace();
+		}
 		try {
-			new Integer(((String)getValidComboBox().getSelectedItem()));
+			new Integer(((String) getValidComboBox().getSelectedItem()));
 		} catch (NumberFormatException e3) {
 			JOptionPane.showMessageDialog(getParent(), "<html><body><p>"
-					+ getMessages()
-							.getString("error.init.notAnumber")
+					+ getMessages().getString("error.init.notAnumber")
 					+ "</p></body></html>",
 					getMessages().getString("error.init.title"),
 					JOptionPane.ERROR_MESSAGE);
-			validProxyComboBoxModel.setSelectedItem(GrixProperty.getString("default.local.proxy.lifetime"));
+			validProxyComboBoxModel.setSelectedItem(GrixProperty
+					.getString("default.local.proxy.lifetime"));
 			getProxyPassphraseField().setText("");
 			getGridPassphraseField().setText("");
 			return;
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 		}
 
-		
 		MyProxyCred newCred = null;
 
 		newCred = new MyProxyCred(getUsernameTextField().getText());
@@ -414,15 +436,17 @@ public class ProxyInitPanel extends JPanel implements VomsesStatusListener,
 
 			DefaultGridProxyModel model = new DefaultGridProxyModel();
 			model.getProperties().setProxyLifeTime(
-					Integer.parseInt((String)getValidComboBox().getSelectedItem()) * 24);
+					Integer.parseInt((String) getValidComboBox()
+							.getSelectedItem()) * 24);
 			GlobusCredential globusProxy = model.createProxy(new String(
 					getGridPassphraseField().getPassword()));
 
 			int delegated_creds_lifetime = 12;
 			String credential_name = "";
 			if (getAdvancedCheckBox().isSelected()) {
-				delegated_creds_lifetime = Integer.parseInt((String)getDelegatedCredsComboBox()
-						.getSelectedItem()) ;
+				delegated_creds_lifetime = Integer
+						.parseInt((String) getDelegatedCredsComboBox()
+								.getSelectedItem());
 				credential_name = getProxyNameTextField().getText();
 				if (!"".equals(credential_name.trim())) {
 					newCred.setCredentialName(credential_name);
@@ -435,22 +459,25 @@ public class ProxyInitPanel extends JPanel implements VomsesStatusListener,
 
 				// TODO check whether there is a local grid-proxy
 
-				String selGroup = ((String)getGroupComboBox().getSelectedItem());
-				
-				VomsProxyCredential vomsProxy = new VomsProxyCredential(
-						globusProxy, ((Voms) voComboBoxModel.getSelectedItem())
-								.getVo(), "G"
-								+ selGroup, selGroup,
-						Integer.parseInt((String)getValidComboBox().getSelectedItem()) * 24);
+				String selGroup = ((String) getGroupComboBox()
+						.getSelectedItem());
 
-				newCred
-						.init(vomsProxy.getVomsProxy(), anonymous,
-								getProxyPassphraseField().getPassword(),
-								Integer.parseInt((String)getDelegatedCredsComboBox().getSelectedItem()) * 24);
+				VomsProxyCredential vomsProxy = new VomsProxyCredential(
+						globusProxy,
+						((Voms) voComboBoxModel.getSelectedItem()).getVo(), "G"
+								+ selGroup, selGroup,
+						Integer.parseInt((String) getValidComboBox()
+								.getSelectedItem()) * 24);
+
+				newCred.init(vomsProxy.getVomsProxy(), anonymous,
+						getProxyPassphraseField().getPassword(), Integer
+								.parseInt((String) getDelegatedCredsComboBox()
+										.getSelectedItem()) * 24);
 			} else {
 				newCred.init(globusProxy, anonymous, getProxyPassphraseField()
-						.getPassword(), Integer.parseInt((String)getDelegatedCredsComboBox()
-						.getSelectedItem()) * 24);
+						.getPassword(), Integer
+						.parseInt((String) getDelegatedCredsComboBox()
+								.getSelectedItem()) * 24);
 			}
 			StringBuffer successmessage = new StringBuffer();
 			// TODO outsource messages...
@@ -491,14 +518,14 @@ public class ProxyInitPanel extends JPanel implements VomsesStatusListener,
 					JOptionPane.ERROR_MESSAGE);
 
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			myLogger.error(e);
 		} finally {
 			getProxyPassphraseField().setText("");
 			getGridPassphraseField().setText("");
 		}
 	}
-	
+
 	public static ResourceBundle getMessages() {
 		return messages;
 	}
@@ -521,39 +548,67 @@ public class ProxyInitPanel extends JPanel implements VomsesStatusListener,
 									Cursor.WAIT_CURSOR);
 							setCursor(hourglassCursor);
 							getInitButton().setEnabled(false);
-							
-							
+
 							// save defaults if user wants that
-							if ( "yes".equals(UserProperty.getProperty("REMEMBER_MYPROXY_SETTINGS")) ){
-								
-								UserProperty.setProperty("MYPROXY_USERNAME_TEXTFIELD", getUsernameTextField().getText() );
-								
-								if ( getAdvancedCheckBox().isSelected() ) {
-									UserProperty.setProperty("MYPROXY_ADVANCED_CHECKBOX", "yes");
-								}
-								else UserProperty.setProperty("MYPROXY_ADVANCED_CHECKBOX", "no");
-							
-								UserProperty.setProperty("MYPROXY_PROXYNAME_TEXTFIELD", getProxyNameTextField().getText() );
-								
-								UserProperty.setProperty("MYPROXY_DELEGATED_LIFETIME_COMBOBOX", getDelegatedCredsComboBox().getSelectedItem().toString());
-								
-								if ( getAnonymousCheckBox().isSelected() )
-									UserProperty.setProperty("MYPROXY_DONT_ALLOW_ANONYMOUS_CHECKBOX", "yes");
-								else UserProperty.setProperty("MYPROXY_DONT_ALLOW_ANONYMOUS_CHECKBOX", "no");
-								
-								UserProperty.setProperty("MYPROXY_VALID_COMBOBOX", getValidComboBox().getSelectedItem().toString());
-								
-								if ( getVomsCheckBox().isSelected() ) {
-									UserProperty.setProperty("MYPROXY_VO_CHECKBOX", "yes");
-									
-									UserProperty.setProperty("MYPROXY_SELECTED_VO", getVoComboBox().getSelectedItem().toString());
-									UserProperty.setProperty("MYPROXY_SELECTED_GROUP", getGroupComboBox().getSelectedItem().toString());
-									
-								} else 
-									UserProperty.setProperty("MYPROXY_VO_CHECKBOX", "no");
-								
+							if ("yes".equals(UserProperty
+									.getProperty("REMEMBER_MYPROXY_SETTINGS"))) {
+
+								UserProperty.setProperty(
+										"MYPROXY_USERNAME_TEXTFIELD",
+										getUsernameTextField().getText());
+
+								if (getAdvancedCheckBox().isSelected()) {
+									UserProperty.setProperty(
+											"MYPROXY_ADVANCED_CHECKBOX", "yes");
+								} else
+									UserProperty.setProperty(
+											"MYPROXY_ADVANCED_CHECKBOX", "no");
+
+								UserProperty.setProperty(
+										"MYPROXY_PROXYNAME_TEXTFIELD",
+										getProxyNameTextField().getText());
+
+								UserProperty.setProperty(
+										"MYPROXY_DELEGATED_LIFETIME_COMBOBOX",
+										getDelegatedCredsComboBox()
+												.getSelectedItem().toString());
+
+								if (getAnonymousCheckBox().isSelected())
+									UserProperty
+											.setProperty(
+													"MYPROXY_DONT_ALLOW_ANONYMOUS_CHECKBOX",
+													"yes");
+								else
+									UserProperty
+											.setProperty(
+													"MYPROXY_DONT_ALLOW_ANONYMOUS_CHECKBOX",
+													"no");
+
+								UserProperty.setProperty(
+										"MYPROXY_VALID_COMBOBOX",
+										getValidComboBox().getSelectedItem()
+												.toString());
+
+								if (getVomsCheckBox().isSelected()) {
+									UserProperty.setProperty(
+											"MYPROXY_VO_CHECKBOX", "yes");
+
+									UserProperty.setProperty(
+											"MYPROXY_SELECTED_VO",
+											getVoComboBox().getSelectedItem()
+													.toString());
+									UserProperty.setProperty(
+											"MYPROXY_SELECTED_GROUP",
+											getGroupComboBox()
+													.getSelectedItem()
+													.toString());
+
+								} else
+									UserProperty.setProperty(
+											"MYPROXY_VO_CHECKBOX", "no");
+
 							}
-							
+
 							initProxy();
 							getInitButton().setEnabled(true);
 							Cursor normalCursor = new Cursor(
@@ -575,8 +630,10 @@ public class ProxyInitPanel extends JPanel implements VomsesStatusListener,
 	 */
 	private JComboBox getValidComboBox() {
 		if (validComboBox == null) {
-			validProxyComboBoxModel = new DefaultComboBoxModel(GrixProperty.getString("default.myproxy.proxy.lifetimes").split(","));
-			validProxyComboBoxModel.setSelectedItem(GrixProperty.getString("default.myproxy.proxy.lifetime"));
+			validProxyComboBoxModel = new DefaultComboBoxModel(GrixProperty
+					.getString("default.myproxy.proxy.lifetimes").split(","));
+			validProxyComboBoxModel.setSelectedItem(GrixProperty
+					.getString("default.myproxy.proxy.lifetime"));
 			validComboBox = new JComboBox(this.validProxyComboBoxModel);
 			validComboBox.setEditable(true);
 		}
@@ -611,7 +668,7 @@ public class ProxyInitPanel extends JPanel implements VomsesStatusListener,
 
 	private void deactivateVOMSPanel() {
 		myLogger.debug("VO attributes deselected");
-		if ( getVomsCheckBox().isSelected() ) {
+		if (getVomsCheckBox().isSelected()) {
 			getVomsCheckBox().setSelected(false);
 		}
 		getVoComboBox().setEnabled(false);
@@ -623,7 +680,7 @@ public class ProxyInitPanel extends JPanel implements VomsesStatusListener,
 	}
 
 	private void activateVOMSPanel() {
-		if ( !getVomsCheckBox().isSelected() ) {
+		if (!getVomsCheckBox().isSelected()) {
 			getVomsCheckBox().setSelected(true);
 		}
 		myLogger.debug("VO attributes selected");
@@ -636,7 +693,7 @@ public class ProxyInitPanel extends JPanel implements VomsesStatusListener,
 	}
 
 	private void deactivateAdvancedPanel() {
-		if ( getAdvancedCheckBox().isSelected() ){
+		if (getAdvancedCheckBox().isSelected()) {
 			getAdvancedCheckBox().setSelected(false);
 		}
 		myLogger.debug("Advanced options deselected");
@@ -651,7 +708,7 @@ public class ProxyInitPanel extends JPanel implements VomsesStatusListener,
 	}
 
 	private void activateAdvancedPanel() {
-		if ( !getAdvancedCheckBox().isSelected() ){
+		if (!getAdvancedCheckBox().isSelected()) {
 			getAdvancedCheckBox().setSelected(true);
 		}
 		myLogger.debug("Advanced options selected");
@@ -667,16 +724,18 @@ public class ProxyInitPanel extends JPanel implements VomsesStatusListener,
 	public void vomsStatusChanged(VomsStatusEvent event) {
 		if (event.getAction() == VomsStatusEvent.NEW_VOMS
 				|| event.getAction() == VomsStatusEvent.STATUS_CHANGED) {
-			if (
-	 (((Voms) event.getSource()).getStatus() == Voms.MEMBER || ((Voms) event.getSource()).getStatus() == Voms.NON_VOMRS_MEMBER) 
-				&& (voComboBoxModel.getIndexOf(((Voms)event.getSource())) == -1 ) ) 
+			if ((((Voms) event.getSource()).getStatus() == Voms.MEMBER || ((Voms) event
+					.getSource()).getStatus() == Voms.NON_VOMRS_MEMBER)
+					&& (voComboBoxModel.getIndexOf(((Voms) event.getSource())) == -1))
 				voComboBoxModel.addElement((Voms) event.getSource());
-			
+
 			// set preferred VO & group
-			if ( this.preferredVO != null && voComboBoxModel.getIndexOf(this.preferredVO) != -1 ) {
+			if (this.preferredVO != null
+					&& voComboBoxModel.getIndexOf(this.preferredVO) != -1) {
 				getVoComboBox().setSelectedItem(this.preferredVO);
 			}
-			if ( this.preferredGroup != null && groupComboBoxModel.getIndexOf(this.preferredGroup) != -1 ) {
+			if (this.preferredGroup != null
+					&& groupComboBoxModel.getIndexOf(this.preferredGroup) != -1) {
 				getGroupComboBox().setSelectedItem(this.preferredGroup);
 			}
 		} else if (event.getAction() == VomsStatusEvent.REMOVED_VOMS_MEMBERSHIP) {
@@ -873,8 +932,8 @@ public class ProxyInitPanel extends JPanel implements VomsesStatusListener,
 								.getSelectedItem())).getInfoQuery().getResult())[14]));
 				for (String group : groups) {
 					if (group.indexOf("Role=Member") != -1) {
-						groupComboBoxModel.addElement(group.substring(0, group
-								.indexOf("/Role=")));
+						groupComboBoxModel.addElement(group.substring(0,
+								group.indexOf("/Role=")));
 					}
 				}
 			}
@@ -925,7 +984,8 @@ public class ProxyInitPanel extends JPanel implements VomsesStatusListener,
 			delegatedCredsLabel2Constraints.gridwidth = 1;
 			delegatedCredsLabel2Constraints.gridy = 3;
 			delegatedCredsLabel2 = new JLabel();
-			delegatedCredsLabel2.setText("Max. delegated proxy lifetime (days)");
+			delegatedCredsLabel2
+					.setText("Max. delegated proxy lifetime (days)");
 			GridBagConstraints proxyNameTextFieldConstraints = new GridBagConstraints();
 			proxyNameTextFieldConstraints.fill = GridBagConstraints.HORIZONTAL;
 			proxyNameTextFieldConstraints.gridx = 1;
@@ -1000,8 +1060,11 @@ public class ProxyInitPanel extends JPanel implements VomsesStatusListener,
 	 */
 	private JComboBox getDelegatedCredsComboBox() {
 		if (delegatedCredsComboBox == null) {
-			delegatedProxyComboBoxModel = new DefaultComboBoxModel(GrixProperty.getString("default.myproxy.delegated.proxy.lifetimes").split(","));
-			delegatedProxyComboBoxModel.setSelectedItem(GrixProperty.getString("default.myproxy.delegated.proxy.lifetime"));
+			delegatedProxyComboBoxModel = new DefaultComboBoxModel(GrixProperty
+					.getString("default.myproxy.delegated.proxy.lifetimes")
+					.split(","));
+			delegatedProxyComboBoxModel.setSelectedItem(GrixProperty
+					.getString("default.myproxy.delegated.proxy.lifetime"));
 			delegatedCredsComboBox = new JComboBox(delegatedProxyComboBoxModel);
 			delegatedCredsComboBox.setEditable(true);
 		}
@@ -1034,11 +1097,13 @@ public class ProxyInitPanel extends JPanel implements VomsesStatusListener,
 			anonymousCheckBox = new JCheckBox();
 			anonymousCheckBox.setOpaque(false);
 			anonymousCheckBox.setHorizontalTextPosition(SwingConstants.LEADING);
-			anonymousCheckBox.setActionCommand("Do not allow anonymous retrieval");
+			anonymousCheckBox
+					.setActionCommand("Do not allow anonymous retrieval");
 			anonymousCheckBox.setText("Do not allow anonymous retrieval");
 		}
 		return anonymousCheckBox;
 	}
+
 	/**
 	 * @return
 	 */
@@ -1047,8 +1112,8 @@ public class ProxyInitPanel extends JPanel implements VomsesStatusListener,
 			button = new JButton();
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(final ActionEvent e) {
-					SimpleInfoDialog dialog = new SimpleInfoDialog(
-							null, "myproxy_info", Color.white);
+					SimpleInfoDialog dialog = new SimpleInfoDialog(null,
+							"myproxy_info", Color.white);
 					dialog.setVisible(true);
 				}
 			});

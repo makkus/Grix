@@ -41,8 +41,9 @@ import org.vpac.common.model.GlobusLocations;
 
 /**
  * This class represents a PKCS12 certificate, which contains of a private key
- * and a certificate (which is a public key signed by a ca).
- * This class is not really finished yet, so beware if you use it and read the documentation of the constructors.
+ * and a certificate (which is a public key signed by a ca). This class is not
+ * really finished yet, so beware if you use it and read the documentation of
+ * the constructors.
  * 
  * @author markus
  * 
@@ -55,16 +56,17 @@ public class PKCS12Certificate {
 	private OpenSSLKey privateKey;
 
 	private X509Certificate x509certificate;
-	
+
 	private Certificate certificate;
 
 	private String alias;
 
 	/**
-	 * This constructor reads both (PEM encoded) private key and certificate. It's usefull if you want to 
-	 * export a .p12 file.
-	 * Beware: If created with this constructor, this object does not actually hold a certificate.
-	 * Maybe it will later, but at the moment I don't have the time to clean up the code.
+	 * This constructor reads both (PEM encoded) private key and certificate.
+	 * It's usefull if you want to export a .p12 file. Beware: If created with
+	 * this constructor, this object does not actually hold a certificate. Maybe
+	 * it will later, but at the moment I don't have the time to clean up the
+	 * code.
 	 * 
 	 * @param pem_privateKey
 	 *            The filename of the private key
@@ -72,31 +74,32 @@ public class PKCS12Certificate {
 	 *            The filename of the certificate
 	 * @param alias
 	 *            The alias of the private key
-	 * @throws GeneralSecurityException 
-	 * @throws IOException If there is a problem reading a file
+	 * @throws GeneralSecurityException
+	 * @throws IOException
+	 *             If there is a problem reading a file
 	 */
 	public PKCS12Certificate(String pem_privateKey, String pem_certificate,
 			String alias) throws IOException, GeneralSecurityException {
 
 		// read certificate
-			FileInputStream in = new FileInputStream(pem_certificate);
-			CertificateFactory cf = CertificateFactory
-					.getInstance("X509", "BC");
-			x509certificate = (X509Certificate) cf.generateCertificate(in);
-			in.close();
+		FileInputStream in = new FileInputStream(pem_certificate);
+		CertificateFactory cf = CertificateFactory.getInstance("X509", "BC");
+		x509certificate = (X509Certificate) cf.generateCertificate(in);
+		in.close();
 
 		// read private key
 
 		privateKey = new BouncyCastleOpenSSLKey(pem_privateKey);
 
-
 		this.alias = alias;
 
 	}
-	
+
 	/**
-	 * Parses a p12 file and loads the first certificate and private key into this object.
-	 * Use this constructor if you want to export pem files out of a .p12 file.
+	 * Parses a p12 file and loads the first certificate and private key into
+	 * this object. Use this constructor if you want to export pem files out of
+	 * a .p12 file.
+	 * 
 	 * @param p12File
 	 * @param passphrase
 	 * @throws IOException
@@ -109,41 +112,44 @@ public class PKCS12Certificate {
 		FileInputStream pkcs12File = new FileInputStream(p12File);
 		ks.load(pkcs12File, passphrase);
 		pkcs12File.close();
-		
+
 		Enumeration<String> aliases = ks.aliases();
 		// this takes the first alias
 		alias = aliases.nextElement();
-		
-//		while (aliases.hasMoreElements()){
-//			System.out.println("Alias: "+aliases.nextElement());
-//		}
-		
-		privateKey = new BouncyCastleOpenSSLKey((PrivateKey)ks.getKey(alias, passphrase));
-		if ( privateKey == null ){
-			throw new GeneralSecurityException("No private key found in keystore.");
+
+		// while (aliases.hasMoreElements()){
+		// System.out.println("Alias: "+aliases.nextElement());
+		// }
+
+		privateKey = new BouncyCastleOpenSSLKey((PrivateKey) ks.getKey(alias,
+				passphrase));
+		if (privateKey == null) {
+			throw new GeneralSecurityException(
+					"No private key found in keystore.");
 		}
-		//System.out.println(privateKey.getFormat());
-		
-		java.security.cert.Certificate javaCertificate = ks.getCertificate(alias);
-		//System.out.println(certificate.getPublicKey().getAlgorithm());
-		if ( javaCertificate == null ){
+		// System.out.println(privateKey.getFormat());
+
+		java.security.cert.Certificate javaCertificate = ks
+				.getCertificate(alias);
+		// System.out.println(certificate.getPublicKey().getAlgorithm());
+		if (javaCertificate == null) {
 			Arrays.fill(passphrase, 'x');
-			throw new GeneralSecurityException("No certificate found in keystore");
+			throw new GeneralSecurityException(
+					"No certificate found in keystore");
 		}
-		
+
 		byte[] cert = null;
-		
+
 		cert = javaCertificate.getEncoded();
-		
+
 		cert = Base64.encode(cert);
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		PEMUtils.writeBase64(out, Certificate.PEM_HEADER, cert, Certificate.PEM_FOOTER);
+		PEMUtils.writeBase64(out, Certificate.PEM_HEADER, cert,
+				Certificate.PEM_FOOTER);
 		out.close();
-		
+
 		certificate = new Certificate(out.toString());
-		
-		
 
 	}
 
@@ -177,7 +183,7 @@ public class PKCS12Certificate {
 			fos = new FileOutputStream(p12file);
 			ks.store(fos, passphrase);
 
-		} catch (IOException ioe){
+		} catch (IOException ioe) {
 			GlobusLocations.defaultLocations().getUserCertPKCS12().delete();
 			return false;
 		} catch (Exception e) {
@@ -191,7 +197,7 @@ public class PKCS12Certificate {
 				fos.close();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				//e.printStackTrace();
+				// e.printStackTrace();
 				myLogger.error(e);
 			}
 			// delete passphrase
@@ -201,16 +207,18 @@ public class PKCS12Certificate {
 		return true;
 	}
 
-	public static void main (String[] args){
+	public static void main(String[] args) {
 		System.out.println("Starting...");
-		try{
-		PKCS12Certificate cert = new PKCS12Certificate(new File("/home/markus/Desktop/test.p12"), "xxx".toCharArray());
-		
-		cert.getCertificate().writeToFile(new File("/home/markus/usercert.pem"));
-		cert.getPrivateKey().writeTo("/home/markus/userkey.pem");
-		
-		} catch (Exception e){
-			//e.printStackTrace();
+		try {
+			PKCS12Certificate cert = new PKCS12Certificate(new File(
+					"/home/markus/Desktop/test.p12"), "xxx".toCharArray());
+
+			cert.getCertificate().writeToFile(
+					new File("/home/markus/usercert.pem"));
+			cert.getPrivateKey().writeTo("/home/markus/userkey.pem");
+
+		} catch (Exception e) {
+			// e.printStackTrace();
 			myLogger.error(e);
 		}
 		System.out.println("Finished.");
@@ -223,5 +231,5 @@ public class PKCS12Certificate {
 	public OpenSSLKey getPrivateKey() {
 		return privateKey;
 	}
-	
+
 }

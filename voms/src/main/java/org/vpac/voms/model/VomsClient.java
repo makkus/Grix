@@ -32,38 +32,42 @@ import org.vpac.vomrs.control.Vomrs_Utils;
 import org.vpac.vomrs.model.VomrsClient;
 
 /**
- * Since a VOMS server does not provide a web service interface to get information about membership
- * this class really contacts a VOMRS server. Basically it's a wrapper of a VomrsClient and not of much use. Also, most 
+ * Since a VOMS server does not provide a web service interface to get
+ * information about membership this class really contacts a VOMRS server.
+ * Basically it's a wrapper of a VomrsClient and not of much use. Also, most
  * functions are not implemented. So unless you know what you are doing...
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
 public class VomsClient extends GenericClient {
-	
+
 	static final Logger myLogger = Logger.getLogger(VomsClient.class.getName());
-	
+
 	private VomrsClient vomrsclient = null;
 
 	/**
-	 * Default constructor 
+	 * Default constructor
 	 * 
-	 * @param url the url of the VOMRS endpoint
-	 * @param doc the root element of the query xml config file
+	 * @param url
+	 *            the url of the VOMRS endpoint
+	 * @param doc
+	 *            the root element of the query xml config file
 	 * @throws ClientNotInitializedException
 	 */
-	public VomsClient(String url, Document doc) throws ClientNotInitializedException {
-		super(new Object[] { }, doc);
+	public VomsClient(String url, Document doc)
+			throws ClientNotInitializedException {
+		super(new Object[] {}, doc);
 		vomrsclient = new VomrsClient(url, doc);
 	}
-	
-	public static VomsClient getVomsClient(VO vo, Document doc) throws ClientNotInitializedException{
-		//TODO change this once voms has it's own real client
-		
+
+	public static VomsClient getVomsClient(VO vo, Document doc)
+			throws ClientNotInitializedException {
+		// TODO change this once voms has it's own real client
+
 		return new VomsClient(vo.getVomrs_url(), doc);
 	}
 
-	
 	@Override
 	protected void determineDefaultContext() {
 		// TODO Auto-generated method stub
@@ -74,7 +78,7 @@ public class VomsClient extends GenericClient {
 	public Object[] formatArgumentValueArray(Object[] argumentValues)
 			throws ClassCastException {
 		// TODO Auto-generated method stub
-		return new Object[]{};
+		return new Object[] {};
 	}
 
 	@Override
@@ -87,15 +91,15 @@ public class VomsClient extends GenericClient {
 			infoQuery.submit();
 		} catch (JDOMException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			myLogger.error(e);
 		} catch (ArgumentsException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			myLogger.error(e);
 		}
-		
-		return Vomrs_Utils.getGroupRoles((String[])infoQuery.getResult());
+
+		return Vomrs_Utils.getGroupRoles((String[]) infoQuery.getResult());
 	}
 
 	@Override
@@ -106,14 +110,14 @@ public class VomsClient extends GenericClient {
 	@Override
 	public String[] getQueryArgumentNames(Query query) throws Exception {
 		// TODO Auto-generated method stub
-		return new String[]{};
+		return new String[] {};
 	}
 
 	@Override
 	public String[] getQueryArgumentNames(Query query, String role)
 			throws Exception {
 		// TODO Auto-generated method stub
-		return new String[]{};
+		return new String[] {};
 	}
 
 	@Override
@@ -130,24 +134,27 @@ public class VomsClient extends GenericClient {
 	}
 
 	@Override
-	protected void initializeClient(Object[] args) throws ClientNotInitializedException {
+	protected void initializeClient(Object[] args)
+			throws ClientNotInitializedException {
 		// TODO Auto-generated method stub
 
 	}
-	
-//	public static void main(String[] args){
-//		
-//		try {
-//			GenericClient client = new VomsClient("https://vomrsdev.vpac.org:8443/vo/Markus/services/VOMRS?wsdl" ,
-//				new File("/home/markus/workspace/voc/queries_test.xml"));
-//
-//			client.getMyRoles();
-//		
-//		} catch (Exception e){
-//			e.printStackTrace();
-//		}
-//		
-//		
-//	}
+
+	// public static void main(String[] args){
+	//
+	// try {
+	// GenericClient client = new
+	// VomsClient("https://vomrsdev.vpac.org:8443/vo/Markus/services/VOMRS?wsdl"
+	// ,
+	// new File("/home/markus/workspace/voc/queries_test.xml"));
+	//
+	// client.getMyRoles();
+	//
+	// } catch (Exception e){
+	// e.printStackTrace();
+	// }
+	//
+	//
+	// }
 
 }

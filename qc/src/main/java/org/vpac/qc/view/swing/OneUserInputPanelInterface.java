@@ -19,7 +19,7 @@
 package org.vpac.qc.view.swing;
 
 public interface OneUserInputPanelInterface {
-	
+
 	public Object getUserInput();
 
 }

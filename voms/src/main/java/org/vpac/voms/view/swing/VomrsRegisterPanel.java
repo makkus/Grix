@@ -104,9 +104,7 @@ public class VomrsRegisterPanel extends JPanel implements OneQueryPanelParent {
 		layout.setVgap(20);
 		this.setLayout(layout);
 		this.add(getOneQueryPanel(), BorderLayout.CENTER);
-		this
-				.add(new InfoPagePanel("register", Color.white),
-						BorderLayout.SOUTH);
+		this.add(new InfoPagePanel("register", Color.white), BorderLayout.SOUTH);
 	}
 
 	/**
@@ -157,10 +155,12 @@ public class VomrsRegisterPanel extends JPanel implements OneQueryPanelParent {
 									+ voms.toString()
 									+ " VO was not successful.</p>"
 									+ "<p>This should not happen and is most likely a problem with the VOMRS server. Please contact your systems administrator or <a href=\"mailto:"
-									+ VomsProperty.getString("help.email.address")
-									+ "\">"+ VomsProperty.getString("help.email.address")
-									+ "</a>."
-									+ "</p></body></html>", false);
+									+ VomsProperty
+											.getString("help.email.address")
+									+ "\">"
+									+ VomsProperty
+											.getString("help.email.address")
+									+ "</a>." + "</p></body></html>", false);
 			messagePanel.setPreferredSize(new Dimension(300, 200));
 			JOptionPane.showMessageDialog(this, messagePanel,
 					"Application not successful.", JOptionPane.ERROR_MESSAGE);
@@ -172,17 +172,14 @@ public class VomrsRegisterPanel extends JPanel implements OneQueryPanelParent {
 
 		StringBuffer message = new StringBuffer();
 		// TODO outsource messages...
-		message
-				.append("<p>Are you sure you want to apply for VO membership with the following details?</p><br><br>");
-		message
-				.append("<table style=\"text-align: left; width: 100%;\" border=\"0\" cellpadding=\"2\" cellspacing=\"2\"><tbody>");
+		message.append("<p>Are you sure you want to apply for VO membership with the following details?</p><br><br>");
+		message.append("<table style=\"text-align: left; width: 100%;\" border=\"0\" cellpadding=\"2\" cellspacing=\"2\"><tbody>");
 		boolean switch_color = true;
 		for (QueryArgument argument : userInputQuery.getArguments()) {
 			message.append("<tr");
 			if (switch_color) {
 				switch_color = false;
-				message
-						.append(" style=\"background-color: rgb(245, 245, 245);\"");
+				message.append(" style=\"background-color: rgb(245, 245, 245);\"");
 			} else {
 				switch_color = true;
 			}

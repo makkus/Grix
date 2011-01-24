@@ -22,14 +22,16 @@ package org.vpac.common.model;
  * A StatusListener reacts to StatusEvents
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
 public interface StatusListener {
 
 	/**
 	 * This method gets called if a status of an object has changed.
-	 * @param event the event that has happened
+	 * 
+	 * @param event
+	 *            the event that has happened
 	 */
 	public void statusChanged(StatusEvent event);
-	
+
 }

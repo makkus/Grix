@@ -31,11 +31,12 @@ public class VomsProperty {
 	private static Hashtable<String, String> defaults;
 	static {
 		defaults = new Hashtable<String, String>();
-		defaults.put( "help.email.address", "markus@vpac.org" );
+		defaults.put("help.email.address", "markus@vpac.org");
 
 	}
 
-	static final Logger myLogger = Logger.getLogger( VomsProperty.class.getName() );
+	static final Logger myLogger = Logger.getLogger(VomsProperty.class
+			.getName());
 
 	static final String PROPERTY_FILE = "resources.properties";
 
@@ -51,47 +52,45 @@ public class VomsProperty {
 	 */
 	public static void initProperties() {
 
-		myLogger.debug( "Loading properties..." );
+		myLogger.debug("Loading properties...");
 
 		try {
 			ClassLoader cl = VomsProperty.class.getClassLoader();
-			InputStream is = cl.getResourceAsStream( PROPERTY_FILE );
-			res_properties.load( is );
+			InputStream is = cl.getResourceAsStream(PROPERTY_FILE);
+			res_properties.load(is);
 			is.close();
 			VomsProperty.initialized = true;
 		} catch (IOException ioe) {
-			myLogger
-					.error( "Properties file could not be loaded. Please check your installation or contact the person who packaged this application ("
-							+ VomsProperty.defaults
-									.get( "help.email.address" ) + ")." );
+			myLogger.error("Properties file could not be loaded. Please check your installation or contact the person who packaged this application ("
+					+ VomsProperty.defaults.get("help.email.address") + ").");
 		}
 	}
 
 	/**
 	 * Returns the string property specified by a key.
 	 * 
-	 * @param key -
-	 *            The key to the value you want to know.
+	 * @param key
+	 *            - The key to the value you want to know.
 	 * @return Returns the property associated with the key
 	 */
 	public static String getString(String key) {
 
 		// failsave, always try to initialize the GrixProperty when your
 		// application starts!
-		if ( !VomsProperty.initialized ) VomsProperty.initProperties();
+		if (!VomsProperty.initialized)
+			VomsProperty.initProperties();
 
-		String result = res_properties.getProperty( key );
-		if ( result == null ) {
-			myLogger.error( "Could not find property: " + key
-					+ " in properties file. Trying default value." );
-			result = VomsProperty.defaults.get( key );
-			if ( result == null ) {
-				myLogger
-						.error( "could not find property: "
-								+ key
-								+ " in defaults. Check your installation or contact the person who packaged this application ("
-								+ VomsProperty.defaults
-										.get( "help.email.address" ) + ")." );
+		String result = res_properties.getProperty(key);
+		if (result == null) {
+			myLogger.error("Could not find property: " + key
+					+ " in properties file. Trying default value.");
+			result = VomsProperty.defaults.get(key);
+			if (result == null) {
+				myLogger.error("could not find property: "
+						+ key
+						+ " in defaults. Check your installation or contact the person who packaged this application ("
+						+ VomsProperty.defaults.get("help.email.address")
+						+ ").");
 			}
 		}
 		return result;
@@ -100,28 +99,24 @@ public class VomsProperty {
 
 	/**
 	 * 
-	 * @param key -
-	 *            The key to the value you want to know.
+	 * @param key
+	 *            - The key to the value you want to know.
 	 * @return Returns the integer property associated with the key. If the
 	 *         property is not available Integer.MIN_VALUE is returned.
 	 */
 	public static int getInt(String key) {
 
-		String string_result = getString( key );
+		String string_result = getString(key);
 		int result = Integer.MIN_VALUE;
 		try {
-			result = Integer.parseInt( string_result );
+			result = Integer.parseInt(string_result);
 		} catch (NumberFormatException nfe) {
-			myLogger
-					.error( "Could not parse number specified by key: "
-							+ key
-							+ ". Check your installation or contact the person who packaged this application ("
-							+ VomsProperty.defaults
-									.get( "help.email.address" ) + ")." );
+			myLogger.error("Could not parse number specified by key: "
+					+ key
+					+ ". Check your installation or contact the person who packaged this application ("
+					+ VomsProperty.defaults.get("help.email.address") + ").");
 		}
 		return result;
 	}
 
 }
-
-

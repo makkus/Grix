@@ -59,10 +59,10 @@ public class OptionsDialog extends JDialog {
 	private JButton saveButton = null;
 
 	private JButton cancelButton = null;
-	
+
 	private String selectedStartupTab = null;
-	
-	ButtonGroup tabGroup = null;  //  @jve:decl-index=0:
+
+	ButtonGroup tabGroup = null; // @jve:decl-index=0:
 	ButtonGroup statusPanelGroup = null;
 
 	private JCheckBox showStatusPanelCheckBox = null;
@@ -82,7 +82,7 @@ public class OptionsDialog extends JDialog {
 	 */
 	public OptionsDialog(Frame owner) {
 		super(owner);
-		if ( UserProperty.getProperty("TAB_AT_STARTUP") != null ){
+		if (UserProperty.getProperty("TAB_AT_STARTUP") != null) {
 			selectedStartupTab = UserProperty.getProperty("TAB_AT_STARTUP");
 		} else {
 			selectedStartupTab = "LocalProxy";
@@ -99,7 +99,7 @@ public class OptionsDialog extends JDialog {
 		this.setSize(531, 513);
 		Point p = new Point();
 		p = this.getOwner().getLocation();
-		this.setLocation(p.x+150, p.y+150);
+		this.setLocation(p.x + 150, p.y + 150);
 		this.setContentPane(getJContentPane());
 	}
 
@@ -118,9 +118,9 @@ public class OptionsDialog extends JDialog {
 	}
 
 	/**
-	 * This method initializes jPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
+	 * This method initializes jPanel
+	 * 
+	 * @return javax.swing.JPanel
 	 */
 	private JPanel getJPanel() {
 		if (jPanel == null) {
@@ -196,7 +196,8 @@ public class OptionsDialog extends JDialog {
 			gridBagConstraints1.gridwidth = 2;
 			gridBagConstraints1.gridy = 1;
 			startupTabLabel = new JLabel();
-			startupTabLabel.setText(Grix.getMessages().getString("Options.startup.tab"));
+			startupTabLabel.setText(Grix.getMessages().getString(
+					"Options.startup.tab"));
 			GridBagConstraints gridBagConstraints = new GridBagConstraints();
 			gridBagConstraints.gridx = 0;
 			gridBagConstraints.anchor = GridBagConstraints.NORTHWEST;
@@ -229,10 +230,12 @@ public class OptionsDialog extends JDialog {
 			statusPanelGroup = new ButtonGroup();
 			statusPanelGroup.add(getTopRadioButton());
 			statusPanelGroup.add(getBottomRadioButton());
-			if ( "top".equals(UserProperty.getProperty("SHOW_GRID_PROXY_STATUS_PANEL")) ) {
+			if ("top".equals(UserProperty
+					.getProperty("SHOW_GRID_PROXY_STATUS_PANEL"))) {
 				getShowStatusPanelCheckBox().setSelected(true);
 				getTopRadioButton().setSelected(true);
-			} else if ( "bottom".equals(UserProperty.getProperty("SHOW_GRID_PROXY_STATUS_PANEL")) ) {
+			} else if ("bottom".equals(UserProperty
+					.getProperty("SHOW_GRID_PROXY_STATUS_PANEL"))) {
 				getShowStatusPanelCheckBox().setSelected(true);
 				getBottomRadioButton().setSelected(true);
 			} else {
@@ -243,104 +246,110 @@ public class OptionsDialog extends JDialog {
 	}
 
 	/**
-	 * This method initializes proxyAtStartupCheckBox	
-	 * 	
-	 * @return javax.swing.JCheckBox	
+	 * This method initializes proxyAtStartupCheckBox
+	 * 
+	 * @return javax.swing.JCheckBox
 	 */
 	private JCheckBox getProxyAtStartupCheckBox() {
 		if (proxyAtStartupCheckBox == null) {
 			proxyAtStartupCheckBox = new JCheckBox();
-			if ( "yes".equals(UserProperty.getProperty("CREATE_PROXY_AT_STARTUP")) )
+			if ("yes".equals(UserProperty
+					.getProperty("CREATE_PROXY_AT_STARTUP")))
 				proxyAtStartupCheckBox.setSelected(true);
-			proxyAtStartupCheckBox.setText(Grix.getMessages().getString("Options.startup.checkLocalProxy"));
+			proxyAtStartupCheckBox.setText(Grix.getMessages().getString(
+					"Options.startup.checkLocalProxy"));
 		}
 		return proxyAtStartupCheckBox;
 	}
 
 	/**
-	 * This method initializes certificateRadioButton	
-	 * 	
-	 * @return javax.swing.JRadioButton	
+	 * This method initializes certificateRadioButton
+	 * 
+	 * @return javax.swing.JRadioButton
 	 */
 	private JRadioButton getCertificateRadioButton() {
 		if (certificateRadioButton == null) {
 			certificateRadioButton = new JRadioButton();
-			if ( "Certificate".equals(selectedStartupTab) ) 
+			if ("Certificate".equals(selectedStartupTab))
 				certificateRadioButton.setSelected(true);
 			certificateRadioButton.setText("Certificate");
-			certificateRadioButton.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					selectedStartupTab = "Certificate";
-				}
-			});
+			certificateRadioButton
+					.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(java.awt.event.ActionEvent e) {
+							selectedStartupTab = "Certificate";
+						}
+					});
 		}
 		return certificateRadioButton;
 	}
 
 	/**
-	 * This method initializes proxyRadioButton	
-	 * 	
-	 * @return javax.swing.JRadioButton	
+	 * This method initializes proxyRadioButton
+	 * 
+	 * @return javax.swing.JRadioButton
 	 */
 	private JRadioButton getProxyRadioButton() {
 		if (proxyRadioButton == null) {
 			proxyRadioButton = new JRadioButton();
 			proxyRadioButton.setText("MyProxy");
-			if ( "Proxy".equals(selectedStartupTab) ) 
+			if ("Proxy".equals(selectedStartupTab))
 				proxyRadioButton.setSelected(true);
-			proxyRadioButton.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					selectedStartupTab = "Proxy";
-			}
-		});
+			proxyRadioButton
+					.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(java.awt.event.ActionEvent e) {
+							selectedStartupTab = "Proxy";
+						}
+					});
 		}
 		return proxyRadioButton;
 	}
 
 	/**
-	 * This method initializes voRadioButton	
-	 * 	
-	 * @return javax.swing.JRadioButton	
+	 * This method initializes voRadioButton
+	 * 
+	 * @return javax.swing.JRadioButton
 	 */
 	private JRadioButton getVoRadioButton() {
 		if (voRadioButton == null) {
 			voRadioButton = new JRadioButton();
 			voRadioButton.setText("VO");
-			if ( "VO".equals(selectedStartupTab) ) 
+			if ("VO".equals(selectedStartupTab))
 				voRadioButton.setSelected(true);
-			voRadioButton.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					selectedStartupTab = "VO";
-			}
-		});
+			voRadioButton
+					.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(java.awt.event.ActionEvent e) {
+							selectedStartupTab = "VO";
+						}
+					});
 		}
 		return voRadioButton;
 	}
-	
+
 	/**
-	 * This method initializes localProxyRadioButton	
-	 * 	
-	 * @return javax.swing.JRadioButton	
+	 * This method initializes localProxyRadioButton
+	 * 
+	 * @return javax.swing.JRadioButton
 	 */
 	private JRadioButton getLocalProxyRadioButton() {
 		if (localProxyRadioButton == null) {
 			localProxyRadioButton = new JRadioButton();
 			localProxyRadioButton.setText("LocalProxy");
-			if ( "LocalProxy".equals(selectedStartupTab) ) 
+			if ("LocalProxy".equals(selectedStartupTab))
 				localProxyRadioButton.setSelected(true);
-			localProxyRadioButton.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					selectedStartupTab = "LocalProxy";
-			}
-		});
+			localProxyRadioButton
+					.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(java.awt.event.ActionEvent e) {
+							selectedStartupTab = "LocalProxy";
+						}
+					});
 		}
 		return localProxyRadioButton;
 	}
 
 	/**
-	 * This method initializes saveButton	
-	 * 	
-	 * @return javax.swing.JButton	
+	 * This method initializes saveButton
+	 * 
+	 * @return javax.swing.JButton
 	 */
 	private JButton getSaveButton() {
 		if (saveButton == null) {
@@ -349,31 +358,42 @@ public class OptionsDialog extends JDialog {
 			saveButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					// save the preferences
-					if ( getProxyAtStartupCheckBox().isSelected() ) {
-						UserProperty.setProperty("CREATE_PROXY_AT_STARTUP", "yes");
+					if (getProxyAtStartupCheckBox().isSelected()) {
+						UserProperty.setProperty("CREATE_PROXY_AT_STARTUP",
+								"yes");
 					} else {
-						UserProperty.setProperty("CREATE_PROXY_AT_STARTUP", "no");
+						UserProperty.setProperty("CREATE_PROXY_AT_STARTUP",
+								"no");
 					}
-					UserProperty.setProperty("TAB_AT_STARTUP", selectedStartupTab);
-					
-					if ( getShowStatusPanelCheckBox().isSelected() ) {
-						if ( getBottomRadioButton().isSelected() ) 
-							UserProperty.setProperty("SHOW_GRID_PROXY_STATUS_PANEL", "bottom");
+					UserProperty.setProperty("TAB_AT_STARTUP",
+							selectedStartupTab);
+
+					if (getShowStatusPanelCheckBox().isSelected()) {
+						if (getBottomRadioButton().isSelected())
+							UserProperty.setProperty(
+									"SHOW_GRID_PROXY_STATUS_PANEL", "bottom");
 						else
-							UserProperty.setProperty("SHOW_GRID_PROXY_STATUS_PANEL", "top");
+							UserProperty.setProperty(
+									"SHOW_GRID_PROXY_STATUS_PANEL", "top");
 					} else {
-						UserProperty.setProperty("SHOW_GRID_PROXY_STATUS_PANEL", "no");
+						UserProperty.setProperty(
+								"SHOW_GRID_PROXY_STATUS_PANEL", "no");
 					}
-					
-					if ( getRememberProxySettingsCheckBox().isSelected() ) 
-						UserProperty.setProperty("REMEMBER_MYPROXY_SETTINGS", "yes");
+
+					if (getRememberProxySettingsCheckBox().isSelected())
+						UserProperty.setProperty("REMEMBER_MYPROXY_SETTINGS",
+								"yes");
 					else
-						UserProperty.setProperty("REMEMBER_MYPROXY_SETTINGS", "no");
-					
-					if ( getSuggestProxyNamesCheckBox().isSelected() )
-						UserProperty.setProperty("AUTOSUGGEST_PROXYNAMES", "yes");
-					else UserProperty.setProperty("AUTOSUGGEST_PROXYNAMES", "no");
-					
+						UserProperty.setProperty("REMEMBER_MYPROXY_SETTINGS",
+								"no");
+
+					if (getSuggestProxyNamesCheckBox().isSelected())
+						UserProperty.setProperty("AUTOSUGGEST_PROXYNAMES",
+								"yes");
+					else
+						UserProperty
+								.setProperty("AUTOSUGGEST_PROXYNAMES", "no");
+
 					OptionsDialog.this.getOwner().repaint();
 					OptionsDialog.this.dispose();
 				}
@@ -383,9 +403,9 @@ public class OptionsDialog extends JDialog {
 	}
 
 	/**
-	 * This method initializes cancelButton	
-	 * 	
-	 * @return javax.swing.JButton	
+	 * This method initializes cancelButton
+	 * 
+	 * @return javax.swing.JButton
 	 */
 	private JButton getCancelButton() {
 		if (cancelButton == null) {
@@ -401,34 +421,36 @@ public class OptionsDialog extends JDialog {
 	}
 
 	/**
-	 * This method initializes showStatusPanelCheckBox	
-	 * 	
-	 * @return javax.swing.JCheckBox	
+	 * This method initializes showStatusPanelCheckBox
+	 * 
+	 * @return javax.swing.JCheckBox
 	 */
 	private JCheckBox getShowStatusPanelCheckBox() {
 		if (showStatusPanelCheckBox == null) {
 			showStatusPanelCheckBox = new JCheckBox();
-			showStatusPanelCheckBox.setText(Grix.getMessages().getString("Options.showGridProxyStatusPanel"));
-				showStatusPanelCheckBox.setSelected(true);
-				showStatusPanelCheckBox.addItemListener(new java.awt.event.ItemListener() {
-					public void itemStateChanged(ItemEvent e) {
-						if ( e.getStateChange() == ItemEvent.SELECTED  ) {
-							getTopRadioButton().setEnabled(true);
-							getBottomRadioButton().setEnabled(true);
-						} else {
-							getTopRadioButton().setEnabled(false);
-							getBottomRadioButton().setEnabled(false);
+			showStatusPanelCheckBox.setText(Grix.getMessages().getString(
+					"Options.showGridProxyStatusPanel"));
+			showStatusPanelCheckBox.setSelected(true);
+			showStatusPanelCheckBox
+					.addItemListener(new java.awt.event.ItemListener() {
+						public void itemStateChanged(ItemEvent e) {
+							if (e.getStateChange() == ItemEvent.SELECTED) {
+								getTopRadioButton().setEnabled(true);
+								getBottomRadioButton().setEnabled(true);
+							} else {
+								getTopRadioButton().setEnabled(false);
+								getBottomRadioButton().setEnabled(false);
+							}
 						}
-					}
-				});
-			}
+					});
+		}
 		return showStatusPanelCheckBox;
 	}
 
 	/**
-	 * This method initializes topRadioButton	
-	 * 	
-	 * @return javax.swing.JRadioButton	
+	 * This method initializes topRadioButton
+	 * 
+	 * @return javax.swing.JRadioButton
 	 */
 	private JRadioButton getTopRadioButton() {
 		if (topRadioButton == null) {
@@ -440,9 +462,9 @@ public class OptionsDialog extends JDialog {
 	}
 
 	/**
-	 * This method initializes bottomRadioButton	
-	 * 	
-	 * @return javax.swing.JRadioButton	
+	 * This method initializes bottomRadioButton
+	 * 
+	 * @return javax.swing.JRadioButton
 	 */
 	private JRadioButton getBottomRadioButton() {
 		if (bottomRadioButton == null) {
@@ -453,35 +475,35 @@ public class OptionsDialog extends JDialog {
 	}
 
 	/**
-	 * This method initializes rememberProxySettingsCheckBox	
-	 * 	
-	 * @return javax.swing.JCheckBox	
+	 * This method initializes rememberProxySettingsCheckBox
+	 * 
+	 * @return javax.swing.JCheckBox
 	 */
 	private JCheckBox getRememberProxySettingsCheckBox() {
 		if (rememberProxySettingsCheckBox == null) {
 			rememberProxySettingsCheckBox = new JCheckBox();
 			rememberProxySettingsCheckBox.setText("Remember MyProxy settings");
-			if ( "yes".equals(UserProperty.getProperty("REMEMBER_MYPROXY_SETTINGS")) )
+			if ("yes".equals(UserProperty
+					.getProperty("REMEMBER_MYPROXY_SETTINGS")))
 				rememberProxySettingsCheckBox.setSelected(true);
 		}
 		return rememberProxySettingsCheckBox;
 	}
 
 	/**
-	 * This method initializes suggestProxyNamesCheckBox	
-	 * 	
-	 * @return javax.swing.JCheckBox	
+	 * This method initializes suggestProxyNamesCheckBox
+	 * 
+	 * @return javax.swing.JCheckBox
 	 */
 	private JCheckBox getSuggestProxyNamesCheckBox() {
 		if (suggestProxyNamesCheckBox == null) {
 			suggestProxyNamesCheckBox = new JCheckBox();
 			suggestProxyNamesCheckBox.setText("Auto-suggest proxy names");
-			if ( "yes".equals(UserProperty.getProperty("AUTOSUGGEST_PROXYNAMES")) )
+			if ("yes"
+					.equals(UserProperty.getProperty("AUTOSUGGEST_PROXYNAMES")))
 				suggestProxyNamesCheckBox.setSelected(true);
 		}
 		return suggestProxyNamesCheckBox;
 	}
 
-
-
-}  //  @jve:decl-index=0:visual-constraint="10,10"
+} // @jve:decl-index=0:visual-constraint="10,10"

@@ -37,12 +37,13 @@ import org.vpac.qc.model.query.UserInterfaceArgument;
  * One QueryArgument description/input panel.
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
-public class OneUserInputPanel extends JPanel implements OneElementPanel, OneUserInputPanelInterface{
+public class OneUserInputPanel extends JPanel implements OneElementPanel,
+		OneUserInputPanelInterface {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private UserInterfaceArgument argument = null;
 
 	private JLabel nameLabel = null;
@@ -50,9 +51,8 @@ public class OneUserInputPanel extends JPanel implements OneElementPanel, OneUse
 	private JTextField userInputTextField = null;
 
 	private JComboBox userInputComboBox = null;
-	
+
 	private ElementsPanel elementsPanel = null;
-	
 
 	/**
 	 * This is the default constructor
@@ -85,17 +85,20 @@ public class OneUserInputPanel extends JPanel implements OneElementPanel, OneUse
 		nameLabelConstraints.fill = GridBagConstraints.HORIZONTAL;
 		nameLabelConstraints.gridy = 0;
 		nameLabel = new JLabel();
-		if ( argument.getPrettyName() == null || "".equals(argument.getPrettyName()) )
+		if (argument.getPrettyName() == null
+				|| "".equals(argument.getPrettyName()))
 			nameLabel.setText(argument.getName());
-		else nameLabel.setText(argument.getPrettyName() );
+		else
+			nameLabel.setText(argument.getPrettyName());
 		nameLabel.setPreferredSize(new Dimension(150, 19));
 		this.setSize(434, 62);
 		this.setLayout(new GridBagLayout());
 		this.add(nameLabel, nameLabelConstraints);
-		if ( argument.isPreselection() ) {
+		if (argument.isPreselection()) {
 			this.add(getUserInputComboBox(), textFieldConstraints);
-		} else { 
-			if ( argument.getPreselection() == null || argument.getPreselection().size() < 2 ){
+		} else {
+			if (argument.getPreselection() == null
+					|| argument.getPreselection().size() < 2) {
 				this.add(getUserInputTextField(), textFieldConstraints);
 			} else {
 				this.add(getUserInputComboBox(), textFieldConstraints);
@@ -104,47 +107,54 @@ public class OneUserInputPanel extends JPanel implements OneElementPanel, OneUse
 	}
 
 	/**
-	 * This method initializes userInputTextField	
-	 * 	
-	 * @return javax.swing.JTextField	
+	 * This method initializes userInputTextField
+	 * 
+	 * @return javax.swing.JTextField
 	 */
 	private JTextField getUserInputTextField() {
 		if (userInputTextField == null) {
 			userInputTextField = new JTextField();
-			if ( argument.getDescription() != null && ! "".equals(argument.getDescription()) )
+			if (argument.getDescription() != null
+					&& !"".equals(argument.getDescription()))
 				userInputTextField.setToolTipText(argument.getDescription());
-				userInputTextField.setPreferredSize(new Dimension(300, 24));
-				if ( argument.getPreselection() != null && argument.getPreselection().size() == 1 ){
-					userInputTextField.setText(argument.getPreselectionAsString()[0]);
-				}
+			userInputTextField.setPreferredSize(new Dimension(300, 24));
+			if (argument.getPreselection() != null
+					&& argument.getPreselection().size() == 1) {
+				userInputTextField
+						.setText(argument.getPreselectionAsString()[0]);
+			}
 		}
 		return userInputTextField;
 	}
 
 	/**
-	 * This method initializes userInputComboBox	
-	 * 	
-	 * @return javax.swing.JComboBox	
+	 * This method initializes userInputComboBox
+	 * 
+	 * @return javax.swing.JComboBox
 	 */
 	private JComboBox getUserInputComboBox() {
 		if (userInputComboBox == null) {
-			userInputComboBox = new JComboBox(argument.getPreselectionAsString());
+			userInputComboBox = new JComboBox(
+					argument.getPreselectionAsString());
 			userInputComboBox.setBackground(Color.white);
-			if ( ! argument.isPreselection() ) {
+			if (!argument.isPreselection()) {
 				userInputComboBox.setEditable(true);
 			}
 			userInputComboBox.setPreferredSize(new Dimension(300, 24));
-			if ( argument.getDescription() != null && ! "".equals(argument.getDescription()) )
+			if (argument.getDescription() != null
+					&& !"".equals(argument.getDescription()))
 				userInputComboBox.setToolTipText(argument.getDescription());
 		}
 		return userInputComboBox;
 	}
-	
-	public Object getUserInput(){
-		if ( argument.isPreselection() ){
-			return argument.getPreselection().get(getUserInputComboBox().getSelectedIndex());
+
+	public Object getUserInput() {
+		if (argument.isPreselection()) {
+			return argument.getPreselection().get(
+					getUserInputComboBox().getSelectedIndex());
 		} else {
-			if ( argument.getPreselection() == null || argument.getPreselection().size() < 2 ) {
+			if (argument.getPreselection() == null
+					|| argument.getPreselection().size() < 2) {
 				return getUserInputTextField().getText();
 			} else {
 				return getUserInputComboBox().getSelectedItem();
@@ -156,4 +166,4 @@ public class OneUserInputPanel extends JPanel implements OneElementPanel, OneUse
 		return this.elementsPanel;
 	}
 
-}  //  @jve:decl-index=0:visual-constraint="10,10"
+} // @jve:decl-index=0:visual-constraint="10,10"

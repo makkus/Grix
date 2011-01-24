@@ -56,8 +56,9 @@ import org.vpac.voms.model.VO;
  * 
  */
 public class LocalVomses implements GridProxyListener {
-	
-	static final Logger myLogger = Logger.getLogger(LocalVomses.class.getName());
+
+	static final Logger myLogger = Logger
+			.getLogger(LocalVomses.class.getName());
 
 	private static LocalVomses localVomses = null;
 
@@ -76,29 +77,29 @@ public class LocalVomses implements GridProxyListener {
 
 		Vector<VO> vos = new Vector<VO>();
 		File[] files = Voms.VOMSES.listFiles();
-		
-		if ( files != null ){
 
-		for (File file : files) {
-			BufferedReader f = null;
-			try {
-				f = new BufferedReader(new FileReader(file));
-			} catch (FileNotFoundException e) {
-				continue;
-			}
-			String line = null;
-			try {
-				while ((line = f.readLine()) != null) {
-					VO new_vo = Voms.parseVomsesLine(line);
-					if (new_vo == null)
-						continue;
-					vos.add(new_vo);
+		if (files != null) {
+
+			for (File file : files) {
+				BufferedReader f = null;
+				try {
+					f = new BufferedReader(new FileReader(file));
+				} catch (FileNotFoundException e) {
+					continue;
 				}
-			} catch (IOException e) {
-				continue;
-			}
+				String line = null;
+				try {
+					while ((line = f.readLine()) != null) {
+						VO new_vo = Voms.parseVomsesLine(line);
+						if (new_vo == null)
+							continue;
+						vos.add(new_vo);
+					}
+				} catch (IOException e) {
+					continue;
+				}
 
-		}
+			}
 		}
 
 		return vos;
@@ -156,7 +157,7 @@ public class LocalVomses implements GridProxyListener {
 												+ voms.toString() });
 							} catch (RuntimeException ae) {
 								// does not matter
-								//ae.printStackTrace();
+								// ae.printStackTrace();
 								myLogger.error(ae);
 							}
 							if (stop_thread) {
@@ -208,23 +209,23 @@ public class LocalVomses implements GridProxyListener {
 	}
 
 	public static void refreshLocalVomses() {
-		if ( LocalProxy.isValid() ) {
-			if ( getLocalVomses().userVomses != null ) {
+		if (LocalProxy.isValid()) {
+			if (getLocalVomses().userVomses != null) {
 
-			if (getLocalVomses().contactLocalVomses.isAlive()) {
-				try {
-					getLocalVomses().contactLocalVomses.join();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					//e.printStackTrace();
-					myLogger.error(e);
+				if (getLocalVomses().contactLocalVomses.isAlive()) {
+					try {
+						getLocalVomses().contactLocalVomses.join();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						// e.printStackTrace();
+						myLogger.error(e);
+					}
 				}
-			}
-			for (Voms voms : getLocalVomses().userVomses) {
-				fireStatusChanged(voms, VomsStatusEvent.REMOVED_VOMS,
-						new String[] { "Removed Voms: " + voms.toString() });
-			}
-			getLocalVomses().userVomses = null;
+				for (Voms voms : getLocalVomses().userVomses) {
+					fireStatusChanged(voms, VomsStatusEvent.REMOVED_VOMS,
+							new String[] { "Removed Voms: " + voms.toString() });
+				}
+				getLocalVomses().userVomses = null;
 			}
 
 			getLocalVomses().getVomses();
@@ -283,7 +284,8 @@ public class LocalVomses implements GridProxyListener {
 	// ---------------------------------------------------
 	private static Vector<VomsesStatusListener> vomsesListeners;
 
-	private static void fireStatusChanged(Voms voms, int action, String[] message) {
+	private static void fireStatusChanged(Voms voms, int action,
+			String[] message) {
 		// if we have no vomsesListeners, do nothing...
 		if (vomsesListeners != null && !vomsesListeners.isEmpty()) {
 			// create the event object to send

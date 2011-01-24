@@ -12,7 +12,7 @@ public class PlainProxy extends GridProxy {
 	public PlainProxy(File proxyFile, GlobusCredential cred) throws IOException {
 		super(proxyFile, cred);
 	}
-	
+
 	@Override
 	protected void checkPrerequisites() throws MissingPrerequisitesException {
 		return;
@@ -27,7 +27,7 @@ public class PlainProxy extends GridProxy {
 
 	@Override
 	protected ArrayList<String> proxyInfo() {
-		//TODO ?
+		// TODO ?
 		return new ArrayList<String>();
 	}
 

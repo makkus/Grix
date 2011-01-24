@@ -46,9 +46,9 @@ import org.vpac.voms.control.VomsStatusEvent;
 import org.vpac.voms.control.VomsesStatusListener;
 
 public class VomrsSubscribePanel extends JPanel implements VomsesStatusListener {
-	
-	static final Logger myLogger = Logger
-	.getLogger(VomrsSubscribePanel.class.getName());  //  @jve:decl-index=0:
+
+	static final Logger myLogger = Logger.getLogger(VomrsSubscribePanel.class
+			.getName()); // @jve:decl-index=0:
 
 	private static final long serialVersionUID = 1L;
 
@@ -62,7 +62,7 @@ public class VomrsSubscribePanel extends JPanel implements VomsesStatusListener 
 
 	private DefaultComboBoxModel comboBoxModel = null;
 
-	private StringBuffer groupsToSubscribe = null;  //  @jve:decl-index=0:
+	private StringBuffer groupsToSubscribe = null; // @jve:decl-index=0:
 
 	private String[] allMyGroups = null;
 
@@ -81,7 +81,7 @@ public class VomrsSubscribePanel extends JPanel implements VomsesStatusListener 
 		initialize();
 		LocalVomses.addStatusListener(this);
 	}
-	
+
 	public VomrsSubscribePanel(Voms voms, Color lighterColor) {
 		super();
 		this.lighterColor = lighterColor;
@@ -116,8 +116,14 @@ public class VomrsSubscribePanel extends JPanel implements VomsesStatusListener 
 		gridBagConstraints.insets = new Insets(20, 20, 0, 20);
 		gridBagConstraints.gridx = 1;
 		this.setSize(628, 110);
-		this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0), "Apply for membership in a group", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 14), new Color(51, 51, 51)));
-		if ( lighterColor != null )	this.setBackground(lighterColor);
+		this.setBorder(BorderFactory.createTitledBorder(
+				BorderFactory.createEmptyBorder(15, 0, 0, 0),
+				"Apply for membership in a group",
+				TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION,
+				new Font("Dialog", Font.BOLD, 14), new Color(51, 51, 51)));
+		if (lighterColor != null)
+			this.setBackground(lighterColor);
 		this.setLayout(new GridBagLayout());
 		this.add(getGroupsComboBox(), gridBagConstraints);
 		this.add(groupsLabel, gridBagConstraints1);
@@ -149,51 +155,71 @@ public class VomrsSubscribePanel extends JPanel implements VomsesStatusListener 
 			applyButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					try {
-						
+
 						StringBuffer message = new StringBuffer();
-						//TODO outsource messages...
-						message.append("<p>You are about to subscribe to the group <b>"+(String)getGroupsComboBox().getSelectedItem()+"</b></p>");
+						// TODO outsource messages...
+						message.append("<p>You are about to subscribe to the group <b>"
+								+ (String) getGroupsComboBox()
+										.getSelectedItem() + "</b></p>");
 						message.append("<p>Do you want to do that?</p>");
-						
-						Object[] options = new Object[]{"Yes", "No"};
-						MessagePanel messagePanel = new SimpleMessagePanel(Color.white);
+
+						Object[] options = new Object[] { "Yes", "No" };
+						MessagePanel messagePanel = new SimpleMessagePanel(
+								Color.white);
 						messagePanel.setDocument(message.toString(), true);
 						messagePanel.setPreferredSize(new Dimension(250, 150));
-						int n = JOptionPane.showOptionDialog(VomrsSubscribePanel.this, messagePanel, "Please confirm", JOptionPane.OK_CANCEL_OPTION,
-								JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-						myLogger.debug("User chose: "+ n);
-						
-						if ( n == 0 ) {
+						int n = JOptionPane.showOptionDialog(
+								VomrsSubscribePanel.this, messagePanel,
+								"Please confirm", JOptionPane.OK_CANCEL_OPTION,
+								JOptionPane.QUESTION_MESSAGE, null, options,
+								options[0]);
+						myLogger.debug("User chose: " + n);
+
+						if (n == 0) {
 							// subscribe to all parent groups as well...
 							StringBuffer currentGroup = new StringBuffer();
-							
-							for ( String group : ((String)getGroupsComboBox().getSelectedItem()).substring(1).split("/") ){
-								currentGroup.append("/"+group);
-								if ( groupsToSubscribe.indexOf("<"+currentGroup+">") != -1 ) {
-									myLogger.debug("Subscribing to group: "+currentGroup);	
-									Object[] output = client.execute("addMbrToGroup",
-											new Object[] { currentGroup.toString() });
+
+							for (String group : ((String) getGroupsComboBox()
+									.getSelectedItem()).substring(1).split("/")) {
+								currentGroup.append("/" + group);
+								if (groupsToSubscribe.indexOf("<"
+										+ currentGroup + ">") != -1) {
+									myLogger.debug("Subscribing to group: "
+											+ currentGroup);
+									Object[] output = client.execute(
+											"addMbrToGroup",
+											new Object[] { currentGroup
+													.toString() });
 								}
 							}
-						
-						LocalVomses.updateVoms(voms);
+
+							LocalVomses.updateVoms(voms);
 						}
-						
+
 					} catch (Exception e1) {
 						StringBuffer errormessage = new StringBuffer();
-						//TODO outsource messages...
-						errormessage.append("<p>Could not subscribe to group <b>"+(String)getGroupsComboBox().getSelectedItem()+"</b></p>");
-						if ( e1.getMessage() != null ){
+						// TODO outsource messages...
+						errormessage
+								.append("<p>Could not subscribe to group <b>"
+										+ (String) getGroupsComboBox()
+												.getSelectedItem() + "</b></p>");
+						if (e1.getMessage() != null) {
 							errormessage.append("<p>Reason:</p>");
-							errormessage.append("<p>"+e1.getMessage()+"</p>");
+							errormessage.append("<p>" + e1.getMessage()
+									+ "</p>");
 						} else {
-							errormessage.append("<br>One possible reason could be that you tried to subscribe to a subgroup whitout being in the parentgroup of this subgroup.");
+							errormessage
+									.append("<br>One possible reason could be that you tried to subscribe to a subgroup whitout being in the parentgroup of this subgroup.");
 						}
-						Object[] options = new Object[]{"Yes", "No"};
-						MessagePanel messagePanel = new SimpleMessagePanel(Color.white);
+						Object[] options = new Object[] { "Yes", "No" };
+						MessagePanel messagePanel = new SimpleMessagePanel(
+								Color.white);
 						messagePanel.setDocument(errormessage.toString(), true);
 						messagePanel.setPreferredSize(new Dimension(300, 200));
-						JOptionPane.showMessageDialog(VomrsSubscribePanel.this, messagePanel, "Error when subscribing to group", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(VomrsSubscribePanel.this,
+								messagePanel,
+								"Error when subscribing to group",
+								JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			});
@@ -205,30 +231,38 @@ public class VomrsSubscribePanel extends JPanel implements VomsesStatusListener 
 
 		comboBoxModel.removeAllElements();
 
-		allMyGroups = VomrsClient.parseGroups((String) ((voms
-				.getInfoQuery().getResult())[14]));
-		
+		allMyGroups = VomrsClient.parseGroups((String) ((voms.getInfoQuery()
+				.getResult())[14]));
+
 		String[] allVOGroups = client.getAllGroups();
-		
+
 		groupsToSubscribe = new StringBuffer();
-		
+
 		boolean noMemberYet = true;
 		boolean sure = false;
 
 		// check whether subscribed to this group
 		for (String group : allVOGroups) {
-			
-			for ( String mygroup : allMyGroups ){
-				
-				myLogger.debug("Current group: "+group+"/"+Vomrs_Utils.ROLE);
-				myLogger.debug("Current mygroup: "+mygroup);
-				
-				if ( (( mygroup.indexOf(group+"/"+Vomrs_Utils.ROLE) != -1 ) && // listed in mbrInfo
-					 ( mygroup.indexOf("STATUS:Approved") == -1 && mygroup.indexOf("STATUS:New") == -1 )) // not approved or new (but: denied)
-				) { 
+
+			for (String mygroup : allMyGroups) {
+
+				myLogger.debug("Current group: " + group + "/"
+						+ Vomrs_Utils.ROLE);
+				myLogger.debug("Current mygroup: " + mygroup);
+
+				if (((mygroup.indexOf(group + "/" + Vomrs_Utils.ROLE) != -1) && // listed
+																				// in
+																				// mbrInfo
+				(mygroup.indexOf("STATUS:Approved") == -1 && mygroup
+						.indexOf("STATUS:New") == -1)) // not approved or new
+														// (but: denied)
+				) {
 					noMemberYet = true;
 					sure = true;
-				} else if ( mygroup.indexOf(group+"/"+Vomrs_Utils.ROLE) == -1 ){ // not listed in mbrInfo
+				} else if (mygroup.indexOf(group + "/" + Vomrs_Utils.ROLE) == -1) { // not
+																					// listed
+																					// in
+																					// mbrInfo
 					noMemberYet = true;
 					sure = false;
 				} else {
@@ -236,37 +270,38 @@ public class VomrsSubscribePanel extends JPanel implements VomsesStatusListener 
 					sure = true;
 				}
 
-				if ( sure ) {
+				if (sure) {
 					break;
 				}
 
 			}
 			// if not in this group or applied already
-			if ( noMemberYet ) {
+			if (noMemberYet) {
 				String newGroup = group;
 				comboBoxModel.addElement(newGroup);
-				groupsToSubscribe.append("<"+newGroup+">");
+				groupsToSubscribe.append("<" + newGroup + ">");
 			}
 		}
 
-		 if ( comboBoxModel.getSize() == 0 ) {
-		 comboBoxModel.addElement(new String("No groups left to subscribe to."));
-		 getApplyButton().setEnabled(false);
-		 this.setVisible(false);
-		 } else {
-		 getApplyButton().setEnabled(true);
-		 this.setVisible(true);
-		 }
-		 
+		if (comboBoxModel.getSize() == 0) {
+			comboBoxModel.addElement(new String(
+					"No groups left to subscribe to."));
+			getApplyButton().setEnabled(false);
+			this.setVisible(false);
+		} else {
+			getApplyButton().setEnabled(true);
+			this.setVisible(true);
+		}
 
 	}
 
 	public void vomsStatusChanged(VomsStatusEvent event) {
 
-		if (((Voms) event.getSource()).equals(voms) && event.getAction() != VomsStatusEvent.REMOVED_VOMS ) {
-			//if (event.getAction() == VomsStatusEvent.INFO_CHANGED) {
-				fillGroups();
-			//}
+		if (((Voms) event.getSource()).equals(voms)
+				&& event.getAction() != VomsStatusEvent.REMOVED_VOMS) {
+			// if (event.getAction() == VomsStatusEvent.INFO_CHANGED) {
+			fillGroups();
+			// }
 		}
 
 	}

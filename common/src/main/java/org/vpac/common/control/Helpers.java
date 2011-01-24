@@ -30,60 +30,46 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 public class Helpers {
-	
+
 	static final Logger myLogger = Logger.getLogger(Helpers.class.getName());
-	
+
 	public static String getClipboard() {
 		// get the system clipboard
-		Clipboard systemClipboard =
-			Toolkit
-				.getDefaultToolkit()
+		Clipboard systemClipboard = Toolkit.getDefaultToolkit()
 				.getSystemClipboard();
-		// get the contents on the clipboard in a 
+		// get the contents on the clipboard in a
 		// transferable object
-		Transferable clipboardContents =
-			systemClipboard
-				.getContents(
-				null);
+		Transferable clipboardContents = systemClipboard.getContents(null);
 		// check if clipboard is empty
-		if (clipboardContents
-			== null) {
+		if (clipboardContents == null) {
 			return ("Clipboard is empty!!!");
 		} else
 			try {
-				// see if DataFlavor of 
+				// see if DataFlavor of
 				// DataFlavor.stringFlavor is supported
 				if (clipboardContents
-					.isDataFlavorSupported(
-						DataFlavor
-							.stringFlavor)) {
+						.isDataFlavorSupported(DataFlavor.stringFlavor)) {
 					// return text content
-					String returnText =
-						(
-							String) clipboardContents
-								.getTransferData(
-							DataFlavor
-								.stringFlavor);
+					String returnText = (String) clipboardContents
+							.getTransferData(DataFlavor.stringFlavor);
 					return returnText;
 				}
 			} catch (UnsupportedFlavorException ufe) {
-				//ufe.printStackTrace();
+				// ufe.printStackTrace();
 				myLogger.error(ufe);
-				
+
 			} catch (IOException ioe) {
 				myLogger.error(ioe);
-				//ioe.printStackTrace();
+				// ioe.printStackTrace();
 			}
 		return null;
 	}
-	
+
 	public static void setClipboard(String text) {
-		Clipboard systemClipboard =
-			Toolkit
-				.getDefaultToolkit()
+		Clipboard systemClipboard = Toolkit.getDefaultToolkit()
 				.getSystemClipboard();
-		StringSelection fieldContent = new StringSelection (text);
+		StringSelection fieldContent = new StringSelection(text);
 		systemClipboard.setContents(fieldContent, fieldContent);
 	}
-	
+
 }

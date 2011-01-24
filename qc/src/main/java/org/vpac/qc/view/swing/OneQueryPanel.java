@@ -39,17 +39,21 @@ import org.vpac.qc.model.query.QueryArgument;
 import org.vpac.qc.model.query.UserInputQuery;
 
 /**
- * If you want to use a JPanel to ask the user about {@link QueryArgument}s for a {@link UserInputQuery} than you have to implement
- * the {@link OneQueryPanelParent} interface and add a {@link OneQueryPanel} to your swing application.
+ * If you want to use a JPanel to ask the user about {@link QueryArgument}s for
+ * a {@link UserInputQuery} than you have to implement the
+ * {@link OneQueryPanelParent} interface and add a {@link OneQueryPanel} to your
+ * swing application.
  * <p>
- * This class provides a panel that has got a Submit button, an optional Cancel button and a title to describe the {@link Query}.
- *  
+ * This class provides a panel that has got a Submit button, an optional Cancel
+ * button and a title to describe the {@link Query}.
+ * 
  * @author Markus Binsteiner
- *
+ * 
  */
 public class OneQueryPanel extends JPanel {
-	
-	static final Logger myLogger = Logger.getLogger(OneQueryPanel.class.getName());
+
+	static final Logger myLogger = Logger.getLogger(OneQueryPanel.class
+			.getName());
 
 	private static final long serialVersionUID = 1L;
 
@@ -66,7 +70,7 @@ public class OneQueryPanel extends JPanel {
 	private String button_text = null;
 
 	private String title = null;
-	
+
 	private boolean clipboardSupport = false;
 
 	/**
@@ -87,10 +91,10 @@ public class OneQueryPanel extends JPanel {
 			setUninitialized();
 		}
 	}
-	
+
 	public OneQueryPanel(OneQueryPanelParent window, String title,
 			String button_text, boolean cancel_button) {
-		
+
 		this(window, title, button_text, cancel_button, false);
 	}
 
@@ -109,7 +113,7 @@ public class OneQueryPanel extends JPanel {
 	private void initialize() {
 		JLabel titleLabel = null;
 		GridBagConstraints titleConstraints = new GridBagConstraints();
-		if (title != null && ! "".equals(title)) {
+		if (title != null && !"".equals(title)) {
 			titleLabel = new JLabel(title);
 			titleConstraints = new GridBagConstraints();
 			titleConstraints.gridx = 0;
@@ -139,7 +143,7 @@ public class OneQueryPanel extends JPanel {
 		this.setSize(467, 345);
 		this.setLayout(new GridBagLayout());
 		this.setBackground(new Color(245, 245, 245));
-		if ( titleLabel != null )
+		if (titleLabel != null)
 			this.add(titleLabel, titleConstraints);
 		this.add(getUserInputPanel().getPanel(), userInputPanelConstraints);
 		if (cancel_button)
@@ -187,7 +191,7 @@ public class OneQueryPanel extends JPanel {
 		if (submitButton == null) {
 			submitButton = new JButton();
 			submitButton.setText(button_text);
-			//submitButton.setPreferredSize(new Dimension(75, 25));
+			// submitButton.setPreferredSize(new Dimension(75, 25));
 			submitButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					try {

@@ -4,8 +4,9 @@ public class UnableToUploadCertificationRequestException extends Exception {
 
 	private String plugin = null;
 	private Exception exception = null;
-	
-	public UnableToUploadCertificationRequestException(String plugin, Exception e){
+
+	public UnableToUploadCertificationRequestException(String plugin,
+			Exception e) {
 		super();
 		this.plugin = plugin;
 		this.exception = e;

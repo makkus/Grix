@@ -41,13 +41,13 @@ import org.vpac.grix.control.utils.Utils;
 import org.vpac.grix.model.certificate.Certificate;
 import org.vpac.grix.view.swing.Grix;
 
-public class RequestUserCertificatePanel extends JPanel  {
-	
+public class RequestUserCertificatePanel extends JPanel {
+
 	private JLabel surnameLabel;
-	static final Logger myLogger = Logger.getLogger( RequestUserCertificatePanel.class
-			.getName() );	
-	
-	private static final Dimension STANDARD_DIMENSION = new Dimension(4,24);
+	static final Logger myLogger = Logger
+			.getLogger(RequestUserCertificatePanel.class.getName());
+
+	private static final Dimension STANDARD_DIMENSION = new Dimension(4, 24);
 
 	private static final long serialVersionUID = 1L;
 	private JLabel jLabel = null;
@@ -79,33 +79,39 @@ public class RequestUserCertificatePanel extends JPanel  {
 		super();
 		initialize();
 	}
-	
+
 	public RequestUserCertificatePanel(Certificate cert) {
 		super();
 		initialize();
 		prefill(cert);
 	}
-	
+
 	public void prefill(Certificate cert) {
-//		if ( UserProperty.getProperty("FIRST_NAME") != null && UserProperty.getProperty("LAST_NAME") != null ){
-//			getFirstNameTextField().setText(UserProperty.getProperty("FIRST_NAME"));
-//			getLastNameTextField().setText(UserProperty.getProperty("LAST_NAME"));
-//		} else {
-			String[] name = Utils.parseNameField(cert.getCn());
-			getFirstNameTextField().setText(name[0]);
-			getLastNameTextField().setText(name[1]);
-//		}
-		if ( cert.getEmail() != null ) getEmailTextField().setText(cert.getEmail());
-		if ( UserProperty.getProperty("PHONE") != null ) getTelephoneTextField().setText(UserProperty.getProperty("PHONE"));
-		if ( cert.getOu() != null ) {
-			if ( ouComboBoxModel.getIndexOf(cert.getOu()) != -1 ) ouComboBoxModel.setSelectedItem(cert.getOu());
+		// if ( UserProperty.getProperty("FIRST_NAME") != null &&
+		// UserProperty.getProperty("LAST_NAME") != null ){
+		// getFirstNameTextField().setText(UserProperty.getProperty("FIRST_NAME"));
+		// getLastNameTextField().setText(UserProperty.getProperty("LAST_NAME"));
+		// } else {
+		String[] name = Utils.parseNameField(cert.getCn());
+		getFirstNameTextField().setText(name[0]);
+		getLastNameTextField().setText(name[1]);
+		// }
+		if (cert.getEmail() != null)
+			getEmailTextField().setText(cert.getEmail());
+		if (UserProperty.getProperty("PHONE") != null)
+			getTelephoneTextField().setText(UserProperty.getProperty("PHONE"));
+		if (cert.getOu() != null) {
+			if (ouComboBoxModel.getIndexOf(cert.getOu()) != -1)
+				ouComboBoxModel.setSelectedItem(cert.getOu());
 			else {
 				ouComboBoxModel.addElement(cert.getOu());
 				ouComboBoxModel.setSelectedItem(cert.getOu());
 			}
 		}
-		if ( cert.getO() != null ) getOrganisationTextField().setText(cert.getO());
-		if ( cert.getC() != null ) getCountryTextField().setText(cert.getC());
+		if (cert.getO() != null)
+			getOrganisationTextField().setText(cert.getO());
+		if (cert.getC() != null)
+			getCountryTextField().setText(cert.getC());
 	}
 
 	/**
@@ -232,11 +238,16 @@ public class RequestUserCertificatePanel extends JPanel  {
 		jLabel = new JLabel();
 		jLabel.setText("Given name:");
 		final GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] {0,0,7};
+		gridBagLayout.columnWidths = new int[] { 0, 0, 7 };
 		this.setLayout(gridBagLayout);
 		this.setBackground(new Color(245, 245, 245));
 		this.setSize(new Dimension(477, 497));
-		this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0), "Please provide your personal information", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 14), new Color(51, 51, 51)));
+		this.setBorder(BorderFactory.createTitledBorder(
+				BorderFactory.createEmptyBorder(15, 0, 0, 0),
+				"Please provide your personal information",
+				TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION,
+				new Font("Dialog", Font.BOLD, 14), new Color(51, 51, 51)));
 		this.add(jLabel, gridBagConstraints);
 		this.add(jLabel1, gridBagConstraints1);
 		this.add(jLabel2, gridBagConstraints2);
@@ -262,95 +273,102 @@ public class RequestUserCertificatePanel extends JPanel  {
 	}
 
 	/**
-	 * This method initializes nameTextField	
-	 * 	
-	 * @return javax.swing.JTextField	
+	 * This method initializes nameTextField
+	 * 
+	 * @return javax.swing.JTextField
 	 */
 	private JTextField getFirstNameTextField() {
 		if (firstNameTextField == null) {
 			firstNameTextField = new JTextField();
 			firstNameTextField.setPreferredSize(STANDARD_DIMENSION);
-			firstNameTextField.setToolTipText(Grix.getMessages().getString("tooltip.firstNameTextField"));
+			firstNameTextField.setToolTipText(Grix.getMessages().getString(
+					"tooltip.firstNameTextField"));
 		}
 		return firstNameTextField;
 	}
 
 	/**
-	 * This method initializes emailTextField	
-	 * 	
-	 * @return javax.swing.JTextField	
+	 * This method initializes emailTextField
+	 * 
+	 * @return javax.swing.JTextField
 	 */
 	private JTextField getEmailTextField() {
 		if (emailTextField == null) {
 			emailTextField = new JTextField();
 			emailTextField.setPreferredSize(STANDARD_DIMENSION);
 			emailTextField
-					.addCaretListener( new javax.swing.event.CaretListener() {
+					.addCaretListener(new javax.swing.event.CaretListener() {
 
 						public void caretUpdate(javax.swing.event.CaretEvent e) {
 
 							// check for default organisation unit
 							String domain = emailTextField.getText();
-							if ( domain.indexOf( "@" ) == -1 ) return;
-							myLogger
-									.debug( "Trying to get default ou for substring: "
-											+ domain.substring( domain
-													.indexOf( "@" ) + 1 ) );
-							String index = Utils.defaultOrganizationUnit( domain
-											.substring( domain.indexOf( "@" ) + 1 ) );
+							if (domain.indexOf("@") == -1)
+								return;
+							myLogger.debug("Trying to get default ou for substring: "
+									+ domain.substring(domain.indexOf("@") + 1));
+							String index = Utils.defaultOrganizationUnit(domain
+									.substring(domain.indexOf("@") + 1));
 
-							if ( index != null ) ouComboBoxModel.setSelectedItem(index);
+							if (index != null)
+								ouComboBoxModel.setSelectedItem(index);
 
 						}
-					} );
-			emailTextField.setToolTipText(Grix.getMessages().getString("tooltip.emailTextField"));	
-			
+					});
+			emailTextField.setToolTipText(Grix.getMessages().getString(
+					"tooltip.emailTextField"));
+
 		}
 		return emailTextField;
 	}
 
 	/**
-	 * This method initializes organisationTextField	
-	 * 	
-	 * @return javax.swing.JTextField	
+	 * This method initializes organisationTextField
+	 * 
+	 * @return javax.swing.JTextField
 	 */
 	private JTextField getOrganisationTextField() {
 		if (organisationTextField == null) {
 			organisationTextField = new JTextField();
 			organisationTextField.setPreferredSize(STANDARD_DIMENSION);
-			organisationTextField.setText( GrixProperty.getString( "default.organisation" ) );
-			if ( ! "yes".equals(GrixProperty.getString( "allow.change.organisation" ).toLowerCase()) ) {
-				organisationTextField.setEditable( false );
-				organisationTextField.setFocusable( false );
-			}		
-			organisationTextField.setToolTipText(Grix.getMessages().getString("tooltip.organisationTextField"));
+			organisationTextField.setText(GrixProperty
+					.getString("default.organisation"));
+			if (!"yes".equals(GrixProperty.getString(
+					"allow.change.organisation").toLowerCase())) {
+				organisationTextField.setEditable(false);
+				organisationTextField.setFocusable(false);
+			}
+			organisationTextField.setToolTipText(Grix.getMessages().getString(
+					"tooltip.organisationTextField"));
 		}
 		return organisationTextField;
 	}
 
 	/**
-	 * This method initializes countryTextField	
-	 * 	
-	 * @return javax.swing.JTextField	
+	 * This method initializes countryTextField
+	 * 
+	 * @return javax.swing.JTextField
 	 */
 	private JTextField getCountryTextField() {
 		if (countryTextField == null) {
 			countryTextField = new JTextField();
 			countryTextField.setPreferredSize(STANDARD_DIMENSION);
-			countryTextField.setText( GrixProperty.getString( "default.country" ) );
-			countryTextField.setToolTipText(Grix.getMessages().getString("tooltip.countryTextField"));
-			if ( ! "yes".equals(GrixProperty.getString( "allow.change.country" ).toLowerCase()) ) {
-				countryTextField.setEditable( false );
-				countryTextField.setFocusable( false );
-			}				
+			countryTextField.setText(GrixProperty.getString("default.country"));
+			countryTextField.setToolTipText(Grix.getMessages().getString(
+					"tooltip.countryTextField"));
+			if (!"yes".equals(GrixProperty.getString("allow.change.country")
+					.toLowerCase())) {
+				countryTextField.setEditable(false);
+				countryTextField.setFocusable(false);
+			}
 		}
 		return countryTextField;
 	}
 
 	/**
-	 * This method initializes jComboBox	
-	 * 	
-	 * @return javax.swing.JComboBox	
+	 * This method initializes jComboBox
+	 * 
+	 * @return javax.swing.JComboBox
 	 */
 	private JComboBox getOuComboBox() {
 		if (ouComboBox == null) {
@@ -359,87 +377,94 @@ public class RequestUserCertificatePanel extends JPanel  {
 			String[] sites = { "Your site" };
 
 			// fill with properties of resource.properties file if possible
-			sites = GrixProperty.getString( "default.organisation.units" )
-					.split( "," );
-			
+			sites = GrixProperty.getString("default.organisation.units").split(
+					",");
+
 			ouComboBoxModel = new DefaultComboBoxModel(sites);
 
-			ouComboBox = new JComboBox( ouComboBoxModel ); 
+			ouComboBox = new JComboBox(ouComboBoxModel);
 			try {
-				if ( GrixProperty.getString( "default.organisation.unit" ) == null ||
-						"no".equals(GrixProperty.getString( "default.organisation.unit") ) ) {
+				if (GrixProperty.getString("default.organisation.unit") == null
+						|| "no".equals(GrixProperty
+								.getString("default.organisation.unit"))) {
 					ouComboBoxModel.insertElementAt("", 0);
 					ouComboBoxModel.setSelectedItem("");
 				} else {
-					ouComboBoxModel.setSelectedItem( GrixProperty
-							.getString( "default.organisation.unit" ) );
+					ouComboBoxModel.setSelectedItem(GrixProperty
+							.getString("default.organisation.unit"));
 				}
 			} catch (IllegalArgumentException iae) {
 				// does not matter
 			}
-			if ( ! "yes".equals(GrixProperty.getString( "allow.change.organisation.unit" ).toLowerCase()) ) {
+			if (!"yes".equals(GrixProperty.getString(
+					"allow.change.organisation.unit").toLowerCase())) {
 				ouComboBox.setEnabled(false);
-				ouComboBox.setFocusable( false );
-			}				
-			ouComboBox.setBackground( Color.white );
-			ouComboBox.setEditable( true );
-			ouComboBox.setToolTipText(Grix.getMessages().getString("tooltip.ouComboBox"));
+				ouComboBox.setFocusable(false);
+			}
+			ouComboBox.setBackground(Color.white);
+			ouComboBox.setEditable(true);
+			ouComboBox.setToolTipText(Grix.getMessages().getString(
+					"tooltip.ouComboBox"));
 		}
 		return ouComboBox;
 	}
 
 	/**
-	 * This method initializes passphrase1Field	
-	 * 	
-	 * @return javax.swing.JPasswordField	
+	 * This method initializes passphrase1Field
+	 * 
+	 * @return javax.swing.JPasswordField
 	 */
 	private JPasswordField getPassphrase1Field() {
 		if (passphrase1Field == null) {
 			passphrase1Field = new JPasswordField();
 			passphrase1Field.setPreferredSize(STANDARD_DIMENSION);
-			passphrase1Field.setToolTipText(Grix.getMessages().getString("tooltip.passphrase1Field"));
+			passphrase1Field.setToolTipText(Grix.getMessages().getString(
+					"tooltip.passphrase1Field"));
 		}
 		return passphrase1Field;
 	}
 
 	/**
-	 * This method initializes passphrase2Field	
-	 * 	
-	 * @return javax.swing.JPasswordField	
+	 * This method initializes passphrase2Field
+	 * 
+	 * @return javax.swing.JPasswordField
 	 */
 	private JPasswordField getPassphrase2Field() {
 		if (passphrase2Field == null) {
 			passphrase2Field = new JPasswordField();
 			passphrase2Field.setPreferredSize(STANDARD_DIMENSION);
-			passphrase2Field.setToolTipText(Grix.getMessages().getString("tooltip.passphrase2Field"));
+			passphrase2Field.setToolTipText(Grix.getMessages().getString(
+					"tooltip.passphrase2Field"));
 		}
 		return passphrase2Field;
 	}
 
 	/**
-	 * This method initializes jTextField	
-	 * 	
-	 * @return javax.swing.JTextField	
+	 * This method initializes jTextField
+	 * 
+	 * @return javax.swing.JTextField
 	 */
 	private JTextField getTelephoneTextField() {
 		if (telephoneTextField == null) {
 			telephoneTextField = new JTextField();
 			telephoneTextField.setPreferredSize(STANDARD_DIMENSION);
-			telephoneTextField.setToolTipText(Grix.getMessages().getString("tooltip.telephoneTextField"));
+			telephoneTextField.setToolTipText(Grix.getMessages().getString(
+					"tooltip.telephoneTextField"));
 		}
 		return telephoneTextField;
 	}
 
 	/**
-	 * This method initializes jTextField	
-	 * 	
-	 * @return javax.swing.JTextField	
+	 * This method initializes jTextField
+	 * 
+	 * @return javax.swing.JTextField
 	 */
 	private JTextField getLastNameTextField() {
 		if (lastNameTextField == null) {
 			lastNameTextField = new JTextField();
 			lastNameTextField.setPreferredSize(STANDARD_DIMENSION);
-			lastNameTextField.setToolTipText(Grix.getMessages().getString("tooltip.lastNameTextField"));
+			lastNameTextField.setToolTipText(Grix.getMessages().getString(
+					"tooltip.lastNameTextField"));
 		}
 		return lastNameTextField;
 	}
@@ -449,9 +474,10 @@ public class RequestUserCertificatePanel extends JPanel  {
 	}
 
 	public String getCN() {
-		return (getFirstNameTextField().getText()+" "+getLastNameTextField().getText()).trim();
+		return (getFirstNameTextField().getText() + " " + getLastNameTextField()
+				.getText()).trim();
 	}
-	
+
 	public String getFirstName() {
 		return getFirstNameTextField().getText().trim();
 	}
@@ -463,7 +489,7 @@ public class RequestUserCertificatePanel extends JPanel  {
 	public String getEmail() {
 		return getEmailTextField().getText().trim();
 	}
-	
+
 	public String getPhone() {
 		return getTelephoneTextField().getText().trim();
 	}
@@ -488,7 +514,7 @@ public class RequestUserCertificatePanel extends JPanel  {
 		getPassphrase1Field().setText("");
 		getPassphrase2Field().setText("");
 	}
-	
+
 	public void lockInput() {
 		getCountryTextField().setEnabled(false);
 		getOrganisationTextField().setEnabled(false);
@@ -501,22 +527,27 @@ public class RequestUserCertificatePanel extends JPanel  {
 		getEmailTextField().setEnabled(false);
 
 	}
+
 	public void unlockInput() {
-		
-		if ( "yes".equals(GrixProperty.getString( "allow.change.country" ).toLowerCase()) ) 
-			countryTextField.setEditable( true );
-		if ( "yes".equals(GrixProperty.getString( "allow.change.organisation" ).toLowerCase()) ) 
+
+		if ("yes".equals(GrixProperty.getString("allow.change.country")
+				.toLowerCase()))
+			countryTextField.setEditable(true);
+		if ("yes".equals(GrixProperty.getString("allow.change.organisation")
+				.toLowerCase()))
 			getOrganisationTextField().setEnabled(true);
-		if ( "yes".equals(GrixProperty.getString( "allow.change.organisation.unit" ).toLowerCase()) ) 
+		if ("yes".equals(GrixProperty.getString(
+				"allow.change.organisation.unit").toLowerCase()))
 			getOuComboBox().setEnabled(true);
 		getCountryTextField().setEnabled(true);
 		getPassphrase1Field().setEnabled(true);
 		getPassphrase2Field().setEnabled(true);
 		getTelephoneTextField().setEnabled(true);
 		getFirstNameTextField().setEnabled(true);
-		getLastNameTextField().setEnabled(true);	
+		getLastNameTextField().setEnabled(true);
 		getEmailTextField().setEnabled(true);
 	}
+
 	/**
 	 * @return
 	 */
@@ -528,4 +559,4 @@ public class RequestUserCertificatePanel extends JPanel  {
 		return surnameLabel;
 	}
 
-}  //  @jve:decl-index=0:visual-constraint="10,10"
+} // @jve:decl-index=0:visual-constraint="10,10"

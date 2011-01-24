@@ -37,9 +37,10 @@ import org.vpac.voms.view.swing.VomrsSubscribePanel;
 public class VomrsInfoPanel extends JPanel implements VomsesStatusListener {
 
 	private static final long serialVersionUID = 1L;
-	
-	static final Logger myLogger = Logger.getLogger(VomrsInfoPanel.class.getName());
-	
+
+	static final Logger myLogger = Logger.getLogger(VomrsInfoPanel.class
+			.getName());
+
 	private Voms voms = null;
 
 	private MembershipInfoPanel membershipInfoPanel = null;
@@ -54,13 +55,13 @@ public class VomrsInfoPanel extends JPanel implements VomsesStatusListener {
 		super();
 		this.voms = voms;
 
-		if ( voms.getStatus() == Voms.NO_MEMBER ) {
+		if (voms.getStatus() == Voms.NO_MEMBER) {
 			myLogger.debug("Not a member of this VO yet.");
 		}
 		initialize();
 		LocalVomses.addStatusListener(this);
 	}
-	
+
 	/**
 	 * This is the default constructor
 	 */
@@ -69,12 +70,12 @@ public class VomrsInfoPanel extends JPanel implements VomsesStatusListener {
 		this.voms = voms;
 		this.lighterColor = lighterColor;
 
-		if ( voms.getStatus() == Voms.NO_MEMBER ) {
+		if (voms.getStatus() == Voms.NO_MEMBER) {
 			myLogger.debug("Not a member of this VO yet.");
 		}
 		initialize();
 		LocalVomses.addStatusListener(this);
-	}	
+	}
 
 	/**
 	 * This method initializes this
@@ -86,7 +87,7 @@ public class VomrsInfoPanel extends JPanel implements VomsesStatusListener {
 		subscribePanelConstraints.gridx = 0;
 		subscribePanelConstraints.gridy = 1;
 		subscribePanelConstraints.fill = GridBagConstraints.BOTH;
-		subscribePanelConstraints.insets = new Insets(15,0,0,0);
+		subscribePanelConstraints.insets = new Insets(15, 0, 0, 0);
 		GridBagConstraints gridBagConstraints = new GridBagConstraints();
 		gridBagConstraints.gridx = 0;
 		gridBagConstraints.fill = GridBagConstraints.BOTH;
@@ -97,36 +98,40 @@ public class VomrsInfoPanel extends JPanel implements VomsesStatusListener {
 		this.setLayout(new GridBagLayout());
 		this.add(getMembershipInfoPanel(), gridBagConstraints);
 		this.add(getDetailPanel(), subscribePanelConstraints);
-		
+
 	}
 
 	private JPanel getDetailPanel() {
 		if (detailPanel == null) {
 			detailPanel = new JPanel();
 			detailPanel.setLayout(new CardLayout());
-			detailPanel.add(new VomrsSubscribePanel(voms, lighterColor), "subscribePanel");
-			detailPanel.add(new InfoPagePanel("infoApplicant", Color.white), "infoApplicant");
-			detailPanel.add(new InfoPagePanel("infoCandidate", Color.white), "infoCandidate");
+			detailPanel.add(new VomrsSubscribePanel(voms, lighterColor),
+					"subscribePanel");
+			detailPanel.add(new InfoPagePanel("infoApplicant", Color.white),
+					"infoApplicant");
+			detailPanel.add(new InfoPagePanel("infoCandidate", Color.white),
+					"infoCandidate");
 			switchToAppropriateInfoPanel();
 
 		}
 		return detailPanel;
 	}
-	
-	private void switchToAppropriateInfoPanel(){
+
+	private void switchToAppropriateInfoPanel() {
 		CardLayout cl = (CardLayout) (detailPanel.getLayout());
-		if ( voms.getStatus() == Voms.NO_MEMBER ){
+		if (voms.getStatus() == Voms.NO_MEMBER) {
 			// this should not happen...
-			detailPanel.add(new InfoPagePanel("noMemberAnymore", Color.white), "noMemberAnymore");
+			detailPanel.add(new InfoPagePanel("noMemberAnymore", Color.white),
+					"noMemberAnymore");
 			cl.show(detailPanel, "noMemberAnymore");
 		}
-		if ( voms.getStatus() == Voms.APPLICANT ) {
+		if (voms.getStatus() == Voms.APPLICANT) {
 			cl.show(detailPanel, "infoApplicant");
-		} else if ( voms.getStatus() == Voms.CANDIDATE ) {
+		} else if (voms.getStatus() == Voms.CANDIDATE) {
 			cl.show(detailPanel, "infoCandidate");
 		} else {
 			cl.show(detailPanel, "subscribePanel");
-		}		
+		}
 	}
 
 	/**
@@ -148,11 +153,11 @@ public class VomrsInfoPanel extends JPanel implements VomsesStatusListener {
 	}
 
 	public void vomsStatusChanged(VomsStatusEvent event) {
-		
-		if ( ((Voms)event.getSource()).equals(voms) ){
+
+		if (((Voms) event.getSource()).equals(voms)) {
 			switchToAppropriateInfoPanel();
 		}
-		
+
 	}
 
 } // @jve:decl-index=0:visual-constraint="10,10"

@@ -1,6 +1,5 @@
 package org.vpac.grix.external;
 
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -35,31 +34,32 @@ public class ClientHttpRequest {
 
 	protected void connect() throws IOException {
 
-		if ( os == null ) os = connection.getOutputStream();
+		if (os == null)
+			os = connection.getOutputStream();
 	}
 
 	protected void write(char c) throws IOException {
 
 		connect();
-		os.write( c );
+		os.write(c);
 	}
 
 	protected void write(String s) throws IOException {
 
 		connect();
-		os.write( s.getBytes() );
+		os.write(s.getBytes());
 	}
 
 	protected void newline() throws IOException {
 
 		connect();
-		write( "\r\n" );
+		write("\r\n");
 	}
 
 	protected void writeln(String s) throws IOException {
 
 		connect();
-		write( s );
+		write(s);
 		newline();
 	}
 
@@ -67,7 +67,7 @@ public class ClientHttpRequest {
 
 	protected static String randomString() {
 
-		return Long.toString( random.nextLong(), 36 );
+		return Long.toString(random.nextLong(), 36);
 	}
 
 	String boundary = "---------------------------" + randomString()
@@ -75,8 +75,8 @@ public class ClientHttpRequest {
 
 	private void boundary() throws IOException {
 
-		write( "--" );
-		write( boundary );
+		write("--");
+		write(boundary);
 	}
 
 	/**
@@ -90,9 +90,9 @@ public class ClientHttpRequest {
 	public ClientHttpRequest(URLConnection connection) throws IOException {
 
 		this.connection = connection;
-		connection.setDoOutput( true );
-		connection.setRequestProperty( "Content-Type",
-				"multipart/form-data; boundary=" + boundary );
+		connection.setDoOutput(true);
+		connection.setRequestProperty("Content-Type",
+				"multipart/form-data; boundary=" + boundary);
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class ClientHttpRequest {
 	 */
 	public ClientHttpRequest(URL url) throws IOException {
 
-		this( url.openConnection() );
+		this(url.openConnection());
 
 	}
 
@@ -117,24 +117,24 @@ public class ClientHttpRequest {
 	 */
 	public ClientHttpRequest(String urlString) throws IOException {
 
-		this( new URL( urlString ) );
+		this(new URL(urlString));
 	}
 
 	private void postCookies() {
 
 		StringBuffer cookieList = new StringBuffer();
 
-		for ( Iterator i = cookies.entrySet().iterator(); i.hasNext(); ) {
-			Map.Entry entry = (Map.Entry)(i.next());
-			cookieList.append( entry.getKey().toString() + "="
-					+ entry.getValue() );
+		for (Iterator i = cookies.entrySet().iterator(); i.hasNext();) {
+			Map.Entry entry = (Map.Entry) (i.next());
+			cookieList.append(entry.getKey().toString() + "="
+					+ entry.getValue());
 
-			if ( i.hasNext() ) {
-				cookieList.append( "; " );
+			if (i.hasNext()) {
+				cookieList.append("; ");
 			}
 		}
-		if ( cookieList.length() > 0 ) {
-			connection.setRequestProperty( "Cookie", cookieList.toString() );
+		if (cookieList.length() > 0) {
+			connection.setRequestProperty("Cookie", cookieList.toString());
 		}
 	}
 
@@ -149,7 +149,7 @@ public class ClientHttpRequest {
 	 */
 	public void setCookie(String name, String value) throws IOException {
 
-		cookies.put( name, value );
+		cookies.put(name, value);
 	}
 
 	/**
@@ -161,8 +161,9 @@ public class ClientHttpRequest {
 	 */
 	public void setCookies(Map cookies) throws IOException {
 
-		if ( cookies == null ) return;
-		this.cookies.putAll( cookies );
+		if (cookies == null)
+			return;
+		this.cookies.putAll(cookies);
 	}
 
 	/**
@@ -175,18 +176,19 @@ public class ClientHttpRequest {
 	 */
 	public void setCookies(String[] cookies) throws IOException {
 
-		if ( cookies == null ) return;
-		for ( int i = 0; i < cookies.length - 1; i += 2 ) {
-			setCookie( cookies[i], cookies[i + 1] );
+		if (cookies == null)
+			return;
+		for (int i = 0; i < cookies.length - 1; i += 2) {
+			setCookie(cookies[i], cookies[i + 1]);
 		}
 	}
 
 	private void writeName(String name) throws IOException {
 
 		newline();
-		write( "Content-Disposition: form-data; name=\"" );
-		write( name );
-		write( '"' );
+		write("Content-Disposition: form-data; name=\"");
+		write(name);
+		write('"');
 	}
 
 	/**
@@ -201,10 +203,10 @@ public class ClientHttpRequest {
 	public void setParameter(String name, String value) throws IOException {
 
 		boundary();
-		writeName( name );
+		writeName(name);
 		newline();
 		newline();
-		writeln( value );
+		writeln(value);
 	}
 
 	private static void pipe(InputStream in, OutputStream out)
@@ -215,8 +217,8 @@ public class ClientHttpRequest {
 		int navailable;
 		int total = 0;
 		synchronized (in) {
-			while ((nread = in.read( buf, 0, buf.length )) >= 0) {
-				out.write( buf, 0, nread );
+			while ((nread = in.read(buf, 0, buf.length)) >= 0) {
+				out.write(buf, 0, nread);
 				total += nread;
 			}
 		}
@@ -239,17 +241,18 @@ public class ClientHttpRequest {
 			throws IOException {
 
 		boundary();
-		writeName( name );
-		write( "; filename=\"" );
-		write( filename );
-		write( '"' );
+		writeName(name);
+		write("; filename=\"");
+		write(filename);
+		write('"');
 		newline();
-		write( "Content-Type: " );
-		String type = connection.guessContentTypeFromName( filename );
-		if ( type == null ) type = "application/octet-stream";
-		writeln( type );
+		write("Content-Type: ");
+		String type = connection.guessContentTypeFromName(filename);
+		if (type == null)
+			type = "application/octet-stream";
+		writeln(type);
 		newline();
-		pipe( is, os );
+		pipe(is, os);
 		newline();
 	}
 
@@ -264,7 +267,7 @@ public class ClientHttpRequest {
 	 */
 	public void setParameter(String name, File file) throws IOException {
 
-		setParameter( name, file.getPath(), new FileInputStream( file ) );
+		setParameter(name, file.getPath(), new FileInputStream(file));
 	}
 
 	/**
@@ -281,10 +284,10 @@ public class ClientHttpRequest {
 	 */
 	public void setParameter(String name, Object object) throws IOException {
 
-		if ( object instanceof File ) {
-			setParameter( name, (File)object );
+		if (object instanceof File) {
+			setParameter(name, (File) object);
 		} else {
-			setParameter( name, object.toString() );
+			setParameter(name, object.toString());
 		}
 	}
 
@@ -299,10 +302,11 @@ public class ClientHttpRequest {
 	 */
 	public void setParameters(Map parameters) throws IOException {
 
-		if ( parameters == null ) return;
-		for ( Iterator i = parameters.entrySet().iterator(); i.hasNext(); ) {
-			Map.Entry entry = (Map.Entry)i.next();
-			setParameter( entry.getKey().toString(), entry.getValue() );
+		if (parameters == null)
+			return;
+		for (Iterator i = parameters.entrySet().iterator(); i.hasNext();) {
+			Map.Entry entry = (Map.Entry) i.next();
+			setParameter(entry.getKey().toString(), entry.getValue());
 		}
 	}
 
@@ -318,9 +322,10 @@ public class ClientHttpRequest {
 	 */
 	public void setParameters(Object[] parameters) throws IOException {
 
-		if ( parameters == null ) return;
-		for ( int i = 0; i < parameters.length - 1; i += 2 ) {
-			setParameter( parameters[i].toString(), parameters[i + 1] );
+		if (parameters == null)
+			return;
+		for (int i = 0; i < parameters.length - 1; i += 2) {
+			setParameter(parameters[i].toString(), parameters[i + 1]);
 		}
 	}
 
@@ -334,7 +339,7 @@ public class ClientHttpRequest {
 	public InputStream post() throws IOException {
 
 		boundary();
-		writeln( "--" );
+		writeln("--");
 		os.close();
 		return connection.getInputStream();
 	}
@@ -352,7 +357,7 @@ public class ClientHttpRequest {
 	 */
 	public InputStream post(Map parameters) throws IOException {
 
-		setParameters( parameters );
+		setParameters(parameters);
 		return post();
 	}
 
@@ -369,7 +374,7 @@ public class ClientHttpRequest {
 	 */
 	public InputStream post(Object[] parameters) throws IOException {
 
-		setParameters( parameters );
+		setParameters(parameters);
 		return post();
 	}
 
@@ -389,8 +394,8 @@ public class ClientHttpRequest {
 	 */
 	public InputStream post(Map cookies, Map parameters) throws IOException {
 
-		setCookies( cookies );
-		setParameters( parameters );
+		setCookies(cookies);
+		setParameters(parameters);
 		return post();
 	}
 
@@ -411,8 +416,8 @@ public class ClientHttpRequest {
 	public InputStream post(String[] cookies, Object[] parameters)
 			throws IOException {
 
-		setCookies( cookies );
-		setParameters( parameters );
+		setCookies(cookies);
+		setParameters(parameters);
 		return post();
 	}
 
@@ -429,7 +434,7 @@ public class ClientHttpRequest {
 	 */
 	public InputStream post(String name, Object value) throws IOException {
 
-		setParameter( name, value );
+		setParameter(name, value);
 		return post();
 	}
 
@@ -451,8 +456,8 @@ public class ClientHttpRequest {
 	public InputStream post(String name1, Object value1, String name2,
 			Object value2) throws IOException {
 
-		setParameter( name1, value1 );
-		return post( name2, value2 );
+		setParameter(name1, value1);
+		return post(name2, value2);
 	}
 
 	/**
@@ -477,8 +482,8 @@ public class ClientHttpRequest {
 	public InputStream post(String name1, Object value1, String name2,
 			Object value2, String name3, Object value3) throws IOException {
 
-		setParameter( name1, value1 );
-		return post( name2, value2, name3, value3 );
+		setParameter(name1, value1);
+		return post(name2, value2, name3, value3);
 	}
 
 	/**
@@ -508,8 +513,8 @@ public class ClientHttpRequest {
 			Object value2, String name3, Object value3, String name4,
 			Object value4) throws IOException {
 
-		setParameter( name1, value1 );
-		return post( name2, value2, name3, value3, name4, value4 );
+		setParameter(name1, value1);
+		return post(name2, value2, name3, value3, name4, value4);
 	}
 
 	/**
@@ -524,7 +529,7 @@ public class ClientHttpRequest {
 	 */
 	public static InputStream post(URL url, Map parameters) throws IOException {
 
-		return new ClientHttpRequest( url ).post( parameters );
+		return new ClientHttpRequest(url).post(parameters);
 	}
 
 	/**
@@ -540,7 +545,7 @@ public class ClientHttpRequest {
 	public static InputStream post(URL url, Object[] parameters)
 			throws IOException {
 
-		return new ClientHttpRequest( url ).post( parameters );
+		return new ClientHttpRequest(url).post(parameters);
 	}
 
 	/**
@@ -559,7 +564,7 @@ public class ClientHttpRequest {
 	public static InputStream post(URL url, Map cookies, Map parameters)
 			throws IOException {
 
-		return new ClientHttpRequest( url ).post( cookies, parameters );
+		return new ClientHttpRequest(url).post(cookies, parameters);
 	}
 
 	/**
@@ -578,7 +583,7 @@ public class ClientHttpRequest {
 	public static InputStream post(URL url, String[] cookies,
 			Object[] parameters) throws IOException {
 
-		return new ClientHttpRequest( url ).post( cookies, parameters );
+		return new ClientHttpRequest(url).post(cookies, parameters);
 	}
 
 	/**
@@ -595,7 +600,7 @@ public class ClientHttpRequest {
 	public static InputStream post(URL url, String name1, Object value1)
 			throws IOException {
 
-		return new ClientHttpRequest( url ).post( name1, value1 );
+		return new ClientHttpRequest(url).post(name1, value1);
 	}
 
 	/**
@@ -616,7 +621,7 @@ public class ClientHttpRequest {
 	public static InputStream post(URL url, String name1, Object value1,
 			String name2, Object value2) throws IOException {
 
-		return new ClientHttpRequest( url ).post( name1, value1, name2, value2 );
+		return new ClientHttpRequest(url).post(name1, value1, name2, value2);
 	}
 
 	/**
@@ -642,8 +647,8 @@ public class ClientHttpRequest {
 			String name2, Object value2, String name3, Object value3)
 			throws IOException {
 
-		return new ClientHttpRequest( url ).post( name1, value1, name2, value2,
-				name3, value3 );
+		return new ClientHttpRequest(url).post(name1, value1, name2, value2,
+				name3, value3);
 	}
 
 	/**
@@ -673,7 +678,7 @@ public class ClientHttpRequest {
 			String name2, Object value2, String name3, Object value3,
 			String name4, Object value4) throws IOException {
 
-		return new ClientHttpRequest( url ).post( name1, value1, name2, value2,
-				name3, value3, name4, value4 );
+		return new ClientHttpRequest(url).post(name1, value1, name2, value2,
+				name3, value3, name4, value4);
 	}
 }

@@ -4,6 +4,7 @@ public interface CreateRequestInterface {
 
 	/**
 	 * Updates the status panel (if any). This function can be empty.
+	 * 
 	 * @param string
 	 */
 	void setStatus(String string);
@@ -11,7 +12,8 @@ public interface CreateRequestInterface {
 	/**
 	 * Shows a message to the user.
 	 * 
-	 * @param string the message
+	 * @param string
+	 *            the message
 	 */
 	void message(String string);
 
@@ -24,9 +26,9 @@ public interface CreateRequestInterface {
 	String getOU();
 
 	String getCN();
-	
+
 	String getFirstName();
-	
+
 	String getLastName();
 
 	char[] getPassphrase();
@@ -41,7 +43,7 @@ public interface CreateRequestInterface {
 	 * Locks the User Interface when the creation of the request starts.
 	 */
 	void lockInput();
-	
+
 	/**
 	 * Unlocks the User Interface when the creation of the request is finished.
 	 */

@@ -29,10 +29,9 @@ public class ProxyPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private ProxyInitPanel proxyInitPanel = null;
-	
+
 	private Color base_color = null;
 	private Color lighter_color = null;
-	
 
 	/**
 	 * This is the default constructor
@@ -64,9 +63,9 @@ public class ProxyPanel extends JPanel {
 	}
 
 	/**
-	 * This method initializes proxyInitPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
+	 * This method initializes proxyInitPanel
+	 * 
+	 * @return javax.swing.JPanel
 	 */
 	private ProxyInitPanel getProxyInitPanel() {
 		if (proxyInitPanel == null) {
@@ -75,24 +74,22 @@ public class ProxyPanel extends JPanel {
 		}
 		return proxyInitPanel;
 	}
-	
+
 	public Color getBaseColor() {
-		if ( base_color == null ) {
+		if (base_color == null) {
 			base_color = this.getBackground();
 		}
 		return base_color;
 	}
-	
+
 	public Color getLighterColor() {
-		if ( lighter_color == null ){
-			int red = getBaseColor().getRed()+10;
-			int green = getBaseColor().getGreen()+10;
-			int blue = getBaseColor().getBlue()+10;
+		if (lighter_color == null) {
+			int red = getBaseColor().getRed() + 10;
+			int green = getBaseColor().getGreen() + 10;
+			int blue = getBaseColor().getBlue() + 10;
 			lighter_color = new Color(red, green, blue);
 		}
 		return lighter_color;
 	}
-	
 
-
-}  //  @jve:decl-index=0:visual-constraint="10,10"
+} // @jve:decl-index=0:visual-constraint="10,10"

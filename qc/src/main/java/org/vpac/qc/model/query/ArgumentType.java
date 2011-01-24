@@ -23,14 +23,13 @@ import org.apache.log4j.Logger;
 /**
  * There are 4 different kind of arguments:
  * 
- * DEFAULT, which fills the QueryArgument with a default value.
- * PRESELECTION, which fills the QueryArgument with an array of choices for the user
- * USERINPUT, which needs user input
- * and
- * INPUT_DEPENDANT, which uses the user input to calculate a value.
+ * DEFAULT, which fills the QueryArgument with a default value. PRESELECTION,
+ * which fills the QueryArgument with an array of choices for the user
+ * USERINPUT, which needs user input and INPUT_DEPENDANT, which uses the user
+ * input to calculate a value.
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
 public class ArgumentType {
 

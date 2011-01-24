@@ -53,18 +53,20 @@ import org.vpac.common.model.gridproxy.LocalProxy;
 import org.vpac.voms.model.VO;
 
 /**
- * The actual credential that is build of a GlobusCredential and an AttributeCertificate.
- * The AttributeCertificate is sent by the VOMS server after sending one of this commands:
- *
- * <br>A       - this means get everything the server knows about you
- * <br>G/group - This means get group informations.  /group should be /vo-name.
- *          <br>This is the default request used by voms-proxy-init
- * <br>Rrole   - This means grant me the specified role, in all groups in which
- *          <br>you can grant it.
- * <br>Bgroup:role - This means grant me the specified role in the specified group.
+ * The actual credential that is build of a GlobusCredential and an
+ * AttributeCertificate. The AttributeCertificate is sent by the VOMS server
+ * after sending one of this commands:
+ * 
+ * <br>
+ * A - this means get everything the server knows about you <br>
+ * G/group - This means get group informations. /group should be /vo-name. <br>
+ * This is the default request used by voms-proxy-init <br>
+ * Rrole - This means grant me the specified role, in all groups in which <br>
+ * you can grant it. <br>
+ * Bgroup:role - This means grant me the specified role in the specified group.
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
 public class VomsProxyCredential {
 
@@ -88,32 +90,41 @@ public class VomsProxyCredential {
 	 * 
 	 * @throws Exception
 	 */
-//	public VomsProxyCredential() throws Exception {
-//		this(LocalProxy.getDefaultProxy().getGlobusCredential(), VO
-//				.getDefaultVO(), "G/" + VO.getDefaultVO().getVoName(), 10000);
-//	}
+	// public VomsProxyCredential() throws Exception {
+	// this(LocalProxy.getDefaultProxy().getGlobusCredential(), VO
+	// .getDefaultVO(), "G/" + VO.getDefaultVO().getVoName(), 10000);
+	// }
 
 	/**
 	 * The default constructor. Assembles a VomsProxyCredential.
-	 * @param gridProxy a X509 proxy (can be the local proxy or a myproxy proxy credential.
-	 * @param vo the VO
-	 * @param command the command to send to the VOMS server
-	 * @param lifetime_in_hours the lifetime of the proxy in hours
-	 * @throws Exception if something fails, obviously
+	 * 
+	 * @param gridProxy
+	 *            a X509 proxy (can be the local proxy or a myproxy proxy
+	 *            credential.
+	 * @param vo
+	 *            the VO
+	 * @param command
+	 *            the command to send to the VOMS server
+	 * @param lifetime_in_hours
+	 *            the lifetime of the proxy in hours
+	 * @throws Exception
+	 *             if something fails, obviously
 	 */
-	public VomsProxyCredential(GlobusCredential gridProxy, VO vo, String command, String order, int lifetime_in_hours)
+	public VomsProxyCredential(GlobusCredential gridProxy, VO vo,
+			String command, String order, int lifetime_in_hours)
 			throws Exception {
 		this.gridProxy = gridProxy;
 		this.vo = vo;
 		this.command = command;
 		this.order = order;
-		this.lifetime = lifetime_in_hours*3600;
+		this.lifetime = lifetime_in_hours * 3600;
 		getAC();
 		generateProxy();
 	}
-	
-	public static AttributeCertificate getAllInfoAttributeCertificate(GlobusCredential gridProxy, VO vo, int lifetime_in_hours) {
-		
+
+	public static AttributeCertificate getAllInfoAttributeCertificate(
+			GlobusCredential gridProxy, VO vo, int lifetime_in_hours) {
+
 		return null;
 	}
 
@@ -129,29 +140,39 @@ public class VomsProxyCredential {
 	 * @throws IOException
 	 */
 	protected boolean getAC() {
-		
+
 		try {
 			ac = getAC(gridProxy, vo, command, order, lifetime);
 		} catch (Exception e) {
 			return false;
 		}
-		
-		if (ac != null) 
+
+		if (ac != null)
 			return true;
-		else return false;
+		else
+			return false;
 	}
 
 	/**
 	 * Contacts the voms server and retrieves an AC
-	 * @param credential the credential to authenticate against the voms server
-	 * @param virtOrg the virtual organisation you want the ac for
-	 * @param command_for_voms_server "A" for all groups "G/Group" for spec. group
-	 * @param lifetime_in_hours the lifetime in ...hours
+	 * 
+	 * @param credential
+	 *            the credential to authenticate against the voms server
+	 * @param virtOrg
+	 *            the virtual organisation you want the ac for
+	 * @param command_for_voms_server
+	 *            "A" for all groups "G/Group" for spec. group
+	 * @param lifetime_in_hours
+	 *            the lifetime in ...hours
 	 * @return the AttributeCertifiate with all the requested information in it
-	 * @throws GSSException if something's wrong with the credential
-	 * @throws IOException if the connection with the voms server fails
+	 * @throws GSSException
+	 *             if something's wrong with the credential
+	 * @throws IOException
+	 *             if the connection with the voms server fails
 	 */
-	public static AttributeCertificate getAC(GlobusCredential credential, VO virtOrg, String command_for_voms_server, String order_for_fqans, int lifetime_in_hours) throws GSSException, IOException {
+	public static AttributeCertificate getAC(GlobusCredential credential,
+			VO virtOrg, String command_for_voms_server, String order_for_fqans,
+			int lifetime_in_hours) throws GSSException, IOException {
 
 		int server = 0;
 
@@ -159,7 +180,8 @@ public class VomsProxyCredential {
 
 		GSSManager manager = new GlobusGSSManagerImpl();
 
-		Authorization authorization = new IdentityAuthorization(virtOrg.getHostDN());
+		Authorization authorization = new IdentityAuthorization(
+				virtOrg.getHostDN());
 
 		GSSCredential clientCreds = (GSSCredential) new GlobusGSSCredentialImpl(
 				credential, GSSCredential.INITIATE_ONLY);
@@ -174,9 +196,7 @@ public class VomsProxyCredential {
 		context.requestAnonymity(false);
 
 		context.setOption(GSSConstants.GSS_MODE, GSIConstants.MODE_GSI);
-		context
-				.setOption(GSSConstants.REJECT_LIMITED_PROXY,
-						new Boolean(false));
+		context.setOption(GSSConstants.REJECT_LIMITED_PROXY, new Boolean(false));
 
 		GssSocket socket = (GssSocket) GssSocketFactory.getDefault()
 				.createSocket(virtOrg.getHost(), virtOrg.getPort(), context);
@@ -188,18 +208,18 @@ public class VomsProxyCredential {
 		InputStream in = ((Socket) socket).getInputStream();
 
 		String msg = null;
-		
-		if ( order_for_fqans == null || "".equals(order_for_fqans) ) {
+
+		if (order_for_fqans == null || "".equals(order_for_fqans)) {
 			msg = new String(
 					"<?xml version=\"1.0\" encoding = \"US-ASCII\"?><voms><command>"
 							+ command_for_voms_server + "</command><lifetime>"
 							+ lifetime_in_hours + "</lifetime></voms>");
 		} else {
 			msg = new String(
-				"<?xml version=\"1.0\" encoding = \"US-ASCII\"?><voms><command>"
-						+ command_for_voms_server + "</command><order>"+order_for_fqans
-						+"</order><lifetime>"
-						+ lifetime_in_hours + "</lifetime></voms>");
+					"<?xml version=\"1.0\" encoding = \"US-ASCII\"?><voms><command>"
+							+ command_for_voms_server + "</command><order>"
+							+ order_for_fqans + "</order><lifetime>"
+							+ lifetime_in_hours + "</lifetime></voms>");
 		}
 		byte[] outToken = msg.getBytes();
 
@@ -234,11 +254,10 @@ public class VomsProxyCredential {
 
 		String encoded;
 		try {
-			encoded = answer.substring(answer.indexOf("<ac>") + 4, answer
-					.indexOf("</ac>"));
+			encoded = answer.substring(answer.indexOf("<ac>") + 4,
+					answer.indexOf("</ac>"));
 		} catch (IndexOutOfBoundsException e) {
-			myLogger
-					.warn("Could not find encoded voms proxy in server answer.");
+			myLogger.warn("Could not find encoded voms proxy in server answer.");
 			throw e;
 		}
 
@@ -255,9 +274,11 @@ public class VomsProxyCredential {
 	}
 
 	/**
-	 * Returns all included AttributesCertificates of a GlobusCredential. In general we are only interested in the first one.
+	 * Returns all included AttributesCertificates of a GlobusCredential. In
+	 * general we are only interested in the first one.
 	 * 
-	 * @param vomsProxy the voms enabled proxy credential
+	 * @param vomsProxy
+	 *            the voms enabled proxy credential
 	 * @return all AttributeCertificates
 	 */
 	public static ArrayList<AttributeCertificate> extractVOMSACs(
@@ -309,7 +330,7 @@ public class VomsProxyCredential {
 			}
 
 		} catch (Exception e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
 			myLogger.error(e);
 		}
 

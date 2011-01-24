@@ -72,7 +72,7 @@ public class VomsProxyInitPanel extends JPanel implements VomsesStatusListener,
 	private static final long serialVersionUID = 1L;
 
 	private static ResourceBundle messages = ResourceBundle.getBundle(
-			"GridProxyPanelMessageBundle", java.util.Locale.getDefault());  //  @jve:decl-index=0:
+			"GridProxyPanelMessageBundle", java.util.Locale.getDefault()); // @jve:decl-index=0:
 
 	static final Logger myLogger = Logger.getLogger(VomsProxyInitPanel.class
 			.getName());
@@ -194,20 +194,20 @@ public class VomsProxyInitPanel extends JPanel implements VomsesStatusListener,
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				
+
 				Long hours = LocalProxy.getDefaultProxy().getHoursLeft();
 				String days_string = "";
-				if ( hours > 23 ){
-					if ( hours > 47 )
-						days_string = hours/24+" days, ";
-					else 
+				if (hours > 23) {
+					if (hours > 47)
+						days_string = hours / 24 + " days, ";
+					else
 						days_string = "1 day, ";
 				}
-				
-				
+
 				getTimeLeftTextField().setText(
-								days_string
-								+ LocalProxy.getDefaultProxy().getHoursLeft()%24 + "h, "
+						days_string
+								+ LocalProxy.getDefaultProxy().getHoursLeft()
+								% 24 + "h, "
 								+ LocalProxy.getDefaultProxy().getMinutesLeft()
 								+ "min, "
 								+ LocalProxy.getDefaultProxy().getSecondsLeft()
@@ -278,8 +278,7 @@ public class VomsProxyInitPanel extends JPanel implements VomsesStatusListener,
 		this.add(getGridProxyPanel(), gridProxyPanelConstraints);
 		this.add(getLocalProxyInfoPanel(), gridBagConstraints);
 		deactivateVOMSPanel();
-		gridProxyStatusChanged(new GridProxyEvent(this, LocalProxy
-				.getStatus()));
+		gridProxyStatusChanged(new GridProxyEvent(this, LocalProxy.getStatus()));
 	}
 
 	/**
@@ -309,32 +308,34 @@ public class VomsProxyInitPanel extends JPanel implements VomsesStatusListener,
 
 			if (voms_temp == null)
 				return;
-			
-			if ( voms_temp.getAc() != null ) {
+
+			if (voms_temp.getAc() != null) {
 				// means non-vomrs voms
 				ArrayList<String> fqans;
 				try {
-					fqans = new VOMSAttributeCertificate(voms_temp.getAc()).getVOMSFQANs();
+					fqans = new VOMSAttributeCertificate(voms_temp.getAc())
+							.getVOMSFQANs();
 				} catch (Exception e) {
 					myLogger.error(e);
 					return;
 				}
 				for (String fqan : fqans) {
-					String substring = fqan.substring(0, fqan.indexOf("/Role="));
-					if (groupComboBoxModel.getIndexOf(substring) == -1 )
+					String substring = fqan
+							.substring(0, fqan.indexOf("/Role="));
+					if (groupComboBoxModel.getIndexOf(substring) == -1)
 						groupComboBoxModel.addElement(substring);
 				}
 			} else {
-			
-			String[] groups = VomrsClient.parseGroups((String) ((voms_temp
-					.getInfoQuery().getResult())[14]));
-			for (String group : groups) {
-				if (group.indexOf("STATUS:Approved") != -1
-						&& group.indexOf("Role=Member") != -1) {
-					groupComboBoxModel.addElement(group.substring(0, group
-							.indexOf("/Role=")));
+
+				String[] groups = VomrsClient.parseGroups((String) ((voms_temp
+						.getInfoQuery().getResult())[14]));
+				for (String group : groups) {
+					if (group.indexOf("STATUS:Approved") != -1
+							&& group.indexOf("Role=Member") != -1) {
+						groupComboBoxModel.addElement(group.substring(0,
+								group.indexOf("/Role=")));
+					}
 				}
-			}
 			}
 		}
 
@@ -355,44 +356,47 @@ public class VomsProxyInitPanel extends JPanel implements VomsesStatusListener,
 	private void initProxy() {
 
 		try {
-//			if ( LocalProxy.getDefaultProxy() != null )
-//				LocalProxy.getDefaultProxy().destroy();
-			
-			Long proxyLength = new Long(1000*3600*12);
+			// if ( LocalProxy.getDefaultProxy() != null )
+			// LocalProxy.getDefaultProxy().destroy();
+
+			Long proxyLength = new Long(1000 * 3600 * 12);
 			try {
-				Long comboBoxInt = new Long(((String)getValidComboBox().getSelectedItem()));
-				proxyLength = 1000*3600*24*comboBoxInt;
-//				proxyLength = 1000*comboBoxInt;
+				Long comboBoxInt = new Long(((String) getValidComboBox()
+						.getSelectedItem()));
+				proxyLength = 1000 * 3600 * 24 * comboBoxInt;
+				// proxyLength = 1000*comboBoxInt;
 			} catch (NumberFormatException e3) {
 				JOptionPane.showMessageDialog(getParent(), "<html><body><p>"
-						+ getMessages()
-								.getString("error.init.notAnumber")
+						+ getMessages().getString("error.init.notAnumber")
 						+ "</p></body></html>",
 						getMessages().getString("error.init.title"),
 						JOptionPane.ERROR_MESSAGE);
 				return;
 				// TODO Auto-generated catch block
-				//e.printStackTrace();
+				// e.printStackTrace();
 			}
-			
+
 			if (getVomsCheckBox().isSelected() && voComboBoxModel.getSize() > 0) {
-				
-				VO selVO = ((Voms)voComboBoxModel.getSelectedItem()).getVo();
-				String selGroup = ((String)getGroupComboBox().getSelectedItem());
-				
-				VomsProxy vomsProxy = new VomsProxy(LocalProxy.getProxyFile(), selVO, 
-						"G"	+ selGroup, selGroup);
-				
-				vomsProxy.init(getGridPassphraseField().getPassword(), proxyLength);
-				//vomsProxy.writeToDisk();
+
+				VO selVO = ((Voms) voComboBoxModel.getSelectedItem()).getVo();
+				String selGroup = ((String) getGroupComboBox()
+						.getSelectedItem());
+
+				VomsProxy vomsProxy = new VomsProxy(LocalProxy.getProxyFile(),
+						selVO, "G" + selGroup, selGroup);
+
+				vomsProxy.init(getGridPassphraseField().getPassword(),
+						proxyLength);
+				// vomsProxy.writeToDisk();
 				LocalProxy.setDefaultProxy(vomsProxy);
 				fillLocalGridProxyInfo();
-				
+
 			} else {
-				LocalProxy.createPlainGlobusProxy(getGridPassphraseField().getPassword(), proxyLength);
+				LocalProxy.createPlainGlobusProxy(getGridPassphraseField()
+						.getPassword(), proxyLength);
 				fillLocalGridProxyInfo();
 			}
-			
+
 		} catch (MissingPrerequisitesException e1) {
 			JOptionPane.showMessageDialog(getParent(), "<html><body><p>"
 					+ getMessages()
@@ -407,11 +411,15 @@ public class VomsProxyInitPanel extends JPanel implements VomsesStatusListener,
 					getMessages().getString("error.init.title"),
 					JOptionPane.ERROR_MESSAGE);
 		} catch (GeneralSecurityException e1) {
-			JOptionPane.showMessageDialog(getParent(), "<html><body><p>"
-					+ getMessages().getString(
-							"error.init.generalSecurityException") + "</p><p>"
-					+ e1.getMessage() + "</p></body></html>", getMessages()
-					.getString("error.init.title"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(
+					getParent(),
+					"<html><body><p>"
+							+ getMessages().getString(
+									"error.init.generalSecurityException")
+							+ "</p><p>" + e1.getMessage()
+							+ "</p></body></html>",
+					getMessages().getString("error.init.title"),
+					JOptionPane.ERROR_MESSAGE);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(getParent(), "<html><body><p>"
 					+ getMessages().getString("error.init.exception")
@@ -528,9 +536,9 @@ public class VomsProxyInitPanel extends JPanel implements VomsesStatusListener,
 	public void vomsStatusChanged(VomsStatusEvent event) {
 		if (event.getAction() == VomsStatusEvent.NEW_VOMS
 				|| event.getAction() == VomsStatusEvent.STATUS_CHANGED) {
-			if (
-					 (((Voms) event.getSource()).getStatus() == Voms.MEMBER || ((Voms) event.getSource()).getStatus() == Voms.NON_VOMRS_MEMBER) 
-								&& (voComboBoxModel.getIndexOf(((Voms)event.getSource())) == -1 ) ) 
+			if ((((Voms) event.getSource()).getStatus() == Voms.MEMBER || ((Voms) event
+					.getSource()).getStatus() == Voms.NON_VOMRS_MEMBER)
+					&& (voComboBoxModel.getIndexOf(((Voms) event.getSource())) == -1))
 				voComboBoxModel.addElement((Voms) event.getSource());
 		} else if (event.getAction() == VomsStatusEvent.REMOVED_VOMS_MEMBERSHIP) {
 			voComboBoxModel.removeElement(((Voms) event.getSource()));
@@ -692,8 +700,8 @@ public class VomsProxyInitPanel extends JPanel implements VomsesStatusListener,
 								.getSelectedItem())).getInfoQuery().getResult())[14]));
 				for (String group : groups) {
 					if (group.indexOf("Role=Member") != -1) {
-						groupComboBoxModel.addElement(group.substring(0, group
-								.indexOf("/Role=")));
+						groupComboBoxModel.addElement(group.substring(0,
+								group.indexOf("/Role=")));
 					}
 				}
 			}
@@ -705,12 +713,12 @@ public class VomsProxyInitPanel extends JPanel implements VomsesStatusListener,
 
 		fillLocalGridProxyInfo();
 
-//		if (e.getStatus() != GridProxy.INITIALIZED) {
-//		} else {
-//			getGroupComboBox().setEnabled(true);
-//			getVoComboBox().setEnabled(true);
-//			getVomsCheckBox().setEnabled(true);
-//		}
+		// if (e.getStatus() != GridProxy.INITIALIZED) {
+		// } else {
+		// getGroupComboBox().setEnabled(true);
+		// getVoComboBox().setEnabled(true);
+		// getVomsCheckBox().setEnabled(true);
+		// }
 
 		if (GridProxy.INITIALIZED == e.getStatus()) {
 			getGroupComboBox().setEnabled(true);
@@ -761,27 +769,31 @@ public class VomsProxyInitPanel extends JPanel implements VomsesStatusListener,
 	private void fillLocalGridProxyInfo() {
 
 		if (LocalProxy.isValid()) {
-			if ( LocalProxy.getDefaultProxy() instanceof org.vpac.voms.model.proxy.VomsProxy ){
+			if (LocalProxy.getDefaultProxy() instanceof org.vpac.voms.model.proxy.VomsProxy) {
 				try {
-					VomsProxy vomsProxy = (VomsProxy)LocalProxy.getDefaultProxy();
-					
-					String group = ((VomsProxy)LocalProxy.getDefaultProxy()).getVomsac().getVOMSFQANs().get(0);
-					
-					if ( group.indexOf("/Role=") >= 0 ) {
-						getVoInfoTextField().setText(group.substring(0, group.indexOf("/Role=")));
+					VomsProxy vomsProxy = (VomsProxy) LocalProxy
+							.getDefaultProxy();
+
+					String group = ((VomsProxy) LocalProxy.getDefaultProxy())
+							.getVomsac().getVOMSFQANs().get(0);
+
+					if (group.indexOf("/Role=") >= 0) {
+						getVoInfoTextField().setText(
+								group.substring(0, group.indexOf("/Role=")));
 					} else {
 						getVoInfoTextField().setText(group);
 					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					//e.printStackTrace();
+					// e.printStackTrace();
 					myLogger.error(e);
-					getVoInfoTextField().setText("Error reading VO information.");
+					getVoInfoTextField().setText(
+							"Error reading VO information.");
 				}
-				} else {
-					getVoInfoTextField().setText("This proxy is not a voms proxy.");
-				}
-			
+			} else {
+				getVoInfoTextField().setText("This proxy is not a voms proxy.");
+			}
+
 			getPathTextField().setText(
 					LocalProxy.getDefaultProxy().getProxyFile().toString());
 		} else {

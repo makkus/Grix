@@ -50,9 +50,9 @@ public class MyVomsProxiesPanel extends JPanel {
 	}
 
 	/**
-	 * This method initializes jPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
+	 * This method initializes jPanel
+	 * 
+	 * @return javax.swing.JPanel
 	 */
 	public ElementsPanel getProxiesPanel() {
 		if (proxiesPanel == null) {

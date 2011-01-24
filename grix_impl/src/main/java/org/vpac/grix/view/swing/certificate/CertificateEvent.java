@@ -21,10 +21,10 @@ package org.vpac.grix.view.swing.certificate;
 import java.util.EventObject;
 
 public class CertificateEvent extends EventObject {
-	
+
 	private String status = null;
-	
-	public CertificateEvent(Object source, String status){
+
+	public CertificateEvent(Object source, String status) {
 		super(source);
 		this.status = status;
 	}

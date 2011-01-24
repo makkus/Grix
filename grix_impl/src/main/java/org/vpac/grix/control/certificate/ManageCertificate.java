@@ -70,9 +70,9 @@ public class ManageCertificate {
 		myLogger.debug("Trying to get certificate with DN: C=" + c + ", O=" + o
 				+ ", OU=" + ou + ", CN=" + cn);
 
-		if ( ! readyToDownload() ) return null;
+		if (!readyToDownload())
+			return null;
 
-		
 		// TODO implement plugin architecture
 		String cert = null;
 		try {
@@ -85,14 +85,15 @@ public class ManageCertificate {
 			Certificate newCert = new Certificate(cert);
 			Certificate localCert = null;
 			try {
-				localCert = new Certificate(GlobusLocations.defaultLocations().getUserCert());
+				localCert = new Certificate(GlobusLocations.defaultLocations()
+						.getUserCert());
 			} catch (Exception e) {
 				// can't create old cert, asuming this is the new one...
 				return newCert;
-			} 
-			
-			if ( localCert.getEnddate().equals(newCert.getEnddate()) ) {
-				//myLogger.debug("Your certificate is not ready yet. Please try it again later.");
+			}
+
+			if (localCert.getEnddate().equals(newCert.getEnddate())) {
+				// myLogger.debug("Your certificate is not ready yet. Please try it again later.");
 				return null;
 			}
 			// this means the certificate is ready
@@ -106,37 +107,47 @@ public class ManageCertificate {
 	public static boolean exchangeRenewedCertificateFiles() {
 
 		if (GlobusLocations.defaultLocations().getUserCert().exists()) {
-			if (!GlobusLocations.defaultLocations().getUserCert().renameTo(
-					Utils.backupFile(GlobusLocations.defaultLocations()
-							.getUserCert())))
+			if (!GlobusLocations
+					.defaultLocations()
+					.getUserCert()
+					.renameTo(
+							Utils.backupFile(GlobusLocations.defaultLocations()
+									.getUserCert())))
 				return false;
 		}
 		if (GlobusLocations.defaultLocations().getUserKey().exists()) {
-			if (!GlobusLocations.defaultLocations().getUserKey().renameTo(
-					Utils.backupFile(GlobusLocations.defaultLocations()
-							.getUserKey())))
+			if (!GlobusLocations
+					.defaultLocations()
+					.getUserKey()
+					.renameTo(
+							Utils.backupFile(GlobusLocations.defaultLocations()
+									.getUserKey())))
 				return false;
 		}
 		if (GlobusLocations.defaultLocations().getUserCertRequest().exists()) {
-			if (!GlobusLocations.defaultLocations().getUserCertRequest()
+			if (!GlobusLocations
+					.defaultLocations()
+					.getUserCertRequest()
 					.renameTo(
 							Utils.backupFile(GlobusLocations.defaultLocations()
 									.getUserCertRequest())))
 				return false;
 		}
 		if (GlobusLocations.defaultLocations().getUserCertPKCS12().exists()) {
-			if (!GlobusLocations.defaultLocations().getUserCertPKCS12()
+			if (!GlobusLocations
+					.defaultLocations()
+					.getUserCertPKCS12()
 					.renameTo(
 							Utils.backupFile(GlobusLocations.defaultLocations()
 									.getUserCertPKCS12())))
 				return false;
 		}
 
-		if (!GlobusLocations.defaultLocations().getRenewUserCert().renameTo(
-				GlobusLocations.defaultLocations().getUserCert()))
+		if (!GlobusLocations.defaultLocations().getRenewUserCert()
+				.renameTo(GlobusLocations.defaultLocations().getUserCert()))
 			return false;
-		if (!GlobusLocations.defaultLocations().getRenewUserKey().renameTo(
-				GlobusLocations.defaultLocations().getUserKey()))
+		if (!GlobusLocations.defaultLocations().getRenewUserKey()
+				.renameTo(GlobusLocations.defaultLocations().getUserKey()))
 			return false;
 		if (!GlobusLocations
 				.defaultLocations()
@@ -144,9 +155,11 @@ public class ManageCertificate {
 				.renameTo(
 						GlobusLocations.defaultLocations().getUserCertRequest()))
 			return false;
-		
-		UserProperty.setProperty("CERT_REQUEST", GlobusLocations.defaultLocations().getUserCertRequest().toString());
-		UserProperty.setProperty("PRIVATE_KEY", GlobusLocations.defaultLocations().getUserKey().toString());
+
+		UserProperty.setProperty("CERT_REQUEST", GlobusLocations
+				.defaultLocations().getUserCertRequest().toString());
+		UserProperty.setProperty("PRIVATE_KEY", GlobusLocations
+				.defaultLocations().getUserKey().toString());
 
 		UserProperty.setProperty("REQUESTED_RENEWED_CERTIFICATE", "no");
 
@@ -161,35 +174,36 @@ public class ManageCertificate {
 	public static boolean readyToDownload() {
 
 		// TODO make this better
-		if ( UserProperty.getProperty("REQUEST_SERIAL") == null || "manual".equals(UserProperty.getProperty("REQUEST_SERIAL")) )
+		if (UserProperty.getProperty("REQUEST_SERIAL") == null
+				|| "manual".equals(UserProperty.getProperty("REQUEST_SERIAL")))
 			return true;
 
 		return OpenCA.checkStatusOfRequest(UserProperty
 				.getProperty("REQUEST_SERIAL"));
-//		String cert = null;
-//		try {
-//			cert = OpenCA.downloadCertificate(c, o, ou, cn, email);
-//		} catch (Exception e) {
-//			throw new UnableToDownloadCertificateException("openca", e);
-//		}
-//		myLogger.debug("Answer from server: \n" + cert);
-//		if (cert != null && cert.indexOf(Certificate.PEM_HEADER) != -1) {
-//			Certificate newCert = new Certificate(cert);
-//			Certificate localCert = null;
-//			try {
-//				localCert = new Certificate(GlobusLocations.defaultLocations().getUserCert());
-//			} catch (Exception e) {
-//				// can't create old cert, asuming this is the new one...
-//				return newCert;
-//			} 
-//			
-//			if ( localCert.getEnddate().equals(newCert.getEnddate()) ) {
-//				//myLogger.debug("Your certificate is not ready yet. Please try it again later.");
-//				return null;
-//			}
-//			// this means the certificate is ready
-//			return newCert;		
-		
+		// String cert = null;
+		// try {
+		// cert = OpenCA.downloadCertificate(c, o, ou, cn, email);
+		// } catch (Exception e) {
+		// throw new UnableToDownloadCertificateException("openca", e);
+		// }
+		// myLogger.debug("Answer from server: \n" + cert);
+		// if (cert != null && cert.indexOf(Certificate.PEM_HEADER) != -1) {
+		// Certificate newCert = new Certificate(cert);
+		// Certificate localCert = null;
+		// try {
+		// localCert = new
+		// Certificate(GlobusLocations.defaultLocations().getUserCert());
+		// } catch (Exception e) {
+		// // can't create old cert, asuming this is the new one...
+		// return newCert;
+		// }
+		//
+		// if ( localCert.getEnddate().equals(newCert.getEnddate()) ) {
+		// //myLogger.debug("Your certificate is not ready yet. Please try it again later.");
+		// return null;
+		// }
+		// // this means the certificate is ready
+		// return newCert;
 
 	}
 
@@ -203,29 +217,26 @@ public class ManageCertificate {
 	 *         manually.
 	 */
 	public static Certificate retrieveDefaultCertificate() {
-		
 
 		if (GlobusLocations.defaultLocations().userCertExists()) {
-			myLogger
-					.debug("There is already a certificate in the .globus directory. Remove this file if you want to retrieve a new one: "
-							+ GlobusLocations.defaultLocations().getUserCert()
-									.toString());
+			myLogger.debug("There is already a certificate in the .globus directory. Remove this file if you want to retrieve a new one: "
+					+ GlobusLocations.defaultLocations().getUserCert()
+							.toString());
 			return null;
 		}
 
 		CertificationRequest cert_req = null;
 		try {
 			cert_req = new CertificationRequest(GlobusLocations
-					.defaultLocations().getUserCertRequest(), GrixProperty
-					.getString("signature.algorithm"), false);
+					.defaultLocations().getUserCertRequest(),
+					GrixProperty.getString("signature.algorithm"), false);
 		} catch (IOException e) {
 			myLogger.debug("Can't read file: "
 					+ GlobusLocations.defaultLocations().getUserCertRequest()
 					+ ". Please check permissions.");
 			return null;
 		} catch (MissingInformationException e) {
-			myLogger
-					.debug("Can not read the following fields out of the certification request:\n");
+			myLogger.debug("Can not read the following fields out of the certification request:\n");
 			for (String info : e.getMissingInformation()) {
 				myLogger.debug(info);
 			}
@@ -247,13 +258,11 @@ public class ManageCertificate {
 		}
 
 		if (cert == null) {
-			myLogger
-					.debug("Your certificate is not ready yet. Please try it again later.");
+			myLogger.debug("Your certificate is not ready yet. Please try it again later.");
 			return null;
-		} 
+		}
 
-		myLogger
-				.debug("Successfully downloaded the new certificate");
+		myLogger.debug("Successfully downloaded the new certificate");
 		return cert;
 	}
 
@@ -279,10 +288,9 @@ public class ManageCertificate {
 		try {
 			return OpenCA.uploadCertificationRequest(cert_req, hostCert, name,
 					email, department, telephone);
-		} catch (UnableToUploadCertificationRequestException ue){
+		} catch (UnableToUploadCertificationRequestException ue) {
 			throw ue;
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new UnableToUploadCertificationRequestException("openca", e);
 		}
 	}
@@ -308,7 +316,8 @@ public class ManageCertificate {
 	 */
 	public static CertificationRequest createAndStoreCertificationRequest(
 			CreateRequestInterface ui, boolean hostCert, int keysize,
-			String signature_algorithm, File requestFile, File keyFile, boolean overwrite) {
+			String signature_algorithm, File requestFile, File keyFile,
+			boolean overwrite) {
 
 		ui.lockInput();
 
@@ -405,8 +414,8 @@ public class ManageCertificate {
 
 		if (hostCert && requestFile == null) {
 			requestFile = new File(GlobusLocations.defaultLocations()
-					.getGlobusDirectory(), GrixProperty
-					.getString("hostcert_request.pem"));
+					.getGlobusDirectory(),
+					GrixProperty.getString("hostcert_request.pem"));
 		} else if (!hostCert && requestFile == null) {
 			requestFile = GlobusLocations.defaultLocations()
 					.getUserCertRequest();
@@ -415,8 +424,8 @@ public class ManageCertificate {
 		if (keyFile == null) {
 			if (hostCert) {
 				keyFile = new File(GlobusLocations.defaultLocations()
-						.getGlobusDirectory(), GrixProperty
-						.getString("hostkey.pem"));
+						.getGlobusDirectory(),
+						GrixProperty.getString("hostkey.pem"));
 			} else {
 				keyFile = GlobusLocations.defaultLocations().getUserKey();
 			}
@@ -439,7 +448,8 @@ public class ManageCertificate {
 				ui.setStatus(messages.getString("status.error"));
 				ui.message(messages
 						.getString("message.cannotCreateGlobusDirectory")
-						+ " " + keyFile.getParentFile().toString());
+						+ " "
+						+ keyFile.getParentFile().toString());
 				Arrays.fill(passphrase1, 'x');
 				Arrays.fill(passphrase2, 'x');
 				ui.unlockInput();
@@ -457,7 +467,8 @@ public class ManageCertificate {
 			ui.setStatus(messages.getString("status.error"));
 			ui.message(messages
 					.getString("message.globusDirectoryNotWriteable")
-					+ " " + keyFile.getParentFile().toString());
+					+ " "
+					+ keyFile.getParentFile().toString());
 			ui.unlockInput();
 			return null;
 		}
@@ -470,7 +481,8 @@ public class ManageCertificate {
 				ui.setStatus(messages.getString("status.error"));
 				ui.message(messages
 						.getString("message.cannotCreateGlobusDirectory")
-						+ " " + requestFile.getParentFile().toString());
+						+ " "
+						+ requestFile.getParentFile().toString());
 				ui.unlockInput();
 				return null;
 			}
@@ -489,38 +501,39 @@ public class ManageCertificate {
 			ui.setStatus(messages.getString("status.error"));
 			ui.message(messages
 					.getString("message.globusDirectoryNotWriteable")
-					+ " " + requestFile.toString());
+					+ " "
+					+ requestFile.toString());
 			ui.unlockInput();
 			return null;
 		}
 
 		// check whether key / request already exist
-		if ( ! overwrite ){
-		if (keyFile.exists()) {
-			ui.clearPassphrases();
-			Arrays.fill(passphrase1, 'x');
-			Arrays.fill(passphrase2, 'x');
-			if (createdRequestDirectory)
-				requestFile.getParentFile().delete();
-			ui.setStatus(messages.getString("status.error"));
-			ui.message(messages.getString("message.userKeyExistsAlready") + " "
-					+ keyFile.toString());
-			ui.unlockInput();
-			return null;
-		}
+		if (!overwrite) {
+			if (keyFile.exists()) {
+				ui.clearPassphrases();
+				Arrays.fill(passphrase1, 'x');
+				Arrays.fill(passphrase2, 'x');
+				if (createdRequestDirectory)
+					requestFile.getParentFile().delete();
+				ui.setStatus(messages.getString("status.error"));
+				ui.message(messages.getString("message.userKeyExistsAlready")
+						+ " " + keyFile.toString());
+				ui.unlockInput();
+				return null;
+			}
 
-		if (requestFile.exists()) {
-			ui.clearPassphrases();
-			Arrays.fill(passphrase1, 'x');
-			Arrays.fill(passphrase2, 'x');
-			if (createdKeyDirectory)
-				keyFile.getParentFile().delete();
-			ui.setStatus(messages.getString("status.error"));
-			ui.message(messages.getString("message.userCertExistsAlready")
-					+ " " + requestFile.toString());
-			ui.unlockInput();
-			return null;
-		}
+			if (requestFile.exists()) {
+				ui.clearPassphrases();
+				Arrays.fill(passphrase1, 'x');
+				Arrays.fill(passphrase2, 'x');
+				if (createdKeyDirectory)
+					keyFile.getParentFile().delete();
+				ui.setStatus(messages.getString("status.error"));
+				ui.message(messages.getString("message.userCertExistsAlready")
+						+ " " + requestFile.toString());
+				ui.unlockInput();
+				return null;
+			}
 		}
 
 		ui.setStatus(messages.getString("status.generatingKeypair"));

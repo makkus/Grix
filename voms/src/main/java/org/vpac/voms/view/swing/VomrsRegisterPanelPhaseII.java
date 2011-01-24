@@ -62,8 +62,8 @@ public class VomrsRegisterPanelPhaseII extends JPanel implements
 			ArgumentsException {
 		super();
 		this.voms = voms;
-		userInputQuery = new UserInputQuery("confirmMbrNotify", voms
-				.getClient(), "Candidate");
+		userInputQuery = new UserInputQuery("confirmMbrNotify",
+				voms.getClient(), "Candidate");
 		userInputQuery.init();
 		initialize();
 		getOneQueryPanel().setBackground(bg);
@@ -73,8 +73,8 @@ public class VomrsRegisterPanelPhaseII extends JPanel implements
 			ArgumentsException {
 		super();
 		this.voms = voms;
-		userInputQuery = new UserInputQuery("confirmMbrNotify", voms
-				.getClient(), "Candidate");
+		userInputQuery = new UserInputQuery("confirmMbrNotify",
+				voms.getClient(), "Candidate");
 		userInputQuery.init();
 		initialize();
 	}
@@ -104,9 +104,8 @@ public class VomrsRegisterPanelPhaseII extends JPanel implements
 		layout.setVgap(20);
 		this.setLayout(layout);
 		this.add(getOneQueryPanel(), BorderLayout.CENTER);
-		this
-				.add(new InfoPagePanel("infoCandidate", Color.white),
-						BorderLayout.SOUTH);
+		this.add(new InfoPagePanel("infoCandidate", Color.white),
+				BorderLayout.SOUTH);
 	}
 
 	/**
@@ -142,11 +141,11 @@ public class VomrsRegisterPanelPhaseII extends JPanel implements
 				registerQuery.init();
 			} catch (ArgumentsException e1) {
 				// TODO Auto-generated catch block
-				//e1.printStackTrace();
+				// e1.printStackTrace();
 				myLogger.error(e1);
 			} catch (JDOMException e1) {
 				// TODO Auto-generated catch block
-				//e1.printStackTrace();
+				// e1.printStackTrace();
 				myLogger.error(e1);
 			}
 			registerQuery.submit();

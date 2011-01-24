@@ -45,16 +45,16 @@ import org.vpac.voms.control.LocalVomses;
 public class VomsesManagementDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
-	
-	static final Logger myLogger = Logger.getLogger(VomsesManagementDialog.class.getName());
-	
+
+	static final Logger myLogger = Logger
+			.getLogger(VomsesManagementDialog.class.getName());
+
 	public final String available_vomses_dir = System.getProperty("user.home")
-	+ File.separator + ".glite" + File.separator + "vomses_available";
+			+ File.separator + ".glite" + File.separator + "vomses_available";
 
 	public final String active_vomses_dir = System.getProperty("user.home")
-	+ File.separator + ".glite" + File.separator + "vomses";  //  @jve:decl-index=0:
+			+ File.separator + ".glite" + File.separator + "vomses"; // @jve:decl-index=0:
 
-	
 	private JPanel jContentPane = null;
 
 	private JPanel jPanel = null;
@@ -66,7 +66,7 @@ public class VomsesManagementDialog extends JDialog {
 	private JLabel jLabel = null;
 
 	private JLabel jLabel1 = null;
-	
+
 	private DefaultListModel availableModel = null;
 	private DefaultListModel activeModel = null;
 	private ArrayListTransferHandler listTransferHandler = null;
@@ -78,7 +78,7 @@ public class VomsesManagementDialog extends JDialog {
 	private JButton jButton = null;
 
 	private JButton jButton1 = null;
-	
+
 	private boolean vomses_changed = false;
 
 	private JPanel jPanel1 = null;
@@ -92,23 +92,23 @@ public class VomsesManagementDialog extends JDialog {
 		super(owner);
 
 		this.activeModel = new DefaultListModel();
-		for ( File file : new File(active_vomses_dir).listFiles() ) {
+		for (File file : new File(active_vomses_dir).listFiles()) {
 			this.activeModel.addElement(file.getName());
 		}
 
 		this.availableModel = new DefaultListModel();
-		for ( File file : new File(available_vomses_dir).listFiles() ) {
+		for (File file : new File(available_vomses_dir).listFiles()) {
 			boolean in_active = false;
-			for ( Object active : activeModel.toArray() ){
-				if ( ((String)active).equals(file.getName()) ){
+			for (Object active : activeModel.toArray()) {
+				if (((String) active).equals(file.getName())) {
 					in_active = true;
 					break;
 				}
 			}
-			if ( ! in_active )
+			if (!in_active)
 				this.availableModel.addElement(file.getName());
 		}
-		
+
 		listTransferHandler = new ArrayListTransferHandler();
 		initialize();
 	}
@@ -138,9 +138,9 @@ public class VomsesManagementDialog extends JDialog {
 	}
 
 	/**
-	 * This method initializes jPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
+	 * This method initializes jPanel
+	 * 
+	 * @return javax.swing.JPanel
 	 */
 	private JPanel getJPanel() {
 		if (jPanel == null) {
@@ -220,45 +220,49 @@ public class VomsesManagementDialog extends JDialog {
 	}
 
 	/**
-	 * This method initializes availableList	
-	 * 	
-	 * @return javax.swing.JList	
+	 * This method initializes availableList
+	 * 
+	 * @return javax.swing.JList
 	 */
 	private JList getAvailableList() {
 		if (availableList == null) {
 			availableList = new JList(availableModel);
 			availableList.setDragEnabled(true);
-			availableList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+			availableList
+					.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 			availableList.setTransferHandler(listTransferHandler);
 		}
 		return availableList;
 	}
 
 	/**
-	 * This method initializes activeList	
-	 * 	
-	 * @return javax.swing.JList	
+	 * This method initializes activeList
+	 * 
+	 * @return javax.swing.JList
 	 */
 	private JList getActiveList() {
 		if (activeList == null) {
 			activeList = new JList(activeModel);
 			activeList.setDragEnabled(true);
-			activeList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+			activeList
+					.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 			activeList.setTransferHandler(listTransferHandler);
 		}
 		return activeList;
 	}
 
 	/**
-	 * This method initializes jScrollPane	
-	 * 	
-	 * @return javax.swing.JScrollPane	
+	 * This method initializes jScrollPane
+	 * 
+	 * @return javax.swing.JScrollPane
 	 */
 	private JScrollPane getJScrollPane() {
 		if (jScrollPane == null) {
 			jScrollPane = new JScrollPane();
-			jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-			jScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			jScrollPane
+					.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+			jScrollPane
+					.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			jScrollPane.setPreferredSize(new Dimension(120, 3));
 			jScrollPane.setViewportView(getAvailableList());
 		}
@@ -266,15 +270,17 @@ public class VomsesManagementDialog extends JDialog {
 	}
 
 	/**
-	 * This method initializes jScrollPane1	
-	 * 	
-	 * @return javax.swing.JScrollPane	
+	 * This method initializes jScrollPane1
+	 * 
+	 * @return javax.swing.JScrollPane
 	 */
 	private JScrollPane getJScrollPane1() {
 		if (jScrollPane1 == null) {
 			jScrollPane1 = new JScrollPane();
-			jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-			jScrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			jScrollPane1
+					.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+			jScrollPane1
+					.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			jScrollPane1.setPreferredSize(new Dimension(120, 3));
 			jScrollPane1.setViewportView(getActiveList());
 		}
@@ -282,9 +288,9 @@ public class VomsesManagementDialog extends JDialog {
 	}
 
 	/**
-	 * This method initializes jButton	
-	 * 	
-	 * @return javax.swing.JButton	
+	 * This method initializes jButton
+	 * 
+	 * @return javax.swing.JButton
 	 */
 	private JButton getJButton() {
 		if (jButton == null) {
@@ -300,9 +306,9 @@ public class VomsesManagementDialog extends JDialog {
 	}
 
 	/**
-	 * This method initializes jButton1	
-	 * 	
-	 * @return javax.swing.JButton	
+	 * This method initializes jButton1
+	 * 
+	 * @return javax.swing.JButton
 	 */
 	private JButton getJButton1() {
 		if (jButton1 == null) {
@@ -310,36 +316,45 @@ public class VomsesManagementDialog extends JDialog {
 			jButton1.setText("Apply");
 			jButton1.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					if ( !new File(active_vomses_dir).exists() )
+					if (!new File(active_vomses_dir).exists())
 						new File(active_vomses_dir).mkdirs();
-					for ( Object filename : activeModel.toArray() ){
+					for (Object filename : activeModel.toArray()) {
 						try {
-							if ( ! new File(active_vomses_dir, (String)filename).exists() ){
-								FileUtils.copyFile(new File(available_vomses_dir, (String)filename), new File(active_vomses_dir, (String)filename));
+							if (!new File(active_vomses_dir, (String) filename)
+									.exists()) {
+								FileUtils.copyFile(
+										new File(available_vomses_dir,
+												(String) filename), new File(
+												active_vomses_dir,
+												(String) filename));
 								vomses_changed = true;
 							}
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
-							//e1.printStackTrace();
+							// e1.printStackTrace();
 							myLogger.error(e1);
 						}
 					}
 
-					for ( File file : new File(active_vomses_dir).listFiles() ){
+					for (File file : new File(active_vomses_dir).listFiles()) {
 						boolean inList = false;
-						for ( Object filename : activeModel.toArray() ) {
-							if ( ((String)filename).equals(file.getName()) ) {
+						for (Object filename : activeModel.toArray()) {
+							if (((String) filename).equals(file.getName())) {
 								inList = true;
 								break;
 							}
 						}
-						if ( ! inList ) {
-							if ( ! new File(available_vomses_dir, file.getName()).exists() ){
+						if (!inList) {
+							if (!new File(available_vomses_dir, file.getName())
+									.exists()) {
 								try {
-									FileUtils.copyFile(file, new File(available_vomses_dir, file.getName()));
+									FileUtils.copyFile(
+											file,
+											new File(available_vomses_dir, file
+													.getName()));
 								} catch (IOException e1) {
 									// TODO Auto-generated catch block
-									//e1.printStackTrace();
+									// e1.printStackTrace();
 									myLogger.error(e1);
 								}
 							}
@@ -347,9 +362,8 @@ public class VomsesManagementDialog extends JDialog {
 							vomses_changed = true;
 						}
 
-						
 					}
-					if ( vomses_changed ){
+					if (vomses_changed) {
 						LocalVomses.refreshLocalVomses();
 					}
 					VomsesManagementDialog.this.dispose();
@@ -360,16 +374,16 @@ public class VomsesManagementDialog extends JDialog {
 	}
 
 	/**
-	 * This method initializes infoPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
+	 * This method initializes infoPanel
+	 * 
+	 * @return javax.swing.JPanel
 	 */
 	private SimpleMessagePanel getInfoPanel() {
 		if (infoPanel == null) {
-			infoPanel = new SimpleMessagePanel("Drag & Drop groups you want to contact to the \"Active Groups\" panel.");
+			infoPanel = new SimpleMessagePanel(
+					"Drag & Drop groups you want to contact to the \"Active Groups\" panel.");
 		}
 		return infoPanel;
 	}
 
-
-}  //  @jve:decl-index=0:visual-constraint="10,10"
+} // @jve:decl-index=0:visual-constraint="10,10"

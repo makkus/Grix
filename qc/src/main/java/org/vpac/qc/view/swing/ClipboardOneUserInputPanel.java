@@ -39,12 +39,13 @@ import org.vpac.qc.model.query.UserInterfaceArgument;
  * One QueryArgument description/input panel.
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
-public class ClipboardOneUserInputPanel extends JPanel implements OneElementPanel, OneUserInputPanelInterface{
+public class ClipboardOneUserInputPanel extends JPanel implements
+		OneElementPanel, OneUserInputPanelInterface {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private UserInterfaceArgument argument = null;
 
 	private JLabel nameLabel = null;
@@ -52,16 +53,17 @@ public class ClipboardOneUserInputPanel extends JPanel implements OneElementPane
 	private JTextField userInputTextField = null;
 
 	private JComboBox userInputComboBox = null;
-	
+
 	private ElementsPanel elementsPanel = null;
 
 	private JButton pasteButton = null;
 	private JButton clearButton = null;
-	
+
 	/**
 	 * This is the default constructor
 	 */
-	public ClipboardOneUserInputPanel(ElementsPanel ep, UserInterfaceArgument argument) {
+	public ClipboardOneUserInputPanel(ElementsPanel ep,
+			UserInterfaceArgument argument) {
 		super();
 		this.elementsPanel = ep;
 		this.argument = argument;
@@ -84,7 +86,7 @@ public class ClipboardOneUserInputPanel extends JPanel implements OneElementPane
 		clearButtonConstraints.gridx = 1;
 		clearButtonConstraints.insets = new Insets(0, 0, 0, 15);
 		clearButtonConstraints.gridy = 1;
-		clearButtonConstraints.weightx =1;
+		clearButtonConstraints.weightx = 1;
 		clearButtonConstraints.anchor = GridBagConstraints.EAST;
 		GridBagConstraints textFieldConstraints = new GridBagConstraints();
 		textFieldConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -102,18 +104,21 @@ public class ClipboardOneUserInputPanel extends JPanel implements OneElementPane
 		nameLabelConstraints.fill = GridBagConstraints.HORIZONTAL;
 		nameLabelConstraints.gridy = 0;
 		nameLabel = new JLabel();
-		if ( argument.getPrettyName() == null || "".equals(argument.getPrettyName()) )
+		if (argument.getPrettyName() == null
+				|| "".equals(argument.getPrettyName()))
 			nameLabel.setText(argument.getName());
-		else nameLabel.setText(argument.getPrettyName() );
+		else
+			nameLabel.setText(argument.getPrettyName());
 		nameLabel.setPreferredSize(new Dimension(100, 19));
 		this.setSize(434, 62);
 		this.setLayout(new GridBagLayout());
 		this.add(nameLabel, nameLabelConstraints);
-		if ( argument.isPreselection() ) {
+		if (argument.isPreselection()) {
 			this.add(getUserInputComboBox(), textFieldConstraints);
 			this.add(nameLabel, nameLabelConstraints);
-		} else { 
-			if ( argument.getPreselection() == null || argument.getPreselection().size() < 2 ){
+		} else {
+			if (argument.getPreselection() == null
+					|| argument.getPreselection().size() < 2) {
 				this.add(getUserInputTextField(), textFieldConstraints);
 				this.add(getPasteButton(), pasteButtonConstraints);
 				this.add(getClearButton(), clearButtonConstraints);
@@ -126,47 +131,54 @@ public class ClipboardOneUserInputPanel extends JPanel implements OneElementPane
 	}
 
 	/**
-	 * This method initializes userInputTextField	
-	 * 	
-	 * @return javax.swing.JTextField	
+	 * This method initializes userInputTextField
+	 * 
+	 * @return javax.swing.JTextField
 	 */
 	private JTextField getUserInputTextField() {
 		if (userInputTextField == null) {
 			userInputTextField = new JTextField();
-			if ( argument.getDescription() != null && ! "".equals(argument.getDescription()) )
+			if (argument.getDescription() != null
+					&& !"".equals(argument.getDescription()))
 				userInputTextField.setToolTipText(argument.getDescription());
-				userInputTextField.setPreferredSize(new Dimension(300, 24));
-				if ( argument.getPreselection() != null && argument.getPreselection().size() == 1 ){
-					userInputTextField.setText(argument.getPreselectionAsString()[0]);
-				}
+			userInputTextField.setPreferredSize(new Dimension(300, 24));
+			if (argument.getPreselection() != null
+					&& argument.getPreselection().size() == 1) {
+				userInputTextField
+						.setText(argument.getPreselectionAsString()[0]);
+			}
 		}
 		return userInputTextField;
 	}
 
 	/**
-	 * This method initializes userInputComboBox	
-	 * 	
-	 * @return javax.swing.JComboBox	
+	 * This method initializes userInputComboBox
+	 * 
+	 * @return javax.swing.JComboBox
 	 */
 	private JComboBox getUserInputComboBox() {
 		if (userInputComboBox == null) {
-			userInputComboBox = new JComboBox(argument.getPreselectionAsString());
+			userInputComboBox = new JComboBox(
+					argument.getPreselectionAsString());
 			userInputComboBox.setBackground(Color.white);
-			if ( ! argument.isPreselection() ) {
+			if (!argument.isPreselection()) {
 				userInputComboBox.setEditable(true);
 			}
 			userInputComboBox.setPreferredSize(new Dimension(300, 24));
-			if ( argument.getDescription() != null && ! "".equals(argument.getDescription()) )
+			if (argument.getDescription() != null
+					&& !"".equals(argument.getDescription()))
 				userInputComboBox.setToolTipText(argument.getDescription());
 		}
 		return userInputComboBox;
 	}
-	
-	public Object getUserInput(){
-		if ( argument.isPreselection() ){
-			return argument.getPreselection().get(getUserInputComboBox().getSelectedIndex());
+
+	public Object getUserInput() {
+		if (argument.isPreselection()) {
+			return argument.getPreselection().get(
+					getUserInputComboBox().getSelectedIndex());
 		} else {
-			if ( argument.getPreselection() == null || argument.getPreselection().size() < 2 ) {
+			if (argument.getPreselection() == null
+					|| argument.getPreselection().size() < 2) {
 				return getUserInputTextField().getText();
 			} else {
 				return getUserInputComboBox().getSelectedItem();
@@ -179,19 +191,20 @@ public class ClipboardOneUserInputPanel extends JPanel implements OneElementPane
 	}
 
 	/**
-	 * This method initializes pasteButton	
-	 * 	
-	 * @return javax.swing.JButton	
+	 * This method initializes pasteButton
+	 * 
+	 * @return javax.swing.JButton
 	 */
 	private JButton getPasteButton() {
 		if (pasteButton == null) {
 			pasteButton = new JButton();
 			pasteButton.setText("Paste");
-			pasteButton.setToolTipText("Paste the clipboard content into the textfield.");
+			pasteButton
+					.setToolTipText("Paste the clipboard content into the textfield.");
 			pasteButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					String clipboard = Helpers.getClipboard();
-					if ( clipboard != null && !"".equals(clipboard.trim())){
+					if (clipboard != null && !"".equals(clipboard.trim())) {
 						getUserInputTextField().setText(clipboard.trim());
 					}
 				}
@@ -199,11 +212,11 @@ public class ClipboardOneUserInputPanel extends JPanel implements OneElementPane
 		}
 		return pasteButton;
 	}
-	
+
 	/**
-	 * This method initializes pasteButton	
-	 * 	
-	 * @return javax.swing.JButton	
+	 * This method initializes pasteButton
+	 * 
+	 * @return javax.swing.JButton
 	 */
 	private JButton getClearButton() {
 		if (clearButton == null) {
@@ -212,11 +225,11 @@ public class ClipboardOneUserInputPanel extends JPanel implements OneElementPane
 			clearButton.setToolTipText("Clear the textfield.");
 			clearButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-						getUserInputTextField().setText("");
+					getUserInputTextField().setText("");
 				}
 			});
 		}
 		return clearButton;
-	}	
+	}
 
-}  //  @jve:decl-index=0:visual-constraint="10,10"
+} // @jve:decl-index=0:visual-constraint="10,10"

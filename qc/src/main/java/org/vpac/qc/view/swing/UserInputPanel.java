@@ -25,10 +25,11 @@ import org.vpac.qc.model.query.Query;
 import org.vpac.qc.model.query.UserInterfaceArgument;
 
 /**
- * A UserInputPanel holds all necessary {@link OneUserInputPanel}s for a {@link Query}
+ * A UserInputPanel holds all necessary {@link OneUserInputPanel}s for a
+ * {@link Query}
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
 public class UserInputPanel extends ElementsPanel {
 
@@ -36,28 +37,31 @@ public class UserInputPanel extends ElementsPanel {
 
 	ArrayList<UserInterfaceArgument> arguments = null;
 	Object[] values = null;
-	
+
 	/**
 	 * This is the default constructor
 	 */
-	public UserInputPanel(ArrayList<UserInterfaceArgument> arguments, boolean clipboardSupport) {
+	public UserInputPanel(ArrayList<UserInterfaceArgument> arguments,
+			boolean clipboardSupport) {
 		super();
 		this.arguments = arguments;
 		values = new Object[arguments.size()];
 		initialize();
-		for ( UserInterfaceArgument arg : arguments ){
-			if ( clipboardSupport ) {
-				this.addOneElementPanel(new ClipboardOneUserInputPanel(this, arg));
+		for (UserInterfaceArgument arg : arguments) {
+			if (clipboardSupport) {
+				this.addOneElementPanel(new ClipboardOneUserInputPanel(this,
+						arg));
 			} else {
 				this.addOneElementPanel(new OneUserInputPanel(this, arg));
 			}
 		}
 	}
-		
-	public Object[] getValues(){
+
+	public Object[] getValues() {
 		Object[] result = new Object[arguments.size()];
-		for ( int i=0; i<result.length; i++ ) {
-			result[i] = ((OneUserInputPanelInterface)this.getPanels().get(i)).getUserInput();
+		for (int i = 0; i < result.length; i++) {
+			result[i] = ((OneUserInputPanelInterface) this.getPanels().get(i))
+					.getUserInput();
 		}
 		return result;
 	}

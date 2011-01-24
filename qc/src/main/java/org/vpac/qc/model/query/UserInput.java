@@ -21,31 +21,33 @@ package org.vpac.qc.model.query;
 import java.util.ArrayList;
 
 /**
- * This abstract method provides an interface for a {@link UserInputQuery} to connect to.
- * All the init stuff should go (obviously) in the init() method (can be empty too, though).
+ * This abstract method provides an interface for a {@link UserInputQuery} to
+ * connect to. All the init stuff should go (obviously) in the init() method
+ * (can be empty too, though).
  * <p>
  * For retrieveal of the user input implement the getValues() method.
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
 public abstract class UserInput {
-	
+
 	protected ArrayList<UserInterfaceArgument> arguments = null;
 	protected Object[] values = null;
-	
-	public void connect(UserInputQuery userInputQuery){
+
+	public void connect(UserInputQuery userInputQuery) {
 		this.arguments = userInputQuery.getUserNeededArguments();
-		values = new Object[arguments.size()];	
+		values = new Object[arguments.size()];
 		userInputQuery.connect(this);
 		init();
 	}
-	
-	public Object[] getUserInput(){
+
+	public Object[] getUserInput() {
 		return getValues();
 	}
-	
+
 	abstract protected void init();
+
 	abstract protected Object[] getValues();
 
 }

@@ -33,7 +33,6 @@ import java.util.Arrays;
 
 import org.globus.gsi.bc.BouncyCastleOpenSSLKey;
 
-
 /**
  * A special keypair class for this application. It holds a private key which is
  * compatible to an openssl-generated one and a RSA private key.
@@ -77,10 +76,10 @@ public class GlobusKeyPair {
 		generator = KeyPairGenerator.getInstance("RSA", "BC");
 		try {
 			generator.initialize(
-					// initialize the generator with the your chosen Keysize and the
-					// defaults recommended in X.509
-					new RSAKeyGenParameterSpec(keysize, RSAKeyGenParameterSpec.F4),
-					random);
+			// initialize the generator with the your chosen Keysize and the
+			// defaults recommended in X.509
+					new RSAKeyGenParameterSpec(keysize,
+							RSAKeyGenParameterSpec.F4), random);
 		} catch (IllegalArgumentException e) {
 			throw new GeneralSecurityException(e.getMessage());
 		}
@@ -143,12 +142,13 @@ public class GlobusKeyPair {
 	 * 
 	 * @param passphrase
 	 *            the passphrase to encrypt the private key
-	 * @throws GeneralSecurityException 
+	 * @throws GeneralSecurityException
 	 */
-	public void encryptPrivateKey(char[] passphrase) throws GeneralSecurityException  {
+	public void encryptPrivateKey(char[] passphrase)
+			throws GeneralSecurityException {
 
 		this.privateKey.encrypt(new String(passphrase));
-		//Arrays.fill(passphrase,'x');
+		// Arrays.fill(passphrase,'x');
 		this.encryptedPrivate = true;
 	}
 
@@ -157,14 +157,15 @@ public class GlobusKeyPair {
 	 * 
 	 * @param passphrase
 	 *            the passphrase to decrypt the private key
-	 * @throws GeneralSecurityException 
-	 * @throws GeneralSecurityException 
+	 * @throws GeneralSecurityException
+	 * @throws GeneralSecurityException
 	 */
-	public void decryptPrivateKey(char[] passphrase) throws GeneralSecurityException {
+	public void decryptPrivateKey(char[] passphrase)
+			throws GeneralSecurityException {
 
-			this.privateKey.decrypt(passphrase.toString());
-			Arrays.fill(passphrase, 'x');
-			this.encryptedPrivate = false;
+		this.privateKey.decrypt(passphrase.toString());
+		Arrays.fill(passphrase, 'x');
+		this.encryptedPrivate = false;
 	}
 
 	/**
@@ -176,13 +177,18 @@ public class GlobusKeyPair {
 	 * @throws FileAlreadyExistsException
 	 * @throws PathNotAvailableException
 	 */
-	public void savePrivateKeyToFile(File privKeyFile) throws IOException{
+	public void savePrivateKeyToFile(File privKeyFile) throws IOException {
 
-		if (privKeyFile.exists()) throw new IOException("File: "+privKeyFile.toString()+" already exists.");
-		if (!privKeyFile.getParentFile().exists()){
-			if (!privKeyFile.getParentFile().mkdirs()) throw new IOException("Can't create directory: "+privKeyFile.getParent());
+		if (privKeyFile.exists())
+			throw new IOException("File: " + privKeyFile.toString()
+					+ " already exists.");
+		if (!privKeyFile.getParentFile().exists()) {
+			if (!privKeyFile.getParentFile().mkdirs())
+				throw new IOException("Can't create directory: "
+						+ privKeyFile.getParent());
 		}
-		if (!privKeyFile.canWrite()) throw new IOException("Can't write file: "+privKeyFile.toString());
+		if (!privKeyFile.canWrite())
+			throw new IOException("Can't write file: " + privKeyFile.toString());
 		this.privateKey.writeTo(new FileOutputStream(privKeyFile));
 	}
 

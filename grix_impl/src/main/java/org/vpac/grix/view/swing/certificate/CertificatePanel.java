@@ -130,9 +130,9 @@ public class CertificatePanel extends JPanel implements
 	public final static String CERT_PRESENT_NOT_EXPORTED = "CertificateStatus.ready.notExported";
 
 	public final static String CERT_PRESENT_READ_ERROR = "CertificateStatus.ready.readError";
-	
+
 	public final static String CERT_EXPIRED = "CertificateStatus.expired";
-	
+
 	public final static String CERT_EXPIRING = "CertificateStatus.expiring";
 
 	private JButton renewButton = null;
@@ -241,9 +241,8 @@ public class CertificatePanel extends JPanel implements
 		}
 		// if PRESENT
 		else if (CERT_PRESENT_EXPORTED.equals(status)
-				|| CERT_PRESENT_NOT_EXPORTED.equals(status) 
-				|| CERT_EXPIRED.equals(status)
-				|| CERT_EXPIRING.equals(status)) {
+				|| CERT_PRESENT_NOT_EXPORTED.equals(status)
+				|| CERT_EXPIRED.equals(status) || CERT_EXPIRING.equals(status)) {
 
 			if (currentInfoPanel != null)
 				this.remove(currentInfoPanel);
@@ -426,8 +425,7 @@ public class CertificatePanel extends JPanel implements
 			Cursor normalCursor = new Cursor(Cursor.DEFAULT_CURSOR);
 			setCursor(normalCursor);
 			getCertificateStatusPanel().setCursor(normalCursor);
-			myLogger
-					.debug("Could not create certification request. Please try again.");
+			myLogger.debug("Could not create certification request. Please try again.");
 			UserProperty.setProperty("REQUESTED_RENEWED_CERTIFICATE", "no");
 			return;
 		}
@@ -460,8 +458,7 @@ public class CertificatePanel extends JPanel implements
 				fw = new FileWriter(logFile);
 				fw.write(answer[1]);
 			} catch (IOException e) {
-				myLogger
-						.warn("Could not write certification request log file...");
+				myLogger.warn("Could not write certification request log file...");
 			} finally {
 				if (fw != null)
 					try {
@@ -472,8 +469,9 @@ public class CertificatePanel extends JPanel implements
 					}
 			}
 			// TODO parse xhtml
-			choice = JOptionPane.showOptionDialog(this, messagePane(Grix
-					.getMessages().getString(
+			choice = JOptionPane.showOptionDialog(
+					this,
+					messagePane(Grix.getMessages().getString(
 							"CertificationRequest.uploadSuccessful")),
 					answer[0], JOptionPane.YES_NO_OPTION,
 					JOptionPane.INFORMATION_MESSAGE, null, new String[] { "OK",
@@ -500,8 +498,7 @@ public class CertificatePanel extends JPanel implements
 				fw = new FileWriter(logFile);
 				fw.write(e.getException().getMessage());
 			} catch (Exception e1) {
-				myLogger
-						.warn("Could not write certification request log file...");
+				myLogger.warn("Could not write certification request log file...");
 			} finally {
 				if (fw != null)
 					try {
@@ -514,7 +511,8 @@ public class CertificatePanel extends JPanel implements
 
 			myLogger.error("Could not upload certification request: "
 					+ e.getMessage());
-			int choiceNotSuccessful = JOptionPane.showOptionDialog(this,
+			int choiceNotSuccessful = JOptionPane.showOptionDialog(
+					this,
 					messagePane(Grix.getMessages().getString(
 							"CertificationRequest.uploadNotSuccessful")),
 					"Upload not successful", JOptionPane.YES_NO_OPTION,
@@ -616,14 +614,12 @@ public class CertificatePanel extends JPanel implements
 
 					if (toggle_button_renew == true) {
 						// create a new certificate request (no renewal)
-						myLogger
-								.debug("Create button pressed. Trying to create certification request.");
+						myLogger.debug("Create button pressed. Trying to create certification request.");
 						if (GlobusLocations.defaultLocations()
 								.userCertRequestExists()) {
-							myLogger
-									.debug(("There is already a certification request in the globus directory. Remove this file if you want to retrieve a new one: " + GlobusLocations
-											.defaultLocations()
-											.getUserCertRequest().toString()));
+							myLogger.debug(("There is already a certification request in the globus directory. Remove this file if you want to retrieve a new one: " + GlobusLocations
+									.defaultLocations().getUserCertRequest()
+									.toString()));
 							return;
 						}
 
@@ -796,9 +792,8 @@ public class CertificatePanel extends JPanel implements
 					.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent e) {
 
-							if (!"yes"
-									.equals(UserProperty
-											.getProperty("REQUESTED_RENEWED_CERTIFICATE"))) {
+							if (!"yes".equals(UserProperty
+									.getProperty("REQUESTED_RENEWED_CERTIFICATE"))) {
 								// retrieve a new certificate
 								Cursor hourglassCursor = new Cursor(
 										Cursor.WAIT_CURSOR);
@@ -826,8 +821,7 @@ public class CertificatePanel extends JPanel implements
 								} catch (MissingInformationException e2) {
 
 									StringBuffer message = new StringBuffer(
-											Grix
-													.getMessages()
+											Grix.getMessages()
 													.getString(
 															"CertificationRequest.downloading.missingInformation")
 													+ "\n\n");
@@ -880,8 +874,7 @@ public class CertificatePanel extends JPanel implements
 								} catch (MissingInformationException e2) {
 
 									StringBuffer message = new StringBuffer(
-											Grix
-													.getMessages()
+											Grix.getMessages()
 													.getString(
 															"CertificationRequest.downloading.missingInformation")
 													+ "\n\n");
@@ -1018,7 +1011,7 @@ public class CertificatePanel extends JPanel implements
 		} catch (InvalidKeyException e) {
 			message(Grix.getMessages().getString(
 					"Certificate.export.wrongPassphrase"));
-			if ( GlobusLocations.defaultLocations().getUserCertPKCS12().length() == 0 ) {
+			if (GlobusLocations.defaultLocations().getUserCertPKCS12().length() == 0) {
 				GlobusLocations.defaultLocations().getUserCertPKCS12().delete();
 			}
 			return;
@@ -1071,22 +1064,24 @@ public class CertificatePanel extends JPanel implements
 			try {
 				Certificate cert = new Certificate(GlobusLocations
 						.defaultLocations().getUserCert());
-				
+
 				DateFormat df = DateHelper.getDateFormat();
 				Date enddate = df.parse(cert.getEnddate());
-				
-				if ( enddate.before(new Date()) ) {
+
+				if (enddate.before(new Date())) {
 					return CERT_EXPIRED;
 				}
 				Calendar rightNow = Calendar.getInstance();
 				rightNow.add(Calendar.MONTH, 1);
 				Date inOneMonth = rightNow.getTime();
-				if ( enddate.before(inOneMonth)) {
+				if (enddate.before(inOneMonth)) {
 					return CERT_EXPIRING;
 				}
-				
+
 				if (GlobusLocations.defaultLocations().getUserCertPKCS12()
-						.exists() && GlobusLocations.defaultLocations().getUserCertPKCS12().length() != 0 )
+						.exists()
+						&& GlobusLocations.defaultLocations()
+								.getUserCertPKCS12().length() != 0)
 					return CERT_PRESENT_EXPORTED;
 				else
 					return CERT_PRESENT_NOT_EXPORTED;
@@ -1122,8 +1117,7 @@ public class CertificatePanel extends JPanel implements
 			} else {
 				// no REQUEST_SERIAL in the grix.properties file. This should
 				// not happen anymore.
-				myLogger
-						.error("No REQUEST_SERIAL property in the grix.properties file. Please contact markus@vpac.org for debugging purposes.");
+				myLogger.error("No REQUEST_SERIAL property in the grix.properties file. Please contact markus@vpac.org for debugging purposes.");
 				// cert = ManageCertificate.retrieveDefaultCertificate();
 				// if (cert == null)
 				// return REQUESTED;

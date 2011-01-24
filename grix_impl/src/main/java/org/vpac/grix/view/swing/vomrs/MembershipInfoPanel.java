@@ -46,8 +46,9 @@ import org.vpac.voms.control.VomsesStatusListener;
 public class MembershipInfoPanel extends JPanel implements VomsesStatusListener {
 
 	private static final long serialVersionUID = 1L;
-	
-	static final Logger myLogger = Logger.getLogger(MembershipInfoPanel.class.getName());
+
+	static final Logger myLogger = Logger.getLogger(MembershipInfoPanel.class
+			.getName());
 
 	private String[] info = null;
 
@@ -89,7 +90,7 @@ public class MembershipInfoPanel extends JPanel implements VomsesStatusListener 
 		fillInformation();
 		LocalVomses.addStatusListener(this);
 	}
-	
+
 	public MembershipInfoPanel(Voms voms, Color lighterColor) {
 		super();
 		this.voms = voms;
@@ -182,9 +183,15 @@ public class MembershipInfoPanel extends JPanel implements VomsesStatusListener 
 		expiresLabelConstraints.anchor = GridBagConstraints.EAST;
 		expiresLabelConstraints.insets = new Insets(0, 20, 15, 0);
 		expiresLabelConstraints.gridy = 1;
-		this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0), "Information about your group membership", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 14), new Color(51, 51, 51)));
+		this.setBorder(BorderFactory.createTitledBorder(
+				BorderFactory.createEmptyBorder(15, 0, 0, 0),
+				"Information about your group membership",
+				TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION,
+				new Font("Dialog", Font.BOLD, 14), new Color(51, 51, 51)));
 		this.setSize(new Dimension(610, 346));
-		if ( lighterColor != null )	this.setBackground(lighterColor);
+		if (lighterColor != null)
+			this.setBackground(lighterColor);
 		this.add(expiresLabel, expiresLabelConstraints);
 		this.add(getExpiresTextfield(), expiresTextFieldConstraints);
 		this.add(rolesLabel, rolesLabelConstraints);
@@ -203,7 +210,7 @@ public class MembershipInfoPanel extends JPanel implements VomsesStatusListener 
 			infoQuery.submit();
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
-			//e1.printStackTrace();
+			// e1.printStackTrace();
 			myLogger.error(e1);
 		}
 		info = (String[]) infoQuery.getResult();
@@ -264,25 +271,26 @@ public class MembershipInfoPanel extends JPanel implements VomsesStatusListener 
 		StringBuffer groups = new StringBuffer();
 
 		groups.append("<html><body>");
-		groups
-				.append("<table style=\"text-align: left; width: 100%;\" border=\"0\" cellpadding=\"2\" cellspacing=\"2\"><tbody>");
+		groups.append("<table style=\"text-align: left; width: 100%;\" border=\"0\" cellpadding=\"2\" cellspacing=\"2\"><tbody>");
 		boolean switch_color = true;
 		for (String group : VomrsClient.parseGroups(info[14])) {
-			if (group.indexOf("Role=Member") != -1 && group.indexOf("Denied") == -1 ) {
+			if (group.indexOf("Role=Member") != -1
+					&& group.indexOf("Denied") == -1) {
 				groups.append("<tr");
 				if (switch_color) {
 					switch_color = false;
-					groups
-							.append(" style=\"background-color: rgb("+lighterColor.getRed()+", "+
-									lighterColor.getGreen()+", "+lighterColor.getBlue()+");\"");
+					groups.append(" style=\"background-color: rgb("
+							+ lighterColor.getRed() + ", "
+							+ lighterColor.getGreen() + ", "
+							+ lighterColor.getBlue() + ");\"");
 				} else {
 					switch_color = true;
 				}
 				groups.append("><td style=\"font-weight: bold;\">"
 						+ group.substring(0, group.indexOf("/Role="))
 						+ "</td><td><font size=\"-1\">"
-						+ group.substring(group.indexOf("STATUS"), group
-								.indexOf("REASON")) + "</font></td></tr>");
+						+ group.substring(group.indexOf("STATUS"),
+								group.indexOf("REASON")) + "</font></td></tr>");
 			}
 		}
 		groups.append("</tbody></table><br></body></html>");
@@ -319,7 +327,8 @@ public class MembershipInfoPanel extends JPanel implements VomsesStatusListener 
 								info_formatted.append(part + "<br>");
 							}
 							SimpleMessageDialog dialog = new SimpleMessageDialog(
-									null, info_formatted.toString(), Color.white);
+									null, info_formatted.toString(),
+									Color.white);
 							dialog.setVisible(true);
 						}
 					});
@@ -374,24 +383,24 @@ public class MembershipInfoPanel extends JPanel implements VomsesStatusListener 
 	}
 
 	public void vomsStatusChanged(VomsStatusEvent event) {
-		if ( ((Voms)event.getSource()).equals(voms) && event.getAction() != VomsStatusEvent.REMOVED_VOMS ){
+		if (((Voms) event.getSource()).equals(voms)
+				&& event.getAction() != VomsStatusEvent.REMOVED_VOMS) {
 			if (voms.getStatus() != Voms.NO_CONNECTION_TO_VOMRS
 					&& voms.getStatus() != Voms.NO_MEMBER) {
-				info = (String[]) voms.getInfoQuery()
-						.getResult();
+				info = (String[]) voms.getInfoQuery().getResult();
 				fillInformation();
-				//MembershipInfoPanel.this.setVisible(true);
+				// MembershipInfoPanel.this.setVisible(true);
 			} else {
-				//MembershipInfoPanel.this.setVisible(false);
+				// MembershipInfoPanel.this.setVisible(false);
 			}
 
 		}
 	}
 
 	/**
-	 * This method initializes jButton	
-	 * 	
-	 * @return javax.swing.JButton	
+	 * This method initializes jButton
+	 * 
+	 * @return javax.swing.JButton
 	 */
 	private JButton getJButton() {
 		if (jButton == null) {
@@ -400,8 +409,8 @@ public class MembershipInfoPanel extends JPanel implements VomsesStatusListener 
 			jButton.setToolTipText("Display some information about VO and VO membership.");
 			jButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					SimpleInfoDialog dialog = new SimpleInfoDialog(
-							null, "vo_info", Color.white);
+					SimpleInfoDialog dialog = new SimpleInfoDialog(null,
+							"vo_info", Color.white);
 					dialog.setVisible(true);
 				}
 			});

@@ -23,38 +23,40 @@ import org.vpac.voms.model.proxy.VomsProxy;
 
 /**
  * Helper methods
+ * 
  * @author Markus Binsteiner
- *
+ * 
  */
 public class Voms_Utils {
-	
-	static final Logger myLogger = Logger.getLogger(Voms_Utils.class
-			.getName());
-	
-	public static String getDefaultFQAN(ArrayList<String> fqans){
-		
-		for ( String fqan : fqans ){
-			if ( fqan.indexOf("Role=NULL") == -1 )
+
+	static final Logger myLogger = Logger.getLogger(Voms_Utils.class.getName());
+
+	public static String getDefaultFQAN(ArrayList<String> fqans) {
+
+		for (String fqan : fqans) {
+			if (fqan.indexOf("Role=NULL") == -1)
 				return fqan;
 		}
-		
+
 		return null;
 	}
-	
-	public static String getRole(String fqan){
-		int start = fqan.indexOf("Role=")+5;
+
+	public static String getRole(String fqan) {
+		int start = fqan.indexOf("Role=") + 5;
 		int end = fqan.indexOf("/Capability=");
-		return fqan.substring(start,end);
+		return fqan.substring(start, end);
 	}
-	
-	public static String getGroup(String fqan){
+
+	public static String getGroup(String fqan) {
 		int end = fqan.indexOf("/Role=");
 		return fqan.substring(0, end);
 	}
 
 	/**
 	 * Extracts the FQANs from an AttributeCertificate
-	 * @param ac the AttributeCertificate
+	 * 
+	 * @param ac
+	 *            the AttributeCertificate
 	 * @return all FQANs in this AttributeCertificate
 	 */
 	public static ArrayList<String> getFQANs(AttributeCertificate ac) {
@@ -88,8 +90,8 @@ public class Voms_Utils {
 				// this tagged object has TagNumber value of 6 (?)
 				ASN1OctetString originOctetString = (ASN1OctetString) taggedObject2
 						.getObject();
-				String origin = (new DERGeneralString(originOctetString
-						.getOctets())).getString();
+				String origin = (new DERGeneralString(
+						originOctetString.getOctets())).getString();
 
 				ASN1Sequence fqanSequence = (ASN1Sequence) sequence2
 						.getObjectAt(1);
@@ -98,20 +100,21 @@ public class Voms_Utils {
 				for (int fqan = 0; fqan < fqanSequence.size(); fqan++) {
 					ASN1OctetString fqanOctetString = (ASN1OctetString) fqanSequence
 							.getObjectAt(fqan);
-					String FQAN_Value = (new DERGeneralString(fqanOctetString
-							.getOctets())).getString();
+					String FQAN_Value = (new DERGeneralString(
+							fqanOctetString.getOctets())).getString();
 					theseFQANs.add(FQAN_Value);
 				}
 
 			}
 
 		} catch (Exception e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
 			myLogger.error(e);
 		}
-		
-		for ( String fqan : theseFQANs ){
-			myLogger.debug("FQAN: "+fqan);;
+
+		for (String fqan : theseFQANs) {
+			myLogger.debug("FQAN: " + fqan);
+			;
 		}
 
 		return theseFQANs;

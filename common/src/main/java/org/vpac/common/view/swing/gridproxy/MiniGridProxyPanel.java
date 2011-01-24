@@ -53,15 +53,15 @@ import java.awt.Font;
  * This one is the same as the GridProxyPanel, just smaller.
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
 public class MiniGridProxyPanel extends JPanel implements GridProxyListener {
 
 	private static ResourceBundle messages = ResourceBundle.getBundle(
-			"GridProxyPanelMessageBundle", java.util.Locale.getDefault());  //  @jve:decl-index=0:
+			"GridProxyPanelMessageBundle", java.util.Locale.getDefault()); // @jve:decl-index=0:
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final long expiredProxyWarning = 1800;
 
 	private JTextField timeLeftTextField = null;
@@ -74,24 +74,24 @@ public class MiniGridProxyPanel extends JPanel implements GridProxyListener {
 
 	private ImageIcon currentIcon = null;
 
-	private ImageIcon redLight = null;  //  @jve:decl-index=0:
+	private ImageIcon redLight = null; // @jve:decl-index=0:
 
 	private ImageIcon yellowLight = null;
 
-	private ImageIcon greenLight = null;  //  @jve:decl-index=0:
+	private ImageIcon greenLight = null; // @jve:decl-index=0:
 
 	private ImageIcon greyLight = null;
 
 	private Timer blinkTimer = null;
 
-	private Action blinkingAction = null;  //  @jve:decl-index=0:
+	private Action blinkingAction = null; // @jve:decl-index=0:
 
-	private Action updatePanelAction = null;  //  @jve:decl-index=0:
+	private Action updatePanelAction = null; // @jve:decl-index=0:
 
 	private JLabel passphraseLabel = null;
 
 	private JLabel imageLabel = null;
-	
+
 	private boolean warning = false;
 
 	/**
@@ -113,7 +113,8 @@ public class MiniGridProxyPanel extends JPanel implements GridProxyListener {
 				"/org/vpac/common/view/swing/gridproxy/yellowLight_small.png"));
 		greenLight = new ImageIcon(getClass().getResource(
 				"/org/vpac/common/view/swing/gridproxy/greenLight_small.png"));
-		greyLight = new ImageIcon(getClass().getResource("/org/vpac/common/view/swing/gridproxy/greyLight_small.png"));
+		greyLight = new ImageIcon(getClass().getResource(
+				"/org/vpac/common/view/swing/gridproxy/greyLight_small.png"));
 
 		currentIcon = redLight;
 
@@ -123,11 +124,14 @@ public class MiniGridProxyPanel extends JPanel implements GridProxyListener {
 
 			public void actionPerformed(ActionEvent e) {
 				getTimeLeftTextField().setText(
-						LocalProxy.getDefaultProxy().getFormatedTimeWithoutSeconds());
-				if ( !warning && LocalProxy.getDefaultProxy().getTimeLeft() < expiredProxyWarning ){
+						LocalProxy.getDefaultProxy()
+								.getFormatedTimeWithoutSeconds());
+				if (!warning
+						&& LocalProxy.getDefaultProxy().getTimeLeft() < expiredProxyWarning) {
 					setCurrentIcon(yellowLight);
 					blinkTimer.start();
-					MiniGridProxyPanel.this.setToolTipText(getMessages().getString("status.proxyAboutToExpire"));
+					MiniGridProxyPanel.this.setToolTipText(getMessages()
+							.getString("status.proxyAboutToExpire"));
 					warning = true;
 				}
 			}
@@ -174,7 +178,7 @@ public class MiniGridProxyPanel extends JPanel implements GridProxyListener {
 		imageLabelconstraints.gridwidth = 1;
 		imageLabelconstraints.gridy = 0;
 		imageLabel = new JLabel();
-		//imageLabel.setText("tt");
+		// imageLabel.setText("tt");
 		GridBagConstraints passphraseLabelConstraints = new GridBagConstraints();
 		passphraseLabelConstraints.gridx = 2;
 		passphraseLabelConstraints.insets = new Insets(0, 10, 0, 10);
@@ -216,7 +220,10 @@ public class MiniGridProxyPanel extends JPanel implements GridProxyListener {
 		this.setLayout(new GridBagLayout());
 		this.setPreferredSize(new Dimension(412, 294));
 		this.setBackground(new Color(245, 245, 245));
-		this.setBorder(BorderFactory.createTitledBorder(null, "Local proxy", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
+		this.setBorder(BorderFactory.createTitledBorder(null, "Local proxy",
+				TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION,
+				new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
 		this.setName("panel");
 		this.add(getTimeLeftTextField(), timeLeftTextFieldConstraints);
 		this.add(getPassphraseField(), passphraseFieldConstraints);
@@ -226,17 +233,20 @@ public class MiniGridProxyPanel extends JPanel implements GridProxyListener {
 	}
 
 	public void gridProxyStatusChanged(GridProxyEvent e) {
-		
+
 		warning = false;
 
 		if (GridProxy.INITIALIZED == e.getStatus()) {
 			getTimeLeftTextField().setText(
-					LocalProxy.getDefaultProxy().getFormatedTimeWithoutSeconds());
-			getTimeLeftTextField().setToolTipText(messages.getString("tooltip.timeleft"));
-			getToggleButton().setToolTipText(messages.getString("tooltip.button.destroy"));
+					LocalProxy.getDefaultProxy()
+							.getFormatedTimeWithoutSeconds());
+			getTimeLeftTextField().setToolTipText(
+					messages.getString("tooltip.timeleft"));
+			getToggleButton().setToolTipText(
+					messages.getString("tooltip.button.destroy"));
 			getToggleButton().setEnabled(true);
 			getToggleButton().setText("Destroy");
-			//getPassphraseField().setEnabled(false);
+			// getPassphraseField().setEnabled(false);
 			getPassphraseField().setEditable(false);
 			getPassphraseField().setText("");
 			setCurrentIcon(greenLight);
@@ -252,7 +262,9 @@ public class MiniGridProxyPanel extends JPanel implements GridProxyListener {
 		}
 
 		else if (GridProxy.MISSING_PREREQUISITES == e.getStatus()) {
-			getTimeLeftTextField().setToolTipText(messages.getString("tooltip.timeleft.missingPrerequisites"));
+			getTimeLeftTextField()
+					.setToolTipText(
+							messages.getString("tooltip.timeleft.missingPrerequisites"));
 			getToggleButton().setEnabled(false);
 			setCurrentIcon(greyLight);
 			updatePanel.stop();
@@ -260,16 +272,19 @@ public class MiniGridProxyPanel extends JPanel implements GridProxyListener {
 		}
 
 		else {
-			getTimeLeftTextField().setText(getMessages().getString("noProxyShort"));
-			getTimeLeftTextField().setToolTipText(messages.getString("tooltip.timeleft"));
-			getToggleButton().setToolTipText(messages.getString("tooltip.button.init"));
+			getTimeLeftTextField().setText(
+					getMessages().getString("noProxyShort"));
+			getTimeLeftTextField().setToolTipText(
+					messages.getString("tooltip.timeleft"));
+			getToggleButton().setToolTipText(
+					messages.getString("tooltip.button.init"));
 			getToggleButton().setEnabled(true);
 			getToggleButton().setText("Init");
-			//getPassphraseField().setEnabled(true);
+			// getPassphraseField().setEnabled(true);
 			getPassphraseField().setEditable(true);
 			setCurrentIcon(redLight);
 			updatePanel.stop();
-			
+
 			blinkTimer.stop();
 		}
 
@@ -304,100 +319,102 @@ public class MiniGridProxyPanel extends JPanel implements GridProxyListener {
 	private JButton getToggleButton() {
 		if (toggleButton == null) {
 			toggleButton = new JButton();
-			toggleButton.setMinimumSize(new Dimension(110,25));
-			//toggleButton.setText("OK");
-			//toggleButton.setIcon(new ImageIcon(getClass().getResource("/org/vpac/common/view/swing/gridproxy/greyLight_small.png")));
+			toggleButton.setMinimumSize(new Dimension(110, 25));
+			// toggleButton.setText("OK");
+			// toggleButton.setIcon(new
+			// ImageIcon(getClass().getResource("/org/vpac/common/view/swing/gridproxy/greyLight_small.png")));
 			toggleButton.setBackground(new Color(245, 245, 245));
 			toggleButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 
-					
 					new Thread() {
 
 						public void run() {
 
-							Cursor hourglassCursor = new Cursor(Cursor.WAIT_CURSOR);
+							Cursor hourglassCursor = new Cursor(
+									Cursor.WAIT_CURSOR);
 							setCursor(hourglassCursor);
 
-					if (LocalProxy.getStatus() != GridProxy.INITIALIZED) {
-						try {
-							LocalProxy.destroy();
-							LocalProxy.createPlainGlobusProxy(
-									getPassphraseField().getPassword(), 43200000);
-						} catch (MissingPrerequisitesException e1) {
-							JOptionPane
-									.showMessageDialog(
-											getParent(),
-											"<html><body><p>"
-													+ getMessages()
-															.getString(
-																	"error.init.missingPrerequisites")
-													+ "</p><p>"
-													+ e1.getMessage()
-													+ "</p></body></html>",
-											getMessages().getString(
-													"error.init.title"),
-											JOptionPane.ERROR_MESSAGE);
-						} catch (IOException e1) {
-							JOptionPane
-									.showMessageDialog(
-											getParent(),
-											"<html><body><p>"
-													+ getMessages()
-															.getString(
-																	"error.init.ioexception")
-													+ "</p><p>"
-													+ e1.getMessage()
-													+ "</p></body></html>",
-											getMessages().getString(
-													"error.init.title"),
-											JOptionPane.ERROR_MESSAGE);
-						} catch (GeneralSecurityException e1) {
-							JOptionPane
-									.showMessageDialog(
-											getParent(),
-											"<html><body><p>"
-													+ getMessages()
-															.getString(
-																	"error.init.generalSecurityException")
-													+ "</p><p>"
-													+ e1.getMessage()
-													+ "</p></body></html>",
-											getMessages().getString(
-													"error.init.title"),
-											JOptionPane.ERROR_MESSAGE);
-						} catch (Exception e2) {
-							JOptionPane
-							.showMessageDialog(
-									getParent(),
-									"<html><body><p>"
-											+ getMessages()
-													.getString(
-															"error.init.exception")
-											+ "</p><p>"
-											+ e2.getMessage()
-											+ "</p></body></html>",
-									getMessages().getString(
-											"error.init.title"),
-									JOptionPane.ERROR_MESSAGE);
-						} finally {
-							getPassphraseField().setText("");
-						}
-					} else {
-						LocalProxy.destroy();
-					}
-							Cursor normalCursor = new Cursor(Cursor.DEFAULT_CURSOR);
+							if (LocalProxy.getStatus() != GridProxy.INITIALIZED) {
+								try {
+									LocalProxy.destroy();
+									LocalProxy.createPlainGlobusProxy(
+											getPassphraseField().getPassword(),
+											43200000);
+								} catch (MissingPrerequisitesException e1) {
+									JOptionPane
+											.showMessageDialog(
+													getParent(),
+													"<html><body><p>"
+															+ getMessages()
+																	.getString(
+																			"error.init.missingPrerequisites")
+															+ "</p><p>"
+															+ e1.getMessage()
+															+ "</p></body></html>",
+													getMessages().getString(
+															"error.init.title"),
+													JOptionPane.ERROR_MESSAGE);
+								} catch (IOException e1) {
+									JOptionPane
+											.showMessageDialog(
+													getParent(),
+													"<html><body><p>"
+															+ getMessages()
+																	.getString(
+																			"error.init.ioexception")
+															+ "</p><p>"
+															+ e1.getMessage()
+															+ "</p></body></html>",
+													getMessages().getString(
+															"error.init.title"),
+													JOptionPane.ERROR_MESSAGE);
+								} catch (GeneralSecurityException e1) {
+									JOptionPane
+											.showMessageDialog(
+													getParent(),
+													"<html><body><p>"
+															+ getMessages()
+																	.getString(
+																			"error.init.generalSecurityException")
+															+ "</p><p>"
+															+ e1.getMessage()
+															+ "</p></body></html>",
+													getMessages().getString(
+															"error.init.title"),
+													JOptionPane.ERROR_MESSAGE);
+								} catch (Exception e2) {
+									JOptionPane
+											.showMessageDialog(
+													getParent(),
+													"<html><body><p>"
+															+ getMessages()
+																	.getString(
+																			"error.init.exception")
+															+ "</p><p>"
+															+ e2.getMessage()
+															+ "</p></body></html>",
+													getMessages().getString(
+															"error.init.title"),
+													JOptionPane.ERROR_MESSAGE);
+								} finally {
+									getPassphraseField().setText("");
+								}
+							} else {
+								LocalProxy.destroy();
+							}
+							Cursor normalCursor = new Cursor(
+									Cursor.DEFAULT_CURSOR);
 							setCursor(normalCursor);
 
 						}
-					}.start();				
-					
+					}.start();
 
 				}
 			});
 		}
 		return toggleButton;
-	}		
+	}
 
 	/**
 	 * This method initializes passphraseField
@@ -407,7 +424,8 @@ public class MiniGridProxyPanel extends JPanel implements GridProxyListener {
 	private JPasswordField getPassphraseField() {
 		if (passphraseField == null) {
 			passphraseField = new JPasswordField();
-			passphraseField.setToolTipText(messages.getString("tooltip.passphrase"));
+			passphraseField.setToolTipText(messages
+					.getString("tooltip.passphrase"));
 		}
 		return passphraseField;
 	}
@@ -416,6 +434,4 @@ public class MiniGridProxyPanel extends JPanel implements GridProxyListener {
 		return messages;
 	}
 
-
-
-}  //  @jve:decl-index=0:visual-constraint="10,10" 
+} // @jve:decl-index=0:visual-constraint="10,10"

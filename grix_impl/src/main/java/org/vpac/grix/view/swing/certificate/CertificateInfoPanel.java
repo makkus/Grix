@@ -74,7 +74,7 @@ public class CertificateInfoPanel extends JPanel {
 
 	private JTextField dnTextField = null;
 
-	private JPopupMenu jPopupMenu = null;  //  @jve:decl-index=0:visual-constraint="263,437"
+	private JPopupMenu jPopupMenu = null; // @jve:decl-index=0:visual-constraint="263,437"
 
 	private JMenuItem jMenuItem = null;
 
@@ -96,19 +96,20 @@ public class CertificateInfoPanel extends JPanel {
 			this.getNameTextField().setText(cert.getCn());
 			this.getEmailTextField().setText(cert.getEmail());
 			this.getExpiresTextField().setText(cert.getEnddate());
-			//this.getIssuerTextField().setText(cert.getIssuer());
+			// this.getIssuerTextField().setText(cert.getIssuer());
 			this.getDnTextField().setText(cert.getDn());
 			this.revalidate();
 		}
 	}
-	
+
 	public void refresh() {
 		try {
-			cert = new Certificate(GlobusLocations.defaultLocations().getUserCert());
+			cert = new Certificate(GlobusLocations.defaultLocations()
+					.getUserCert());
 		} catch (IOException e) {
-			//TODO ignore for now
+			// TODO ignore for now
 		} catch (GeneralSecurityException e) {
-			//TODO ignore for now
+			// TODO ignore for now
 		}
 		fillInformation();
 	}
@@ -215,7 +216,12 @@ public class CertificateInfoPanel extends JPanel {
 		this.setSize(424, 410);
 		this.setLayout(new GridBagLayout());
 		this.setBackground(new Color(245, 245, 245));
-		this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0), "Information in your current certificate", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 14), new Color(51, 51, 51)));
+		this.setBorder(BorderFactory.createTitledBorder(
+				BorderFactory.createEmptyBorder(15, 0, 0, 0),
+				"Information in your current certificate",
+				TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION,
+				new Font("Dialog", Font.BOLD, 14), new Color(51, 51, 51)));
 		this.setPreferredSize(new Dimension(424, 410));
 		this.add(jLabel1, gridBagConstraints1);
 		this.add(jLabel2, gridBagConstraints2);
@@ -334,17 +340,21 @@ public class CertificateInfoPanel extends JPanel {
 			dnTextField.setHorizontalAlignment(JTextField.CENTER);
 			dnTextField.addMouseListener(new java.awt.event.MouseListener() {
 				public void mouseClicked(java.awt.event.MouseEvent e) {
-					if ( SwingUtilities.isRightMouseButton(e) ){
-			            getJPopupMenu().show(e.getComponent(),
-			                       e.getX(), e.getY());
+					if (SwingUtilities.isRightMouseButton(e)) {
+						getJPopupMenu().show(e.getComponent(), e.getX(),
+								e.getY());
 					}
 				}
+
 				public void mousePressed(java.awt.event.MouseEvent e) {
 				}
+
 				public void mouseReleased(java.awt.event.MouseEvent e) {
 				}
+
 				public void mouseEntered(java.awt.event.MouseEvent e) {
 				}
+
 				public void mouseExited(java.awt.event.MouseEvent e) {
 				}
 			});
@@ -355,9 +365,9 @@ public class CertificateInfoPanel extends JPanel {
 	}
 
 	/**
-	 * This method initializes jPopupMenu	
-	 * 	
-	 * @return javax.swing.JPopupMenu	
+	 * This method initializes jPopupMenu
+	 * 
+	 * @return javax.swing.JPopupMenu
 	 */
 	private JPopupMenu getJPopupMenu() {
 		if (jPopupMenu == null) {
@@ -368,9 +378,9 @@ public class CertificateInfoPanel extends JPanel {
 	}
 
 	/**
-	 * This method initializes jMenuItem	
-	 * 	
-	 * @return javax.swing.JMenuItem	
+	 * This method initializes jMenuItem
+	 * 
+	 * @return javax.swing.JMenuItem
 	 */
 	private JMenuItem getJMenuItem() {
 		if (jMenuItem == null) {

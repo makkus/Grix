@@ -61,11 +61,11 @@ import org.vpac.qc.view.swing.OneQueryPanelParent;
 import org.vpac.vomrs.model.VomrsClient;
 
 /**
- * This is a demonstration of what qc is capable of. Also it can be used to control VOMRS
- * via a Swing-GUI by using VOMRS's web service interface.
+ * This is a demonstration of what qc is capable of. Also it can be used to
+ * control VOMRS via a Swing-GUI by using VOMRS's web service interface.
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
 public class QueryTester2 implements OneQueryPanelParent {
 
@@ -124,12 +124,9 @@ public class QueryTester2 implements OneQueryPanelParent {
 			this.client = new VomrsClient(url, doc);
 		} catch (ClientNotInitializedException e) {
 			JOptionPane
-					.showMessageDialog(
-							this.getJFrame(),
-							"<html><body><p>"
-									+ "Could not initialize VomrsClient: "
-									+ "</p><p>" + e.getMessage()
-									+ "</p></body></html>",
+					.showMessageDialog(this.getJFrame(), "<html><body><p>"
+							+ "Could not initialize VomrsClient: " + "</p><p>"
+							+ e.getMessage() + "</p></body></html>",
 							"Error initializing VomrsClient",
 							JOptionPane.ERROR_MESSAGE);
 			myLogger.debug(e.getStackTrace());
@@ -146,10 +143,12 @@ public class QueryTester2 implements OneQueryPanelParent {
 					"Error parsing xml config file", JOptionPane.ERROR_MESSAGE);
 			myLogger.debug(e.getStackTrace());
 		} catch (ArgumentsException e) {
-			JOptionPane.showMessageDialog(this.getJFrame(), "<html><body><p>"
-					+ "Could not parse init Query: " + "</p><p>"
-					+ e.getMessage() + "</p></body></html>",
-					"Error init Query", JOptionPane.ERROR_MESSAGE);
+			JOptionPane
+					.showMessageDialog(this.getJFrame(),
+							"<html><body><p>" + "Could not parse init Query: "
+									+ "</p><p>" + e.getMessage()
+									+ "</p></body></html>", "Error init Query",
+							JOptionPane.ERROR_MESSAGE);
 			myLogger.debug(e.getStackTrace());
 		}
 	}
@@ -453,24 +452,23 @@ public class QueryTester2 implements OneQueryPanelParent {
 							try {
 								currentQuery.init();
 							} catch (JDOMException e1) {
-								JOptionPane
-										.showMessageDialog(
-												QueryTester2.this.getJFrame(),
-												"<html><body><p>"
-														+ "Could not parse xml config file for VomrsClient: "
-														+ "</p><p>"
-														+ e1.getMessage()
-														+ "</p></body></html>",
-												"Error parsing xml config file",
-												JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(
+										QueryTester2.this.getJFrame(),
+										"<html><body><p>"
+												+ "Could not parse xml config file for VomrsClient: "
+												+ "</p><p>" + e1.getMessage()
+												+ "</p></body></html>",
+										"Error parsing xml config file",
+										JOptionPane.ERROR_MESSAGE);
 								myLogger.debug(e1.getStackTrace());
 								currentQuery = null;
 							} catch (ArgumentsException e1) {
-								JOptionPane.showMessageDialog(QueryTester2.this
-										.getJFrame(), "<html><body><p>"
-										+ "Error with argument: " + "</p><p>"
-										+ e1.getMessage()
-										+ "</p></body></html>",
+								JOptionPane.showMessageDialog(
+										QueryTester2.this.getJFrame(),
+										"<html><body><p>"
+												+ "Error with argument: "
+												+ "</p><p>" + e1.getMessage()
+												+ "</p></body></html>",
 										"Argument error",
 										JOptionPane.ERROR_MESSAGE);
 								myLogger.debug(e1.getStackTrace());
@@ -531,36 +529,39 @@ public class QueryTester2 implements OneQueryPanelParent {
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				
+
 				try {
-					LocalProxy.setDefaultProxy(new GlobusProxy(new File("/tmp/x509up_u1000")));
+					LocalProxy.setDefaultProxy(new GlobusProxy(new File(
+							"/tmp/x509up_u1000")));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
+
 				SAXBuilder builder = new SAXBuilder();
-				
+
 				Document doc = null;
-		
+
 				try {
-					doc = builder.build(new File("/home/markus/workspace/qc//src/main/java/org/vpac/qc/model/clients/queries.xml"));
+					doc = builder
+							.build(new File(
+									"/home/markus/workspace/qc//src/main/java/org/vpac/qc/model/clients/queries.xml"));
 				} catch (JDOMException e) {
 					// TODO Auto-generated catch block
-					//e.printStackTrace();
+					// e.printStackTrace();
 					myLogger.error(e);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					//e.printStackTrace();
+					// e.printStackTrace();
 					myLogger.error(e);
 				}
-				
+
 				QueryTester2 application = new QueryTester2(
 						"https://vomrsdev.vpac.org:8443/vo/Chris/services/VOMRS?wsdl",
 						doc);
-//				QueryTester2 application = new QueryTester2(
-//				"https://vomrs.apac.edu.au:8443/vo/NGAdmin/services/VOMRS?wsdl",
-//				new File("/home/markus/workspace/qc/queries_test.xml"));				
+				// QueryTester2 application = new QueryTester2(
+				// "https://vomrs.apac.edu.au:8443/vo/NGAdmin/services/VOMRS?wsdl",
+				// new File("/home/markus/workspace/qc/queries_test.xml"));
 				application.getJFrame().setVisible(true);
 			}
 		});
@@ -591,9 +592,8 @@ public class QueryTester2 implements OneQueryPanelParent {
 				display_result.append(part.toString() + "<br>");
 				myLogger.debug(part.toString());
 			}
-			mp
-					.setDocument("<p>This is the answer the VOMRS server returned:</p><p>"
-							+ display_result.toString() + "</p>");
+			mp.setDocument("<p>This is the answer the VOMRS server returned:</p><p>"
+					+ display_result.toString() + "</p>");
 		}
 		JOptionPane.showMessageDialog(this.getJFrame(), mp,
 				"Query successfull", JOptionPane.PLAIN_MESSAGE);

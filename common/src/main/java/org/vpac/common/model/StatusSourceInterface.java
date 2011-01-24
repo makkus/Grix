@@ -19,16 +19,18 @@
 package org.vpac.common.model;
 
 /**
- * Used if a class already inherits from another class and can't inherit
- * from StatusSource.
+ * Used if a class already inherits from another class and can't inherit from
+ * StatusSource.
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
 public interface StatusSourceInterface {
-	
+
 	public void fireStatusChanged(int status, String[] message);
+
 	public void addStatusListener(StatusListener l);
+
 	public void removeStatusListener(StatusListener l);
 
 }

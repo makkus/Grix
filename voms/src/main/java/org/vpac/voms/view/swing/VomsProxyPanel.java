@@ -45,9 +45,9 @@ import org.vpac.common.model.gridproxy.LocalProxy;
 import org.vpac.voms.model.proxy.NoVomsProxyException;
 import org.vpac.voms.model.proxy.VomsProxy;
 
-public class VomsProxyPanel implements StatusSourceInterface{ 
+public class VomsProxyPanel implements StatusSourceInterface {
 
-	private JFrame jFrame = null;  //  @jve:decl-index=0:visual-constraint="10,10"
+	private JFrame jFrame = null; // @jve:decl-index=0:visual-constraint="10,10"
 
 	private JPanel jContentPane = null;
 
@@ -57,7 +57,7 @@ public class VomsProxyPanel implements StatusSourceInterface{
 
 	private JMenuItem aboutMenuItem = null;
 
-	private JDialog aboutDialog = null;  //  @jve:decl-index=0:visual-constraint="496,100"
+	private JDialog aboutDialog = null; // @jve:decl-index=0:visual-constraint="496,100"
 
 	private JPanel aboutContentPane = null;
 
@@ -66,10 +66,9 @@ public class VomsProxyPanel implements StatusSourceInterface{
 	private VomsProxyInitPanel proxyInitPanel = null;
 
 	private VomsProxyInfoPanel proxyInfoPanel = null;
-	
+
 	private VomsProxy vomsProxy = null;
 
-	
 	/**
 	 * This method initializes jFrame
 	 * 
@@ -91,7 +90,7 @@ public class VomsProxyPanel implements StatusSourceInterface{
 	 * This method initializes jContentPane
 	 * 
 	 * @return javax.swing.JPanel
-	 * @throws NoVomsProxyException 
+	 * @throws NoVomsProxyException
 	 */
 	private JPanel getJContentPane() {
 		if (jContentPane == null) {
@@ -105,31 +104,34 @@ public class VomsProxyPanel implements StatusSourceInterface{
 				vomsProxy = new VomsProxy(LocalProxy.getProxyFile());
 				fireStatusChanged(vomsProxy.getStatus(), vomsProxy.info());
 			} catch (NoVomsProxyException e) {
-				fireStatusChanged(GridProxy.NOT_INITIALIZED, new String[]{"There is no proxy file on this machine."});
+				fireStatusChanged(
+						GridProxy.NOT_INITIALIZED,
+						new String[] { "There is no proxy file on this machine." });
 			}
-			
+
 		}
 		return jContentPane;
 	}
 
 	/**
-	 * This method initializes jJMenuBar	
-	 * 	
-	 * @return javax.swing.JMenuBar	
+	 * This method initializes jJMenuBar
+	 * 
+	 * @return javax.swing.JMenuBar
 	 */
 	private JMenuBar getJJMenuBar() {
 		if (jJMenuBar == null) {
 			jJMenuBar = new JMenuBar();
-			jJMenuBar.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+			jJMenuBar
+					.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 			jJMenuBar.add(getHelpMenu());
 		}
 		return jJMenuBar;
 	}
 
 	/**
-	 * This method initializes jMenu	
-	 * 	
-	 * @return javax.swing.JMenu	
+	 * This method initializes jMenu
+	 * 
+	 * @return javax.swing.JMenu
 	 */
 	private JMenu getHelpMenu() {
 		if (helpMenu == null) {
@@ -141,9 +143,9 @@ public class VomsProxyPanel implements StatusSourceInterface{
 	}
 
 	/**
-	 * This method initializes jMenuItem	
-	 * 	
-	 * @return javax.swing.JMenuItem	
+	 * This method initializes jMenuItem
+	 * 
+	 * @return javax.swing.JMenuItem
 	 */
 	private JMenuItem getAboutMenuItem() {
 		if (aboutMenuItem == null) {
@@ -164,8 +166,8 @@ public class VomsProxyPanel implements StatusSourceInterface{
 	}
 
 	/**
-	 * This method initializes aboutDialog	
-	 * 	
+	 * This method initializes aboutDialog
+	 * 
 	 * @return javax.swing.JDialog
 	 */
 	private JDialog getAboutDialog() {
@@ -193,9 +195,9 @@ public class VomsProxyPanel implements StatusSourceInterface{
 	}
 
 	/**
-	 * This method initializes aboutVersionLabel	
-	 * 	
-	 * @return javax.swing.JLabel	
+	 * This method initializes aboutVersionLabel
+	 * 
+	 * @return javax.swing.JLabel
 	 */
 	private JLabel getAboutVersionLabel() {
 		if (aboutVersionLabel == null) {
@@ -207,9 +209,9 @@ public class VomsProxyPanel implements StatusSourceInterface{
 	}
 
 	/**
-	 * This method initializes proxyInitPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
+	 * This method initializes proxyInitPanel
+	 * 
+	 * @return javax.swing.JPanel
 	 */
 	private VomsProxyInitPanel getProxyInitPanel() {
 		if (proxyInitPanel == null) {
@@ -219,9 +221,9 @@ public class VomsProxyPanel implements StatusSourceInterface{
 	}
 
 	/**
-	 * This method initializes proxyInfoPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
+	 * This method initializes proxyInfoPanel
+	 * 
+	 * @return javax.swing.JPanel
 	 */
 	private VomsProxyInfoPanel getProxyInfoPanel() {
 		if (proxyInfoPanel == null) {
@@ -241,50 +243,49 @@ public class VomsProxyPanel implements StatusSourceInterface{
 			}
 		});
 	}
-	
+
 	// ----------------------------------------------------------------------
 	// from here on: cut&paste StatusSource
-	
+
 	protected Vector<StatusListener> listeners;
 	protected int status;
-	
-	public void fireStatusChanged(int status, String[] message){
-	    // if we have no listeners, do nothing...
-	    if (listeners != null && !listeners.isEmpty()) {
-	      // create the event object to send
-	      StatusEvent event = 
-	        new StatusEvent(this, status, message);
 
-	      // make a copy of the listener list in case
-	      //   anyone adds/removes listeners
-	      Vector targets;
-	      synchronized (this) {
-	        targets = (Vector) listeners.clone();
-	      }
+	public void fireStatusChanged(int status, String[] message) {
+		// if we have no listeners, do nothing...
+		if (listeners != null && !listeners.isEmpty()) {
+			// create the event object to send
+			StatusEvent event = new StatusEvent(this, status, message);
 
-	      // walk through the listener list and
-	      //   call the gridproxychanged method in each
-	      Enumeration e = targets.elements();
-	      while (e.hasMoreElements()) {
-	        StatusListener l = (StatusListener) e.nextElement();
-	        l.statusChanged(event);
-	      }
-	    }
+			// make a copy of the listener list in case
+			// anyone adds/removes listeners
+			Vector targets;
+			synchronized (this) {
+				targets = (Vector) listeners.clone();
+			}
+
+			// walk through the listener list and
+			// call the gridproxychanged method in each
+			Enumeration e = targets.elements();
+			while (e.hasMoreElements()) {
+				StatusListener l = (StatusListener) e.nextElement();
+				l.statusChanged(event);
+			}
+		}
 	}
-	
-	  /** Register a listener for GridProxyEvents */
-	  synchronized public void addStatusListener(StatusListener l) {
-	    if (listeners == null)
-	      listeners = new Vector();
-	    listeners.addElement(l);
-	  }  
 
-	  /** Remove a listener for GridProxyEvents */
-	  synchronized public void removeStatusListener(StatusListener l) {
-	    if (listeners == null){
-	      listeners = new Vector();
-	    }
-	    listeners.removeElement(l);
-	  }
+	/** Register a listener for GridProxyEvents */
+	synchronized public void addStatusListener(StatusListener l) {
+		if (listeners == null)
+			listeners = new Vector();
+		listeners.addElement(l);
+	}
+
+	/** Remove a listener for GridProxyEvents */
+	synchronized public void removeStatusListener(StatusListener l) {
+		if (listeners == null) {
+			listeners = new Vector();
+		}
+		listeners.removeElement(l);
+	}
 
 }

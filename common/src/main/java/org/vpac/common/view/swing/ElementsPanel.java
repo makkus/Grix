@@ -28,21 +28,22 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 /**
- * A ElementsPanel can hold several (similar) OneElementPanels and stacks them (from top to bottom).
- * Elements can be added or removed and the Element panel reacts accordingly.
+ * A ElementsPanel can hold several (similar) OneElementPanels and stacks them
+ * (from top to bottom). Elements can be added or removed and the Element panel
+ * reacts accordingly.
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
 public class ElementsPanel extends JScrollPane {
 
 	private static final long serialVersionUID = 1L;
-	
-	private JPanel contentPanel = null;	
-	private JPanel fillPanel = null;	
-	
+
+	private JPanel contentPanel = null;
+	private JPanel fillPanel = null;
+
 	private ArrayList<JPanel> panels = null;
-	
+
 	private static short id = 0;
 
 	/**
@@ -64,17 +65,18 @@ public class ElementsPanel extends JScrollPane {
 		this.setViewportView(getContentPanel());
 
 	}
-	
+
 	public void addOneElementPanel(OneElementPanel panel) {
 
 		contentPanel.remove(getFillPanel());
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		constraints.gridx = 0;
-		//TODO this is dodgy but otherwise I would take more effort I am willing to spend right now
+		// TODO this is dodgy but otherwise I would take more effort I am
+		// willing to spend right now
 		constraints.gridy = id++;
 		constraints.anchor = GridBagConstraints.NORTHEAST;
-		//constraints.insets = new Insets(10, 20, 10, 20);
+		// constraints.insets = new Insets(10, 20, 10, 20);
 		constraints.ipadx = 20;
 		constraints.ipady = 20;
 		constraints.weightx = 0.0;
@@ -88,8 +90,8 @@ public class ElementsPanel extends JScrollPane {
 		gridBagConstraints.weighty = 1.0;
 		gridBagConstraints.gridy = GridBagConstraints.RELATIVE;
 
-		contentPanel.add((JPanel)panel, constraints);
-		panels.add((JPanel)panel);
+		contentPanel.add((JPanel) panel, constraints);
+		panels.add((JPanel) panel);
 		contentPanel.add(getFillPanel(), gridBagConstraints);
 		repaint();
 		revalidate();
@@ -103,8 +105,8 @@ public class ElementsPanel extends JScrollPane {
 		panels.remove(panel);
 		repaint();
 		revalidate();
-	}	
-	
+	}
+
 	/**
 	 * This method initializes contentPanel
 	 * 
@@ -120,22 +122,22 @@ public class ElementsPanel extends JScrollPane {
 			gridBagConstraints.gridy = 0;
 			contentPanel = new JPanel();
 			contentPanel.setLayout(new GridBagLayout());
-			//contentPanel.setBackground(new Color(245, 245, 245));
+			// contentPanel.setBackground(new Color(245, 245, 245));
 			contentPanel.add(getFillPanel(), gridBagConstraints);
 		}
 		return contentPanel;
-	}	
-	
-	public void setBackground(Color color){
+	}
+
+	public void setBackground(Color color) {
 		getContentPanel().setBackground(color);
 		getFillPanel().setBackground(color);
 	}
-	
+
 	private JPanel getFillPanel() {
 
 		if (fillPanel == null) {
 			fillPanel = new JPanel();
-			//fillPanel.setBackground(new Color(245, 245, 245));
+			// fillPanel.setBackground(new Color(245, 245, 245));
 			fillPanel.setLayout(new GridBagLayout());
 		}
 		return fillPanel;
@@ -143,6 +145,6 @@ public class ElementsPanel extends JScrollPane {
 
 	protected ArrayList<JPanel> getPanels() {
 		return panels;
-	}	
+	}
 
-}  //  @jve:decl-index=0:visual-constraint="10,10"
+} // @jve:decl-index=0:visual-constraint="10,10"

@@ -55,11 +55,13 @@ public interface OneQueryPanelParent {
 	public UserInputQuery getQuery();
 
 	/**
-	 * Asks the user for confirmation whether he really wants to submit the {@link Query}.
+	 * Asks the user for confirmation whether he really wants to submit the
+	 * {@link Query}.
 	 * <p>
 	 * This one does not have to be implemented. A return true is enough.
 	 * 
-	 * @return whether the user confirms the query submission (true) or not (false).
+	 * @return whether the user confirms the query submission (true) or not
+	 *         (false).
 	 */
 	public boolean tellUser();
 

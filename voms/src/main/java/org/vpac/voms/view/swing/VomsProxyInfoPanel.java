@@ -60,9 +60,9 @@ public class VomsProxyInfoPanel extends JPanel implements StatusListener {
 	}
 
 	/**
-	 * This method initializes messagePanel	
-	 * 	
-	 * @return javax.swing.JEditorPane	
+	 * This method initializes messagePanel
+	 * 
+	 * @return javax.swing.JEditorPane
 	 */
 	private SimpleMessagePanel getMessagePanel() {
 		if (messagePanel == null) {
@@ -72,17 +72,18 @@ public class VomsProxyInfoPanel extends JPanel implements StatusListener {
 	}
 
 	public void statusChanged(StatusEvent event) {
-		
-		if ( GridProxy.INITIALIZED == event.getStatus() ){
-			
+
+		if (GridProxy.INITIALIZED == event.getStatus()) {
+
 			StringBuffer formattedMessage = new StringBuffer();
-			for ( String line : event.getMessage() ){
-				formattedMessage.append(line+"<br>");
+			for (String line : event.getMessage()) {
+				formattedMessage.append(line + "<br>");
 			}
-			
+
 			this.messagePanel.setDocument(formattedMessage.toString());
 		} else {
-			this.messagePanel.setDocument("No voms proxy on the local machine.");
+			this.messagePanel
+					.setDocument("No voms proxy on the local machine.");
 		}
 	}
 

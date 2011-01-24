@@ -19,13 +19,13 @@
 package org.vpac.qc.model.query;
 
 public class UserInputImpl extends UserInput {
-	
+
 	private Object[] results = null;
 
-	public UserInputImpl(Object[] values){
+	public UserInputImpl(Object[] values) {
 		this.results = values;
 	}
-	
+
 	@Override
 	protected Object[] getValues() {
 		return results;

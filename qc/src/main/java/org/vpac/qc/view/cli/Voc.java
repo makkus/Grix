@@ -28,28 +28,31 @@ import org.vpac.qc.model.query.UserInput;
 import org.vpac.qc.model.query.UserInputQuery;
 
 /**
- * This class is a very simple implementation of the {@link UserInput} abstract class. It asks the user on 
- * the commandline about {@link QueryArgument}s that are needed to submit a {@link UserInputQuery}.
+ * This class is a very simple implementation of the {@link UserInput} abstract
+ * class. It asks the user on the commandline about {@link QueryArgument}s that
+ * are needed to submit a {@link UserInputQuery}.
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
 public class Voc extends UserInput {
-	
-	protected void init(){
-		
+
+	protected void init() {
+
 	}
-	
+
 	public Object[] getValues() {
-		
-		for ( int i=0; i<arguments.size(); i++ ) {
-			
-			if ( arguments.get(i).getPreselection() == null ){
-				
+
+		for (int i = 0; i < arguments.size(); i++) {
+
+			if (arguments.get(i).getPreselection() == null) {
+
 				// userinput
-				
-				BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-				System.out.println("Please provide a value for "+arguments.get(i).getPrettyName()+":");
+
+				BufferedReader br = new BufferedReader(new InputStreamReader(
+						System.in));
+				System.out.println("Please provide a value for "
+						+ arguments.get(i).getPrettyName() + ":");
 				while (true) {
 					try {
 						String c = br.readLine();
@@ -59,77 +62,81 @@ public class Voc extends UserInput {
 						System.err
 								.println("Can't read your input. Please try again.");
 					}
-				}				
-			} else  {
-				
+				}
+			} else {
+
 				// preselection
-				
+
 				int choice = Integer.MIN_VALUE;
 				// TODO check for non-arrays
 				String[] menuItems = arguments.get(i).getPreselectionAsString();
 
 				choice = Menu.menu(menuItems);
-				
-				if ( choice == -1 ) return null;
+
+				if (choice == -1)
+					return null;
 
 				values[i] = arguments.get(i).getPreselection().get(choice);
-			} 
+			}
 		}
-				
-		
+
 		return values;
 	}
-	
 
-//	public Object[] getUserInput(QueryArgument[] arguments) {
-//		
-//		Object[] values = new Object[arguments.length];
-//		
-//		for ( int i=0; i<arguments.length; i++ ) {
-//			
-//			if ( ArgumentType.USERINPUT.equals(arguments[i].getType().getAttributeValue("name")) ){
-//				BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//				System.out.println("Please provide a value for "+arguments[i].getPrettyName()+":");
-//				while (true) {
-//					try {
-//						String c = br.readLine();
-//						values[i] = c;
-//						break;
-//					} catch (IOException e) {
-//						System.err
-//								.println("Can't read your input. Please try again.");
-//					}
-//				}				
-//			} else if ( ArgumentType.PRESELECTION.equals(arguments[i].getType().getAttributeValue("name")) ) {
-//				int choice = Integer.MIN_VALUE;
-//				// TODO check for non-arrays
-//				String[] menuItems = new String[((Object[])arguments[i].getValue()).length];
-//				for ( int j=0; j<menuItems.length; j++){
-//					menuItems[j] = ((Object[])arguments[i].getValue())[j].toString();
-//				}
-//
-//				choice = Menu.menu(menuItems);
-//				
-//				if ( choice == -1 ) return null;
-//
-//				values[i] = ((Object[])arguments[i].getValue())[choice];
-//			} else if ( ArgumentType.DEFAULT.equals(arguments[i].getType().getAttributeValue("name")) ){
-//				// just copy the default value
-//				try {
-//					values[i] = ((Object[])arguments[i].getValue());
-//				} catch (ClassCastException e) {
-//					values[i] = ((Object)arguments[i].getValue());
-//				}
-//			} else {
-//				// userinput
-//				values[i] = null;
-//			}
-//		}
-//		
-//		
-//		return values;
-//	}
+	// public Object[] getUserInput(QueryArgument[] arguments) {
+	//
+	// Object[] values = new Object[arguments.length];
+	//
+	// for ( int i=0; i<arguments.length; i++ ) {
+	//
+	// if (
+	// ArgumentType.USERINPUT.equals(arguments[i].getType().getAttributeValue("name"))
+	// ){
+	// BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	// System.out.println("Please provide a value for "+arguments[i].getPrettyName()+":");
+	// while (true) {
+	// try {
+	// String c = br.readLine();
+	// values[i] = c;
+	// break;
+	// } catch (IOException e) {
+	// System.err
+	// .println("Can't read your input. Please try again.");
+	// }
+	// }
+	// } else if (
+	// ArgumentType.PRESELECTION.equals(arguments[i].getType().getAttributeValue("name"))
+	// ) {
+	// int choice = Integer.MIN_VALUE;
+	// // TODO check for non-arrays
+	// String[] menuItems = new
+	// String[((Object[])arguments[i].getValue()).length];
+	// for ( int j=0; j<menuItems.length; j++){
+	// menuItems[j] = ((Object[])arguments[i].getValue())[j].toString();
+	// }
+	//
+	// choice = Menu.menu(menuItems);
+	//
+	// if ( choice == -1 ) return null;
+	//
+	// values[i] = ((Object[])arguments[i].getValue())[choice];
+	// } else if (
+	// ArgumentType.DEFAULT.equals(arguments[i].getType().getAttributeValue("name"))
+	// ){
+	// // just copy the default value
+	// try {
+	// values[i] = ((Object[])arguments[i].getValue());
+	// } catch (ClassCastException e) {
+	// values[i] = ((Object)arguments[i].getValue());
+	// }
+	// } else {
+	// // userinput
+	// values[i] = null;
+	// }
+	// }
+	//
+	//
+	// return values;
+	// }
 
-	
-	
 }

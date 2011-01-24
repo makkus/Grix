@@ -21,13 +21,13 @@ package org.vpac.voms.model.proxy;
 import java.util.EventObject;
 
 public class VomsProxyEvent extends EventObject {
-	
+
 	public static final String NEW_PROXY = "New proxy created.";
 	public static final String PROXY_DESTROYED = "Proxy destroyed.";
-	
+
 	private VomsProxy proxy = null;
 	private String action = null;
-	
+
 	public VomsProxyEvent(Object source, String action, VomsProxy proxy) {
 		super(source);
 		this.action = action;

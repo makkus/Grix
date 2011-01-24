@@ -19,7 +19,7 @@
 package org.vpac.grix.view.swing.certificate;
 
 public interface CertificateStatusListener {
-	
+
 	public void statusChanged(CertificateEvent event);
 
 }

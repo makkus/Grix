@@ -18,7 +18,6 @@
 
 package org.vpac.grix.model.certificate;
 
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -36,7 +35,6 @@ import java.util.List;
 import org.globus.gsi.CertUtil;
 import org.vpac.grix.control.utils.DateHelper;
 
-
 /**
  * This class resembles a certificate. It's used as a wrapper around the
  * X509Certificate class from the java api.
@@ -45,9 +43,9 @@ import org.vpac.grix.control.utils.DateHelper;
  * 
  */
 public class Certificate {
-	
-	public static final String PEM_HEADER =	"-----BEGIN CERTIFICATE-----";
-	public static final String PEM_FOOTER =	"-----END CERTIFICATE-----";	
+
+	public static final String PEM_HEADER = "-----BEGIN CERTIFICATE-----";
+	public static final String PEM_FOOTER = "-----END CERTIFICATE-----";
 
 	private String issuer;
 
@@ -86,7 +84,6 @@ public class Certificate {
 		this.startdate = "N/A";
 		this.enddate = "N/A";
 	}
-	
 
 	/**
 	 * This constructor tries to initialize the Certificate with values from the
@@ -94,20 +91,21 @@ public class Certificate {
 	 * 
 	 * @param file
 	 *            the certificate file
-	 * @throws GeneralSecurityException 
-	 * @throws IOException 
+	 * @throws GeneralSecurityException
+	 * @throws IOException
 	 */
-	public Certificate(File file) throws IOException, GeneralSecurityException  {
+	public Certificate(File file) throws IOException, GeneralSecurityException {
 
-		this.loadCert( CertUtil.loadCertificate( file.toString() ) );
-		
+		this.loadCert(CertUtil.loadCertificate(file.toString()));
+
 		StringBuffer sb = new StringBuffer(1024);
-		BufferedReader reader = new BufferedReader(new FileReader(file.getAbsolutePath()));
-				
+		BufferedReader reader = new BufferedReader(new FileReader(
+				file.getAbsolutePath()));
+
 		char[] chars = new char[1024];
 		int numRead = 0;
-		while( (numRead = reader.read(chars)) > -1){
-			sb.append(String.valueOf(chars));	
+		while ((numRead = reader.read(chars)) > -1) {
+			sb.append(String.valueOf(chars));
 		}
 
 		reader.close();
@@ -118,21 +116,24 @@ public class Certificate {
 
 	/**
 	 * This takes the certificate as a string and parses it
-	 * @param cert The whole certificate as String.
-	 * @throws GeneralSecurityException 
+	 * 
+	 * @param cert
+	 *            The whole certificate as String.
+	 * @throws GeneralSecurityException
 	 */
 	public Certificate(String cert) throws GeneralSecurityException {
 
 		this.whole_certificate = cert;
 
-			this.loadCert( CertUtil.loadCertificate( new ByteArrayInputStream( cert.getBytes() ) ) );
+		this.loadCert(CertUtil.loadCertificate(new ByteArrayInputStream(cert
+				.getBytes())));
 
 	}
-	
-	public Certificate(X509Certificate cert){
-		
+
+	public Certificate(X509Certificate cert) {
+
 		loadCert(cert);
-		
+
 	}
 
 	/**
@@ -144,11 +145,11 @@ public class Certificate {
 	 */
 	public void writeToFile(File file) throws IOException {
 
-		FileWriter writer = new FileWriter( file );
+		FileWriter writer = new FileWriter(file);
 
-		BufferedWriter buffWriter = new BufferedWriter( writer );
+		BufferedWriter buffWriter = new BufferedWriter(writer);
 
-		buffWriter.write( this.whole_certificate );
+		buffWriter.write(this.whole_certificate);
 		buffWriter.close();
 
 		return;
@@ -172,13 +173,13 @@ public class Certificate {
 		this.issuer = x509certificate.getIssuerDN().getName();
 
 		DateFormat df = DateHelper.getDateFormat();
-		
-		this.startdate = df.format( x509certificate.getNotBefore() );
-		this.enddate = df.format( x509certificate.getNotAfter() );
+
+		this.startdate = df.format(x509certificate.getNotBefore());
+		this.enddate = df.format(x509certificate.getNotAfter());
 
 		try {
-			this.email = this.getEmail( x509certificate
-					.getSubjectAlternativeNames() );
+			this.email = this.getEmail(x509certificate
+					.getSubjectAlternativeNames());
 		} catch (CertificateParsingException cpe) {
 			this.email = "N/A";
 		}
@@ -193,17 +194,17 @@ public class Certificate {
 
 		// TODO exceptionhandling host name certificate??
 		// System.out.println(dn);
-		int start = this.dn.indexOf( "C=" );
-		int end = this.dn.indexOf( "," );
-		this.c = this.dn.substring( start + 2, end );
-		start = this.dn.indexOf( "O=" );
-		end = this.dn.indexOf( ",", start );
-		this.o = this.dn.substring( start + 2, end );
-		start = this.dn.indexOf( "OU=" );
-		end = this.dn.indexOf( ",", start );
-		this.ou = this.dn.substring( start + 3, end );
-		start = this.dn.indexOf( "CN=" );
-		this.cn = this.dn.substring( start + 3 );
+		int start = this.dn.indexOf("C=");
+		int end = this.dn.indexOf(",");
+		this.c = this.dn.substring(start + 2, end);
+		start = this.dn.indexOf("O=");
+		end = this.dn.indexOf(",", start);
+		this.o = this.dn.substring(start + 2, end);
+		start = this.dn.indexOf("OU=");
+		end = this.dn.indexOf(",", start);
+		this.ou = this.dn.substring(start + 3, end);
+		start = this.dn.indexOf("CN=");
+		this.cn = this.dn.substring(start + 3);
 	}
 
 	/**
@@ -218,20 +219,19 @@ public class Certificate {
 	 */
 	private String getEmail(Collection coll) {
 
-		//return "markus@vpac.org";
+		// return "markus@vpac.org";
 		String email = "N/A";
-		if ( coll == null ) return email;
-		for ( Object item : coll ) {
-			Integer type = (Integer)((List)item).get( 0 );
-			if ( type.intValue() == 1 ) {
-				email = (String)((List)item).get( 1 );
+		if (coll == null)
+			return email;
+		for (Object item : coll) {
+			Integer type = (Integer) ((List) item).get(0);
+			if (type.intValue() == 1) {
+				email = (String) ((List) item).get(1);
 				break;
 			}
 		}
 		return email;
 	}
-	
-
 
 	/**
 	 * @return the c

@@ -41,17 +41,18 @@ import org.vpac.voms.model.proxy.VomsProxyCredential;
 public class OneProxyPanel extends JPanel implements OneElementPanel {
 
 	private static final long serialVersionUID = 1L;
-	
-	static final Logger myLogger = Logger.getLogger(OneProxyPanel.class.getName());
-	
+
+	static final Logger myLogger = Logger.getLogger(OneProxyPanel.class
+			.getName());
+
 	private JLabel voLabel = null;
-	
+
 	private VomsProxy proxy = null;
 	private JLabel jLabel = null;
 	private JLabel jLabel1 = null;
 	private JTextField groupTextField = null;
 	private JTextField roleTextField = null;
-	private JPanel myProxyPanel = null;  //  @jve:decl-index=0:visual-constraint="370,341"
+	private JPanel myProxyPanel = null; // @jve:decl-index=0:visual-constraint="370,341"
 	private JLabel jLabel2 = null;
 	private JLabel jLabel3 = null;
 	private JTextField myproxyUsernameTextField = null;
@@ -60,15 +61,15 @@ public class OneProxyPanel extends JPanel implements OneElementPanel {
 	private JPanel infoPanel = null;
 	private JTextField expiresTextField = null;
 	private JButton jButton1 = null;
-	
+
 	private String default_fqan = null;
 	private JLabel jLabel4 = null;
 	private JButton jButton2 = null;
 	private JLabel jLabel5 = null;
 	private JTextField jTextField = null;
-	
+
 	private ElementsPanel elementsPanel = null;
-	
+
 	/**
 	 * This is the default constructor
 	 */
@@ -76,7 +77,9 @@ public class OneProxyPanel extends JPanel implements OneElementPanel {
 		super();
 		this.elementsPanel = elementsPanel;
 		this.proxy = proxy;
-		default_fqan = Voms_Utils.getDefaultFQAN(Voms_Utils.getFQANs(VomsProxyCredential.extractVOMSACs(proxy.getGlobusCredential()).get(0)));
+		default_fqan = Voms_Utils.getDefaultFQAN(Voms_Utils
+				.getFQANs(VomsProxyCredential.extractVOMSACs(
+						proxy.getGlobusCredential()).get(0)));
 		initialize();
 	}
 
@@ -120,16 +123,16 @@ public class OneProxyPanel extends JPanel implements OneElementPanel {
 		voLabel.setText("Information in the voms proxy:");
 		this.setSize(522, 201);
 		this.setLayout(new GridBagLayout());
-		//this.add(getMyProxyPanel(), gridBagConstraints6);
+		// this.add(getMyProxyPanel(), gridBagConstraints6);
 		this.setBackground(Color.white);
-		//this.add(getTimePanel(), gridBagConstraints71);
+		// this.add(getTimePanel(), gridBagConstraints71);
 		this.add(getInfoPanel(), gridBagConstraints81);
 	}
 
 	/**
-	 * This method initializes groupTextField	
-	 * 	
-	 * @return javax.swing.JTextField	
+	 * This method initializes groupTextField
+	 * 
+	 * @return javax.swing.JTextField
 	 */
 	private JTextField getGroupTextField() {
 		if (groupTextField == null) {
@@ -138,7 +141,7 @@ public class OneProxyPanel extends JPanel implements OneElementPanel {
 				groupTextField.setText(Voms_Utils.getGroup(default_fqan));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				//e.printStackTrace();
+				// e.printStackTrace();
 				myLogger.error(e);
 			}
 		}
@@ -146,9 +149,9 @@ public class OneProxyPanel extends JPanel implements OneElementPanel {
 	}
 
 	/**
-	 * This method initializes roleTextField	
-	 * 	
-	 * @return javax.swing.JTextField	
+	 * This method initializes roleTextField
+	 * 
+	 * @return javax.swing.JTextField
 	 */
 	private JTextField getRoleTextField() {
 		if (roleTextField == null) {
@@ -159,9 +162,9 @@ public class OneProxyPanel extends JPanel implements OneElementPanel {
 	}
 
 	/**
-	 * This method initializes myProxyPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
+	 * This method initializes myProxyPanel
+	 * 
+	 * @return javax.swing.JPanel
 	 */
 	private JPanel getMyProxyPanel() {
 		if (myProxyPanel == null) {
@@ -200,16 +203,17 @@ public class OneProxyPanel extends JPanel implements OneElementPanel {
 			myProxyPanel.setSize(new Dimension(270, 166));
 			myProxyPanel.add(jLabel2, gridBagConstraints7);
 			myProxyPanel.add(jLabel3, gridBagConstraints8);
-			myProxyPanel.add(getMyproxyUsernameTextField(), gridBagConstraints9);
+			myProxyPanel
+					.add(getMyproxyUsernameTextField(), gridBagConstraints9);
 			myProxyPanel.add(getJButton(), gridBagConstraints10);
 		}
 		return myProxyPanel;
 	}
 
 	/**
-	 * This method initializes myproxyUsernameTextField	
-	 * 	
-	 * @return javax.swing.JTextField	
+	 * This method initializes myproxyUsernameTextField
+	 * 
+	 * @return javax.swing.JTextField
 	 */
 	private JTextField getMyproxyUsernameTextField() {
 		if (myproxyUsernameTextField == null) {
@@ -220,9 +224,9 @@ public class OneProxyPanel extends JPanel implements OneElementPanel {
 	}
 
 	/**
-	 * This method initializes jButton	
-	 * 	
-	 * @return javax.swing.JButton	
+	 * This method initializes jButton
+	 * 
+	 * @return javax.swing.JButton
 	 */
 	private JButton getJButton() {
 		if (jButton == null) {
@@ -234,9 +238,9 @@ public class OneProxyPanel extends JPanel implements OneElementPanel {
 	}
 
 	/**
-	 * This method initializes timePanel	
-	 * 	
-	 * @return javax.swing.JPanel	
+	 * This method initializes timePanel
+	 * 
+	 * @return javax.swing.JPanel
 	 */
 	private JPanel getTimePanel() {
 		if (timePanel == null) {
@@ -268,9 +272,9 @@ public class OneProxyPanel extends JPanel implements OneElementPanel {
 	}
 
 	/**
-	 * This method initializes infoPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
+	 * This method initializes infoPanel
+	 * 
+	 * @return javax.swing.JPanel
 	 */
 	private JPanel getInfoPanel() {
 		if (infoPanel == null) {
@@ -342,9 +346,9 @@ public class OneProxyPanel extends JPanel implements OneElementPanel {
 	}
 
 	/**
-	 * This method initializes expiresTextField	
-	 * 	
-	 * @return javax.swing.JTextField	
+	 * This method initializes expiresTextField
+	 * 
+	 * @return javax.swing.JTextField
 	 */
 	private JTextField getExpiresTextField() {
 		if (expiresTextField == null) {
@@ -355,9 +359,9 @@ public class OneProxyPanel extends JPanel implements OneElementPanel {
 	}
 
 	/**
-	 * This method initializes jButton1	
-	 * 	
-	 * @return javax.swing.JButton	
+	 * This method initializes jButton1
+	 * 
+	 * @return javax.swing.JButton
 	 */
 	private JButton getJButton1() {
 		if (jButton1 == null) {
@@ -365,7 +369,8 @@ public class OneProxyPanel extends JPanel implements OneElementPanel {
 			jButton1.setText("Destroy");
 			jButton1.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					OneProxyPanel.this.getElementsPanel().removeOneElementPanel(OneProxyPanel.this);
+					OneProxyPanel.this.getElementsPanel()
+							.removeOneElementPanel(OneProxyPanel.this);
 					proxy.destroy();
 				}
 			});
@@ -374,9 +379,9 @@ public class OneProxyPanel extends JPanel implements OneElementPanel {
 	}
 
 	/**
-	 * This method initializes jButton2	
-	 * 	
-	 * @return javax.swing.JButton	
+	 * This method initializes jButton2
+	 * 
+	 * @return javax.swing.JButton
 	 */
 	private JButton getJButton2() {
 		if (jButton2 == null) {
@@ -387,9 +392,9 @@ public class OneProxyPanel extends JPanel implements OneElementPanel {
 	}
 
 	/**
-	 * This method initializes jTextField	
-	 * 	
-	 * @return javax.swing.JTextField	
+	 * This method initializes jTextField
+	 * 
+	 * @return javax.swing.JTextField
 	 */
 	private JTextField getJTextField() {
 		if (jTextField == null) {
@@ -402,4 +407,4 @@ public class OneProxyPanel extends JPanel implements OneElementPanel {
 		return this.elementsPanel;
 	}
 
-}  //  @jve:decl-index=0:visual-constraint="10,81"
+} // @jve:decl-index=0:visual-constraint="10,81"

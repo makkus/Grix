@@ -44,4 +44,4 @@ public class VomsStatusPanel extends JPanel {
 		this.setLayout(new GridBagLayout());
 	}
 
-}  //  @jve:decl-index=0:visual-constraint="10,10"
+} // @jve:decl-index=0:visual-constraint="10,10"

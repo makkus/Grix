@@ -27,100 +27,111 @@ import org.globus.tools.proxy.DefaultGridProxyModel;
 import org.vpac.common.exceptions.MissingPrerequisitesException;
 
 /**
- * Since it does not make sense to have several GridProxies on one machine this class
- * holds a static GridProxy (a GlobusProxy) and provides easy access to it.
+ * Since it does not make sense to have several GridProxies on one machine this
+ * class holds a static GridProxy (a GlobusProxy) and provides easy access to
+ * it.
  * 
  * @author Markus Binsteiner
- *
+ * 
  */
 public class LocalProxy {
-	
-	private static Vector listeners = new Vector();
-	
-	private static GridProxy defaultProxy = null;
-	
-	private static DefaultGridProxyModel model = new DefaultGridProxyModel();
-	private static File proxyFile = new File(model.getProperties().getProxyFile());
 
+	private static Vector listeners = new Vector();
+
+	private static GridProxy defaultProxy = null;
+
+	private static DefaultGridProxyModel model = new DefaultGridProxyModel();
+	private static File proxyFile = new File(model.getProperties()
+			.getProxyFile());
 
 	/**
-	 * @return the (one and only) local GridProxy (normally under /tmp/x509up_u<uid> or null if there is none
+	 * @return the (one and only) local GridProxy (normally under
+	 *         /tmp/x509up_u<uid> or null if there is none
 	 */
 	public static GridProxy getDefaultProxy() {
-//		if (defaultProxy == null) {
-//			//TODO change that so that VomsProxy is possible to
-//			//defaultProxy = new GlobusProxy(new File(model.getProperties().getProxyFile()));
-//		}
+		// if (defaultProxy == null) {
+		// //TODO change that so that VomsProxy is possible to
+		// //defaultProxy = new GlobusProxy(new
+		// File(model.getProperties().getProxyFile()));
+		// }
 		return defaultProxy;
-	}	
-	
-	public static void createPlainGlobusProxy(char[] passphrase, long lifetime_in_ms) throws MissingPrerequisitesException, IOException, GeneralSecurityException, Exception{
+	}
+
+	public static void createPlainGlobusProxy(char[] passphrase,
+			long lifetime_in_ms) throws MissingPrerequisitesException,
+			IOException, GeneralSecurityException, Exception {
 		GlobusProxy temp = new GlobusProxy(proxyFile);
 		temp.init(passphrase, lifetime_in_ms);
 		setDefaultProxy(temp);
-		
+
 	}
-	
-	public static GridProxy setDefaultProxy(GridProxy gridProxy) throws IOException {
-		
-//		if (defaultProxy != null) {
-//			defaultProxy.destroy();
-//		}
+
+	public static GridProxy setDefaultProxy(GridProxy gridProxy)
+			throws IOException {
+
+		// if (defaultProxy != null) {
+		// defaultProxy.destroy();
+		// }
 		defaultProxy = gridProxy;
-		if ( defaultProxy.isValid() )
+		if (defaultProxy.isValid())
 			defaultProxy.writeToDisk();
-		for ( Object l : listeners ){
-			defaultProxy.addStatusListener((GridProxyListener)l);
+		for (Object l : listeners) {
+			defaultProxy.addStatusListener((GridProxyListener) l);
 		}
 		defaultProxy.checkStatus();
 		defaultProxy.fireStatusChanged();
 		return defaultProxy;
 	}
-	
+
 	public static File getProxyFile() {
 		return proxyFile;
-	}	
-	
+	}
+
 	public static int getStatus() {
-		if ( defaultProxy != null )
+		if (defaultProxy != null)
 			return defaultProxy.getStatus();
-		else return GridProxy.NOT_INITIALIZED;
+		else
+			return GridProxy.NOT_INITIALIZED;
 	}
-	
-	public static void destroy(){
-		if (getDefaultProxy() != null )
-		getDefaultProxy().destroy();
-		//defaultProxy = null;
+
+	public static void destroy() {
+		if (getDefaultProxy() != null)
+			getDefaultProxy().destroy();
+		// defaultProxy = null;
 	}
-	
-	public static void writeToFile() throws IOException{
+
+	public static void writeToFile() throws IOException {
 		getDefaultProxy().writeToDisk();
 	}
-	
-	public static void checkStatus(){
-		//if ( defaultProxy == null ) return;
+
+	public static void checkStatus() {
+		// if ( defaultProxy == null ) return;
 		getDefaultProxy().checkStatus();
 	}
-	
-	public static boolean isValid(){
-		if ( defaultProxy == null ) return false;
-		else return defaultProxy.isValid();
-	}
-	
-	  /** Register a listener for GridProxyEvents */
-	  synchronized static public void addStatusListener(GridProxyListener l) {
-	    if (listeners == null)
-	      listeners = new Vector();
-	    listeners.addElement(l);
-	    if ( defaultProxy != null ) defaultProxy.addStatusListener(l);
-	  }  
 
-	  /** Remove a listener for GridProxyEvents */
-	  synchronized static public void removeStatusListener(GridProxyListener l) {
-	    if (listeners == null){
-	      listeners = new Vector();
-	    }
-	    listeners.removeElement(l);
-	    if ( defaultProxy != null ) defaultProxy.removeStatusListener(l);
-	  }
+	public static boolean isValid() {
+		if (defaultProxy == null)
+			return false;
+		else
+			return defaultProxy.isValid();
+	}
+
+	/** Register a listener for GridProxyEvents */
+	synchronized static public void addStatusListener(GridProxyListener l) {
+		if (listeners == null)
+			listeners = new Vector();
+		listeners.addElement(l);
+		if (defaultProxy != null)
+			defaultProxy.addStatusListener(l);
+	}
+
+	/** Remove a listener for GridProxyEvents */
+	synchronized static public void removeStatusListener(GridProxyListener l) {
+		if (listeners == null) {
+			listeners = new Vector();
+		}
+		listeners.removeElement(l);
+		if (defaultProxy != null)
+			defaultProxy.removeStatusListener(l);
+	}
 }

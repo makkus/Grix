@@ -34,11 +34,10 @@ public class ProxyInfoPanel extends JPanel {
 	private JTextField remainingTextField;
 	private JLabel timeRemainingLabel;
 	private GlobusCredential cred = null;
-	
-	
-	private Action updateTimeAction = null;  
+
+	private Action updateTimeAction = null;
 	private Timer updatePanel = null;
-	
+
 	/**
 	 * Create the panel
 	 */
@@ -61,30 +60,21 @@ public class ProxyInfoPanel extends JPanel {
 	}
 
 	private void initialize() {
-		
+
 		updateTime();
-		
-		setLayout(new FormLayout(
-			new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				new ColumnSpec("74dlu"),
+
+		setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.RELATED_GAP_COLSPEC, new ColumnSpec("74dlu"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				new ColumnSpec("default:grow(1.0)"),
-				FormFactory.RELATED_GAP_COLSPEC},
-			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				new RowSpec("top:12dlu"),
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC}));
+				FormFactory.RELATED_GAP_COLSPEC }, new RowSpec[] {
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
+				new RowSpec("top:12dlu"), FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC }));
 		//
 		add(getTimeRemainingLabel(), new CellConstraints(2, 12));
 		add(getRemainingTextField(), new CellConstraints(4, 12));
@@ -100,18 +90,19 @@ public class ProxyInfoPanel extends JPanel {
 		add(getCertNumTextField(), new CellConstraints(4, 8));
 		add(getStrengthTextField(), new CellConstraints(4, 10));
 	}
-	
+
 	private void updateTime() {
-		
+
 		updateTimeAction = new AbstractAction() {
 
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String timeLeft = LocalProxy.getDefaultProxy().getFormatedTimeWithoutSeconds();
-					
-					if ( timeLeft == null || "".equals(timeLeft) ) {
+					String timeLeft = LocalProxy.getDefaultProxy()
+							.getFormatedTimeWithoutSeconds();
+
+					if (timeLeft == null || "".equals(timeLeft)) {
 						updatePanel.stop();
 					}
 					getRemainingTextField().setText(timeLeft);
@@ -121,7 +112,7 @@ public class ProxyInfoPanel extends JPanel {
 			}
 		};
 		updatePanel = new Timer(1000, updateTimeAction);
-		
+
 	}
 
 	private void fillProxyInformation() {
@@ -139,7 +130,7 @@ public class ProxyInfoPanel extends JPanel {
 			getStrengthTextField().setHorizontalAlignment(JTextField.CENTER);
 			getStrengthTextField().setText("n/a");
 			getRemainingTextField().setText("n/a");
-			
+
 		} else {
 			updatePanel.start();
 			String subject = cred.getSubject();
@@ -160,7 +151,7 @@ public class ProxyInfoPanel extends JPanel {
 			getStrengthTextField().setHorizontalAlignment(JTextField.LEADING);
 			getStrengthTextField().setText(
 					new Integer(strength).toString() + " bits");
-//			getRemainingTextField().setText(new Long(remaining).toString());
+			// getRemainingTextField().setText(new Long(remaining).toString());
 		}
 	}
 

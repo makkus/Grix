@@ -32,7 +32,9 @@ public class MathServiceClientTester {
 	 */
 	public static void main(String[] args) throws Exception {
 
-		GenericClient client = new MathServiceClient(new File("/home/markus/workspace/qc/src/org/vpac/qc/examples/MathService/queries.xml"));
+		GenericClient client = new MathServiceClient(
+				new File(
+						"/home/markus/workspace/qc/src/org/vpac/qc/examples/MathService/queries.xml"));
 
 		UserInputQuery currentQuery = client.createUserInputQuery("substract");
 
@@ -42,12 +44,12 @@ public class MathServiceClientTester {
 		voc.connect(currentQuery);
 
 		currentQuery.fillUserInput();
-		
+
 		currentQuery.submit();
-		
+
 		Object[] result = currentQuery.getResult();
-		for ( Object part : result ){
-			System.out.println("Result: "+(String)part);
+		for (Object part : result) {
+			System.out.println("Result: " + (String) part);
 		}
 
 	}
