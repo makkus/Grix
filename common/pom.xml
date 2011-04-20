@@ -7,6 +7,55 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>common</artifactId>
   
+  	<repositories>
+		<repository>
+			<id>bestgrid.public.release</id>
+			<url>http://dev.ceres.auckland.ac.nz/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>bestgrid.public.snapshot</id>
+			<url>http://dev.ceres.auckland.ac.nz/nexus/content/groups/public-snapshots/
+			</url>
+			<releases>
+				<enabled>false</enabled>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>jboss</id>
+			<url>https://repository.jboss.org/nexus/content/groups/public/</url>
+		</repository>
+	</repositories>
+
+	<distributionManagement>
+		<repository>
+			<name>BeSTGRID Releases Repository</name>
+			<id>bestgrid.release2</id>
+			<url>http://er77.ceres.auckland.ac.nz/nexus/content/repositories/releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>bestgrid.snapshot2</id>
+			<name>BeSTGRID Snapshots Repository</name>
+			<url>http://er77.ceres.auckland.ac.nz/nexus/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+  
   	<dependencies>
 
 
@@ -33,8 +82,8 @@
 		</dependency>
 		<dependency>
 			<groupId>grith</groupId>
-			<artifactId>simpleProxyLib</artifactId>
-			<version>0.5.5-SNAPSHOT</version>
+			<artifactId>jgrith</artifactId>
+			<version>0.5.6</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -46,10 +95,9 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>au.org.arcs.auth</groupId>
-			<artifactId>arcs-gsi</artifactId>
-			<version>1.3</version>
-			<type>jar</type>
+			<groupId>grith</groupId>
+			<artifactId>sibboleth</artifactId>
+			<version>0.3.1</version>
 			<scope>compile</scope>
 		</dependency>
   	</dependencies>
