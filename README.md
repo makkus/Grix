@@ -47,7 +47,11 @@ The first token is the name of the VO, the second one the hostname. Then comes t
 All containing vomses files are copied into a folder .glite/vomses_available into the users home directory. The user can manage this directory within Grix and move VOs he wants to contact into the .glite/vomses folder.
 
 ### org/vpac/grix/html/requested.html
-This html file is displayed after a user successfully uploaded his certificate request to the OpenCA server. Change it in a way so that a user learns what to do next (give a list of your site's RAOs, tell to take a drivers license or provide a link to a webpage). Don't include the <html><body> and </body></html> tags.
+This html file is displayed after a user successfully uploaded his certificate request to the OpenCA server. Change it in a way so that a user learns what to do next (give a list of your site's RAOs, tell to take a drivers license or provide a link to a webpage). Don't include the 
+
+    <html><body> and </body></html> 
+    
+tags.
 
 ### org/vpac/grix/html/infoCandidate.html
 This html file is displayed after a user completed phase I of a vomrs registration. You may want to edit the entry in the vomrs server's database ([EditVOMRSDatabase using these instructions] to include the email verification keycode vomrs uses into the email. This keycode is needed in order to sucessfully apply the phase I. We use it also as kind of "I agree with the VOMRS usage policy" tickbox. Again, don't include the <html><body> and </body></html> tags.
