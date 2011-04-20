@@ -54,7 +54,11 @@ This html file is displayed after a user successfully uploaded his certificate r
 tags.
 
 ### org/vpac/grix/html/infoCandidate.html
-This html file is displayed after a user completed phase I of a vomrs registration. You may want to edit the entry in the vomrs server's database ([EditVOMRSDatabase using these instructions] to include the email verification keycode vomrs uses into the email. This keycode is needed in order to sucessfully apply the phase I. We use it also as kind of "I agree with the VOMRS usage policy" tickbox. Again, don't include the <html><body> and </body></html> tags.
+This html file is displayed after a user completed phase I of a vomrs registration. You may want to edit the entry in the vomrs server's database ([EditVOMRSDatabase using these instructions] to include the email verification keycode vomrs uses into the email. This keycode is needed in order to sucessfully apply the phase I. We use it also as kind of "I agree with the VOMRS usage policy" tickbox. Again, don't include the 
+
+    <html><body> and </body></html> 
+    
+tags.
 
 OK. Now you have to zip the content of your temporary folder again and give it a .jar extension. Take care not to include the folder itself because otherwise it won't work.
 
