@@ -9,40 +9,61 @@
 
 	<repositories>
 		<repository>
-			<id>ARCS</id>
-			<url>http://code.arcs.org.au/nexus/content/groups/public</url>
+			<id>bestgrid.public.release</id>
+			<url>http://dev.ceres.auckland.ac.nz/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</snapshots>
 		</repository>
 		<repository>
-			<id>ARCS Snapshots</id>
-			<url>http://code.arcs.org.au/nexus/content/groups/public-snapshots
+			<id>bestgrid.public.snapshot</id>
+			<url>http://dev.ceres.auckland.ac.nz/nexus/content/groups/public-snapshots/
 			</url>
+			<releases>
+				<enabled>false</enabled>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
 		</repository>
+
 	</repositories>
+
+	<distributionManagement>
+		<repository>
+			<name>BeSTGRID Releases Repository</name>
+			<id>bestgrid.release2</id>
+			<url>http://er77.ceres.auckland.ac.nz/nexus/content/repositories/releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>bestgrid.snapshot2</id>
+			<name>BeSTGRID Snapshots Repository</name>
+			<url>http://er77.ceres.auckland.ac.nz/nexus/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 	
-	   <scm>
-                <connection>scm:git:git://code.arcs.org.au/grix/grix.git
+	<issueManagement>
+		<system>Github</system>
+		<url>https://github.com/makkus/Grix/issues</url>
+	</issueManagement>
+	<scm>
+                <connection>scm:git:git@github.com:makkus/Grix.git
                 </connection>
-                <url>scm:git:git://code.arcs.org.au/grix/grix.git
+                <developerConnection>scm:git:git://github.com/makkus/Grix.git</developerConnection>
+                <url>https://github.com/makkus/Grix
                 </url>
         </scm>
-	
-        <distributionManagement>
-                <repository>
-                        <id>arcs.release</id>
-                        <name>ARCS Release Repository</name>
-                        <url>http://code.arcs.org.au/nexus/content/repositories/releases
-                        </url>
-                        <uniqueVersion>false</uniqueVersion>
-                </repository>
-                <snapshotRepository>
-                        <id>arcs.snapshot</id>
-                        <name>ARCS SNAPSHOT Repository</name>
-                        <url>http://code.arcs.org.au/nexus/content/repositories/snapshots
-                        </url>
-                        <uniqueVersion>false</uniqueVersion>
-                </snapshotRepository>
-        </distributionManagement>
-
 
 	<modules>
 		<module>common</module>

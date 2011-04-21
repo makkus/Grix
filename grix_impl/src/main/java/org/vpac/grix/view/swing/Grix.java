@@ -18,6 +18,10 @@
 
 package org.vpac.grix.view.swing;
 
+import grisu.jcommons.dependencies.DependencyManager;
+import grisu.jcommons.utils.DefaultGridSecurityProvider;
+import grisu.jcommons.utils.JythonHelpers;
+import grisu.jcommons.utils.Version;
 import grith.jgrith.CredentialHelpers;
 import grith.jgrith.Init;
 import grith.jgrith.control.CertificateFiles;
@@ -56,6 +60,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.globus.common.CoGProperties;
 import org.globus.gsi.GlobusCredential;
@@ -79,11 +84,6 @@ import org.vpac.grix.view.swing.vomrs.VOPanelShlix;
 import org.vpac.voms.control.LocalVomses;
 import org.vpac.voms.model.proxy.NoVomsProxyException;
 import org.vpac.voms.model.proxy.VomsProxy;
-
-import au.org.arcs.jcommons.dependencies.DependencyManager;
-import au.org.arcs.jcommons.utils.ArcsSecurityProvider;
-import au.org.arcs.jcommons.utils.JythonHelpers;
-import au.org.arcs.jcommons.utils.Version;
 
 public class Grix implements CertificateStatusListener, ProxyInitListener {
 
@@ -118,7 +118,7 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 		CoGProperties.getDefault().setProperty(
 				CoGProperties.ENFORCE_SIGNING_POLICY, "false");
 
-		java.security.Security.addProvider(new ArcsSecurityProvider());
+		java.security.Security.addProvider(new DefaultGridSecurityProvider());
 
 		java.security.Security.setProperty("ssl.TrustManagerFactory.algorithm",
 		"TrustAllCertificates");
@@ -403,7 +403,11 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 				useShib = false;
 			}
 
-			String shibUrl = System.getProperty("shibUrl");
+			String shibUrl = System.getProperty("SHIB_URL");
+
+			if (StringUtils.isBlank(shibUrl)) {
+				shibUrl = GrixProperty.getString("shib.url");
+			}
 
 			authenticationPanel = new GenericProxyCreationPanel(useShib, true,
 					true, true, shibUrl);

@@ -88,17 +88,15 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.bestgrid</groupId>
-			<artifactId>grid-jcommons</artifactId>
-			<version>1.2.2</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>grith</groupId>
 			<artifactId>sibboleth</artifactId>
 			<version>0.3.1</version>
 			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>grisu</groupId>
+			<artifactId>grid-jcommons</artifactId>
+			<version>1.2.4</version>
 		</dependency>
   	</dependencies>
 
