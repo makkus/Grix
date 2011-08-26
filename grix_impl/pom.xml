@@ -133,48 +133,42 @@
 			</plugin>		
 	
 		
-<!--			<plugin>-->
-<!--				<artifactId>maven-assembly-plugin</artifactId>-->
-<!--				<executions>-->
-<!--					<execution>-->
-<!--						<phase>package</phase>-->
-<!--						<id>package</id>-->
-<!--						<configuration>-->
-<!--							<descriptors>-->
-<!--								<descriptor>grix.assembly.xml</descriptor>-->
-<!--							</descriptors>-->
-<!--							<appendAssemblyId>false</appendAssemblyId>-->
-<!--							<finalName>grix</finalName>-->
-<!--							<archive>-->
-<!--								<index>true</index>-->
-<!--								<manifest>-->
-<!--									<mainClass>org.vpac.grix.view.swing.Grix</mainClass>-->
-<!--								</manifest>-->
-<!--								<manifestEntries>-->
-<!--									<Class-Path>bcprov.jar bcprov-jdk15-145.jar</Class-Path>-->
-<!--								</manifestEntries>-->
-<!--							</archive>-->
-<!--						</configuration>-->
-<!--						<goals>-->
-<!--							<goal>attached</goal>-->
-<!--						</goals>-->
-<!--					</execution>-->
-<!--				</executions>-->
-
-<!--			</plugin>-->
-			
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<executions>
 					<execution>
 						<phase>package</phase>
-						<id>package</id>
+						<id>package-arcs</id>
 						<configuration>
 							<descriptors>
-								<descriptor>grix.assembly.bestgrid.xml</descriptor>
+								<descriptor>grix.assembly.xml</descriptor>
+							</descriptors>
+							<!-- <appendAssemblyId>false</appendAssemblyId>-->
+							<finalName>grix-arcs</finalName>
+							<archive>
+								<index>true</index>
+								<manifest>
+									<mainClass>org.vpac.grix.view.swing.Grix</mainClass>
+								</manifest>
+								<manifestEntries>
+									<Class-Path>bcprov.jar bcprov-jdk15-145.jar</Class-Path>
+								</manifestEntries>
+							</archive>
+						</configuration>
+						<goals>
+							<goal>attached</goal>
+						</goals>
+					</execution>
+
+					<execution>
+						<phase>package</phase>
+						<id>package-bestgrid</id>
+						<configuration>
+							<descriptors>
+								<descriptor>grix.assembly.xml</descriptor>
 							</descriptors>
 <!--							<appendAssemblyId>false</appendAssemblyId>-->
-							<finalName>grix</finalName>
+							<finalName>grix-bestgrid</finalName>
 							<archive>
 								<index>true</index>
 								<manifest>

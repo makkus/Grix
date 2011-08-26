@@ -1,5 +1,5 @@
 <assembly>
-<!--	<id></id>-->
+	<id>binary</id>
 	<formats>
 		<!--		<format>dir</format>-->
 		<!--		<format>zip</format>-->
@@ -32,6 +32,7 @@
 					<exclude>**/LICENSE</exclude>
 					<exclude>**/NOTICE</exclude>
 					<exclude>arcs/__init__.py</exclude>
+					<exclude>vomses.zip</exclude>
 				</excludes>
 			</unpackOptions>
 		</dependencySet>
