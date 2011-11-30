@@ -35,9 +35,7 @@
 		<dependency>
 			<groupId>grith</groupId>
 			<artifactId>jgrith</artifactId>
-			<version>0.5.9</version>
-			<type>jar</type>
-			<scope>compile</scope>
+			<version>0.6.1-SNAPSHOT</version>
 		</dependency>
   	</dependencies>
 
