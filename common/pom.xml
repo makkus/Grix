@@ -35,7 +35,7 @@
 		<dependency>
 			<groupId>grith</groupId>
 			<artifactId>jgrith</artifactId>
-			<version>0.6.1-SNAPSHOT</version>
+			<version>0.6.1</version>
 		</dependency>
   	</dependencies>
 
