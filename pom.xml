@@ -31,11 +31,9 @@
 		<url>https://github.com/makkus/Grix/issues</url>
 	</issueManagement>
 	<scm>
-		<connection>scm:git:git@github.com/makkus/Grix.git
-                </connection>
-		<developerConnection>scm:git:git://github.com:makkus/Grix.git</developerConnection>
-		<url>https://github.com/makkus/Grix
-                </url>
+		<connection>scm:git:git://github.com/makkus/Grix.git</connection>
+		<developerConnection>scm:git:git@github.com:makkus/Grix.git</developerConnection>
+		<url>https://github.com/makkus/Grix</url>
 	</scm>
 
 	<modules>
