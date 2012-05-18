@@ -83,16 +83,15 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>bouncycastle</groupId>
+			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcprov-jdk15</artifactId>
-			<version>145</version>
-			<type>jar</type>
+			<version>1.45</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
 	<build>
-	
+
 		<resources>
 <!--			<resource>-->
 <!--				<directory>deployment-config</directory>-->
@@ -103,7 +102,7 @@
 		</resources>
 
 		<plugins>
-	
+
 			<!-- replace version in file -->
 			<plugin>
 				<groupId>com.google.code.maven-replacer-plugin</groupId>
@@ -130,9 +129,9 @@
 					<!-- replace it with the maven project version -->
 					<value>${project.version}</value>
 				</configuration>
-			</plugin>		
-	
-		
+			</plugin>
+
+
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<executions>
@@ -186,7 +185,7 @@
 				</executions>
 
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -244,7 +243,7 @@
 	</build>
 
 	<profiles>
-		
+
 		<profile>
 			<id>deb</id>
 			<!-- <activation> -->
@@ -335,6 +334,16 @@
 											</mapper>
 										</data>
 										<data>
+											<src>${project.basedir}/src/deb/data/bcprov.jar</src>
+											<type>file</type>
+											<mapper>
+												<type>perm</type>
+												<prefix>/usr/local/lib/grix/</prefix>
+												<user>root</user>
+												<group>root</group>
+											</mapper>
+										</data>
+										<data>
 											<src>${project.basedir}/src/deb/data/grix</src>
 											<type>file</type>
 											<mapper>
@@ -354,8 +363,8 @@
 				</plugins>
 			</build>
 
-		</profile>		
-		
+		</profile>
+
 		<profile>
 			<id>rpm</id>
 			<build>
@@ -419,9 +428,9 @@
 							<preinstallScriptlet>
 								<script>echo "Installing Grix..."</script>
 							</preinstallScriptlet>
-							<!-- <postinstallScriptlet> <scriptFile>src/main/scripts/postinstall</scriptFile> 
-								<fileEncoding>utf-8</fileEncoding> </postinstallScriptlet> <preremoveScriptlet> 
-								<scriptFile>src/main/scripts/preremove</scriptFile> <fileEncoding>utf-8</fileEncoding> 
+							<!-- <postinstallScriptlet> <scriptFile>src/main/scripts/postinstall</scriptFile>
+								<fileEncoding>utf-8</fileEncoding> </postinstallScriptlet> <preremoveScriptlet>
+								<scriptFile>src/main/scripts/preremove</scriptFile> <fileEncoding>utf-8</fileEncoding>
 								</preremoveScriptlet> -->
 						</configuration>
 					</plugin>
@@ -429,8 +438,8 @@
 			</build>
 
 
-		</profile>				
-		
+		</profile>
+
 	</profiles>
-	
+
 </project>
