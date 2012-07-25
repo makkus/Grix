@@ -124,11 +124,8 @@ public class Grix implements CertificateStatusListener, ProxyInitListener {
 				"TrustAllCertificates");
 
 		System.setSecurityManager(null);
-		try {
-			BouncyCastleTool.initBouncyCastle();
-		} catch (ClassNotFoundException e1) {
-			e1.printStackTrace();
-		}
+		BouncyCastleTool.initBouncyCastle();
+
 
 		final SplashScreen screen = new SplashScreen();
 		screen.setVisible(true);
